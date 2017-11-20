@@ -1,0 +1,107 @@
+@import "_variables";
+
+.opacity (@opacity: 0.5) {
+  -webkit-opacity: @opacity;
+  -moz-opacity: @opacity;
+  opacity: @opacity;
+}
+
+
+
+.loops(){
+  .inputsCirclesLoop();
+  .categoriesCirclesloop(@categoriesColors; @categoriesLength);
+  .prioritiesCirclesloop(@priorityColors; @priorityLength);
+  .task-category-variation(@categoriesNames; @categoriesColors; @categoriesLength);
+  .task-priority-variation(@priorityNames; @priorityColors; @priorityLength);
+}
+
+@priorityLength : length(@priorityColors);
+@categoriesLength : length(@categoriesColors);
+//settings inputs circles
+.inputsCirclesLoop(@index:1) when (iscolor(extract(@settings, @index))) and (@index =< 4){
+  @color: extract(@settings, @index);
+  main section.settings .settings-ctn .settings-item:nth-child(@{index})::before{
+    background: @color;
+  }
+  .inputsCirclesLoop(@index+1);
+}
+
+//settings categories circles
+.categoriesCirclesloop(@categoriesColors; @index) when (iscolor(extract(@categoriesColors, @index))) and (@index > 0){
+  .categoriesCirclesloop(@categoriesColors; (@index - 1));
+  @color: extract(@categoriesColors, @index);
+  @colorActive : extract(@categoriesActive, @index);
+  main section.categories .categories-list .categories-list-item:nth-child(@{index})::before{
+    background: @color;
+  }
+  .modal-ctn form .rb-ctn:nth-child(@{index}){
+    &:hover .categoryOption + .optionTitle::before,
+    .categoryOption:checked + .optionTitle::before{
+      background: @color;
+    }
+  }
+}
+
+//settings priority circles
+.prioritiesCirclesloop(@Colors; @index) when (iscolor(extract(@Colors, @index))) and (@index > 0){
+  .prioritiesCirclesloop(@Colors; (@index - 1));
+  @color: extract(@Colors, @index);
+  @colorActive: extract(@priorityActive, @index);
+  .modal-ctn form .rb-ctn:nth-child(@{index}) {
+    &:hover .priorityOption + .optionTitle::before,
+    .priorityOption:checked + .optionTitle::before {
+      background: @color;
+    }
+  }
+
+  //Tasks categories colors
+  .task-category-variation(@categoriesNames; @categoriesColors; @index) when (iscolor(extract(@categoriesColors, @index))) and (@index > 0) {
+    .task-category-variation(@categoriesNames; @categoriesColors; (@index - 1));
+
+    @name: extract(@categoriesNames, @index);
+    @color: extract(@categoriesColors, @index);
+    @colorActive: extract(@categoriesActive, @index);
+
+    main section.tasks-ctn .tasks-list-common .task-@{name},
+    main section.tasks-ctn .tasks-list-done .task-@{name}{
+      border-left-color: @color !important;
+    }
+    main section.globalList-ctn .global-taskList .task-@{name}:before,
+    main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title:before{
+      background: @color;
+    }
+
+    main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title{
+      color: @color;
+    }
+
+    main section.tasks-ctn .task-@{name} .del-btn,
+    main section.globalList-ctn .global-taskList .task-@{name} .del-btn {
+      background: @color;
+      &:hover {
+        background: @colorActive;
+        z-index: 5;
+      }
+    }
+  }
+
+  //Tasks priority colors
+  .task-priority-variation(@priorityNames; @priorityColors; @index) when (iscolor(extract(@priorityColors, @index))) and (@index > 0) {
+    .task-priority-variation(@priorityNames; @priorityColors; (@index - 1));
+
+    @name: extract(@priorityNames, @index);
+    @color: extract(@priorityColors, @index);
+    @colorActive: extract(@priorityActive, @index);
+
+    .priority-@{name} .priority-ctn {
+      background: @color;
+      &:hover {
+        background: @colorActive;
+      }
+    }
+    .priority-@{name} .task-title {
+      color: @color;
+    }
+  }
+}

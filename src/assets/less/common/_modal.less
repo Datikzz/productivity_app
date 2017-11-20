@@ -1,0 +1,204 @@
+.modal-wrapper{
+  z-index: 3;
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-ctn{
+  width: 500px;
+  padding-bottom: 27px;
+  margin: 50px auto 0;
+  background: @Madison;
+  .modal-title{
+    text-align: center;
+    padding-bottom: 13px;
+    font: @heading1;
+    font-weight: bold;
+    color: @White;
+  }
+  .task-ctn{
+    justify-content: flex-end;
+  }
+  .btn-ctn{
+    display: flex;
+    padding-top: 15px;
+    .btn{
+      color: @Nepal;
+      font-size: 20px;
+      padding-right: 14px;
+      &:hover{
+        color: @Spray;
+      }
+    }
+    .remove-btn{
+      flex-grow: 1;
+      padding-left: 14px;
+    }
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    padding: 0 45px;
+    .form-labels{
+      font: @paragraph;
+      font-size: 14px;
+      padding-bottom: 11px;
+      color: @White;
+      text-transform: uppercase;
+    }
+    input[type="text"]{
+      background: none;
+      border: 0;
+      outline: none;
+      border-bottom: 1px solid @Nepal;
+      padding-bottom: 5px;
+      margin-bottom: 30px;
+      color: @White;
+      font: @paragraph;
+    }
+    .category-ctn,
+    .priority-ctn{
+      display: flex;
+      border-bottom: 1px solid @Nepal;
+      padding-bottom: 5px;
+      margin-bottom: 30px;
+      .rb-ctn{
+        padding-right: 12px;
+        input{
+          padding-right: 5px;
+        }
+      }
+      .optionTitle{
+        font: @paragraph;
+        color: @Nepal;
+        display: flex;
+        align-items: center;
+        &:hover{
+          color: @Spray;
+        }
+      }
+    }
+
+    .categoryOption,
+    .priorityOption{
+      position: absolute;
+      opacity: 0;
+      & + .optionTitle{
+        position: relative;
+        padding: 0;
+      }
+      & + .optionTitle::before{
+        content: '';
+        width: 17px;
+        height: 17px;
+        background: @Nepal;
+        text-align: center;
+        color: @Madison;
+        font-size: 20px;
+        margin-right: 5px;
+        line-height: 14px;
+        vertical-align: text-top;
+        display: inline-block;
+        border-radius: 50%;
+      }
+      &:checked + .optionTitle::after,
+      &:disabled + .optionTitle::after{
+        content: '';
+        width: 9px;
+        height: 9px;
+        top: 0;
+        bottom: 0;
+        left: 2px;
+        margin: auto 0;
+        border: 2px solid @Madison;
+        border-radius: 50%;
+        position: absolute;
+        cursor: pointer;
+      }
+      &:checked + .optionTitle{
+        color: @White;
+      }
+    }
+
+    .estimation-ctn{
+      display: flex;
+      border-bottom: 1px solid @Nepal;
+      padding-bottom: 5px;
+      margin-bottom: 30px;
+      .tomatoRank{
+        position: absolute;
+        opacity: 0;
+        & + .optionTitle{
+          position: relative;
+          padding: 0;
+        }
+        & + .optionTitle::before{
+          content: '';
+          background: url("/empty-tomato.svg");
+          width: 20px;
+          height: 20px;
+          text-align: center;
+          color: @Madison;
+          font-size: 20px;
+          margin-right: 9px;
+          line-height: 14px;
+          vertical-align: text-top;
+          display: inline-block;
+          border-radius: 50%;
+        }
+        &:checked + .optionTitle::before,
+        &:disabled + .optionTitle::before{
+          background: url("/fill-tomato.svg");
+        }
+        &:checked + .optionTitle{
+          color: @White;
+        }
+      }
+    }
+  }
+
+  .remove-ctn{
+    margin: 0 58px;
+    .remove-question{
+      text-align: center;
+      font: @message;
+      color: @Nepal;
+      padding-top: 120px;
+      padding-bottom: 180px;
+    }
+    .btn-ctn{
+      display: flex;
+      justify-content: space-between;
+      margin: 0 18%;
+      .btn{
+        color: @White;
+        text-align: center;
+        font-family: @pt_sans;
+        font-weight: bold;
+        font-size: 18px;
+        padding: 12px 35px;
+      }
+      .cancel-btn{
+        background: @Malibu;
+        margin-right: 4%;
+        &:hover,
+        &:focus {
+          background: @CuriousBlue;
+        }
+      }
+      .remove-btn{
+        background: Tomato;
+        &:hover,
+        &:focus{
+          background: @DarkCoral;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Productivity app</title>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <nav>
+        <ul>
+          <li><a href="task_list.html" class="nav-link icon-list"></a></li>
+          <li><a href="#" class="nav-link icon-statistics"></a></li>
+          <li><a href="#" class="nav-link icon-settings active"></a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="titleWithSub-ctn">
+        <h1 class="title">Settings</h1>
+        <h2 class="subtitle">Pomodoros settings</h2>
+        <ul class="tabs">
+          <li class="tabs-item"><a href="#" class="active">Pomodoros</a></li>
+          <li class="tabs-item"><a href="settings_categories.html">Categories</a></li>
+        </ul>
+      </div>
+      <section class="settings">
+        <ul class="settings-ctn">
+          <li class="settings-item">
+            <div class="row">
+              <label for="workTime">Work Time</label>
+              <div class="input-ctn">
+                <button class="minus">-</button>
+                <input type="text" id="workTime" class="settings-input" size="4" value="25">
+                <button class="plus">+</button>
+              </div>
+            </div>
+            <h2 class="input-caption">Please select a value between 15 and 25 <span>minutes</span></h2>
+          </li>
+          <li class="settings-item">
+            <div class="row">
+              <label for="workTime">Work Iteration</label>
+              <div class="input-ctn">
+                <button class="minus">-</button>
+                <input type="text" id="workTime" class="settings-input" size="4" value="5">
+                <button class="plus">+</button>
+              </div>
+            </div>
+            <h2 class="input-caption">Please select a value between 2 and 5 <span>iterations</span></h2>
+          </li>
+          <li class="settings-item">
+            <div class="row">
+              <label for="workTime">Short Break</label>
+              <div class="input-ctn">
+                <button class="minus">-</button>
+                <input type="text" id="workTime" class="settings-input" size="4" value="5">
+                <button class="plus">+</button>
+              </div>
+            </div>
+            <h2 class="input-caption">Please select a value between 3 and 5 <span>minutes</span></h2>
+          </li>
+          <li class="settings-item">
+            <div class="row">
+              <label for="workTime">Long Break</label>
+              <div class="input-ctn">
+                <button class="minus">-</button>
+                <input type="text" id="workTime" class="settings-input" size="4" value="30">
+                <button class="plus">+</button>
+              </div>
+            </div>
+            <h2 class="input-caption">Please select a value between 15 and 30 <span>minutes</span></h2>
+          </li>
+        </ul>
+      </section>
+      <section class="cycle">
+        <h1 class="title">Your cycle</h1>
+        <img class="graph" src="/graph.png" alt="graph">
+      </section>
+      <div class="btn-ctn">
+        <a href="task_list.html" class="redir-btn btn">Go to Tasks</a>
+        <a href="#" class="save-btn btn">Save</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

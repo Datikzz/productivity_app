@@ -1,0 +1,33 @@
+.notif{
+  border: 1px solid @White;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  color: @White;
+  .status{
+    padding: 7px 15px;
+  }
+  p{
+    font-family: @roboto;
+    font-weight: bold;
+    font-size: 15px;
+    flex-grow: 1;
+  }
+  .close{
+    padding-right: 5px;
+  }
+
+}
+
+.notif:nth-child(1){
+  background: @low;
+}
+.notif:nth-child(2){
+  background: #d8584d;
+}
+.notif:nth-child(3){
+  background: #df9843;
+}
+.notif:nth-child(4){
+  background: #529bcd;
+}
