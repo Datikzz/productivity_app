@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Productivity app</title>
+</head>
+<body>
+<div class="wrapper">
+<header>
+    <nav>
+      <ul>
+        <li><a href="#" class="nav-link icon-trash active"></a></li>
+        <li><a href="task_list.html" class="nav-link icon-list"></a></li>
+        <li><a href="#" class="nav-link icon-statistics"></a></li>
+        <li><a href="settings_pomodoros.html" class="nav-link icon-settings"></a></li>
+      </ul>
+    </nav>
+</header>
+<main>
+  <div class="title-ctn">
+    <h1 class="title">Daily Task List</h1>
+    <button class="addTask-btn icon-add"></button>
+  </div>
+  <div class="tabs-ctn">
+    <ul class="select-tabs">
+      <li class="tabs-item"><a href="#">Select</a></li>
+      <li class="tabs-item"><a href="#">Deselect</a></li>
+    </ul>
+    <ul class="daily-tabs">
+      <li class="tabs-item"><a href="#" class="active">To Do</a></li>
+      <li class="tabs-item"><a href="tasks_done.html">Done</a></li>
+    </ul>
+  </div>
+  <section class="tasks-ctn ">
+    <ul class="tasks-list removeTasks-list">
+      <li class="task-item task-hobby priority-urgent">
+        <a href="#" class="del-btn icon-trash" role="button"><span></span></a>
+        <div class="task-info">
+          <h3 class="task-title">Lorem ipsum sit amet</h3>
+          <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-ctn">
+          <button class="btn edit-btn icon-edit"></button>
+        </div>
+        <a href="#" class="priority-ctn icon-tomato" role="button"><span>3</span></a>
+      </li>
+      <li class="task-item task-sport priority-high">
+        <a href="#" class="del-btn icon-trash" role="button"><span></span></a>
+        <div class="task-info">
+          <h3 class="task-title">Lorem ipsum sit amet</h3>
+          <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-ctn">
+          <button class="btn edit-btn icon-edit"></button>
+        </div>
+        <a href="#" class="priority-ctn icon-tomato" role="button"><span>3</span></a>
+      </li>
+      <li class="task-item task-work priority-high">
+        <a href="#" class="del-btn icon-trash" role="button"><span></span></a>
+        <div class="task-info">
+          <h3 class="task-title">Lorem ipsum sit amet</h3>
+          <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-ctn">
+          <button class="btn edit-btn icon-edit"></button>
+        </div>
+        <a href="#" class="priority-ctn icon-tomato" role="button"><span>3</span></a>
+      </li>
+      <li class="task-item task-education priority-middle">
+        <a href="#" class="del-btn icon-trash" role="button"><span></span></a>
+        <div class="task-info">
+          <h3 class="task-title">Lorem ipsum sit amet</h3>
+          <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-ctn">
+          <button class="btn edit-btn icon-edit"></button>
+        </div>
+        <a href="#" class="priority-ctn icon-tomato" role="button"><span>3</span></a>
+      </li>
+      <li class="task-item task-other priority-low">
+        <a href="#" class="del-btn icon-trash" role="button"><span></span></a>
+        <div class="task-info">
+          <h3 class="task-title">Lorem ipsum sit amet</h3>
+          <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+        </div>
+        <div class="btn-ctn">
+          <button class="btn edit-btn icon-edit"></button>
+        </div>
+        <a href="#" class="priority-ctn icon-tomato"role="button"><span>3</span></a>
+      </li>
+    </ul>
+  </section>
+  <a href="#" class="globalList-link" role="button">Global list <span class="icon-arrow-right"></span></a>
+</main>
+</div>
+<script src="/bundle.js"></script>
+</body>
+</html>

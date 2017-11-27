@@ -1,0 +1,344 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: @background-color;
+}
+
+a{
+  text-decoration: none;
+}
+
+.wrapper{
+  width: 1185px;
+  margin: 0 auto;
+}
+
+header{
+    nav{
+      padding: 58px 0 10px;
+      ul{
+        display: flex;
+        justify-content: flex-end;
+        list-style-type: none;
+        li{
+          padding-left: 35px;
+          font-size: 18px;
+          a{
+            color: @Nepal;
+            text-decoration: none;
+            &:hover,
+            &:focus{
+              color: @Spray;
+            }
+          }
+          .active{
+            color: @White;
+          }
+        }
+      }
+    }
+  }
+
+
+main{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 50px;
+  .title-ctn{
+    display: flex;
+    justify-content: center;
+    color: @White;
+    padding-bottom: 28px;
+    .title{
+      font: @heading1;
+      font-weight: 600;
+      word-spacing: 4px;
+      padding-right: 22px;
+    }
+    .addTask-btn{
+      background: none;
+      outline: none;
+      border: none;
+      color: @White;
+    }
+  }
+  .tabs-ctn{
+    display: flex;
+    justify-content: space-between;
+  }
+  .select-tabs,
+  .daily-tabs{
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+    padding-bottom: 20px;
+    .tabs-item{
+      a {
+        font: @caption;
+        font-size: 16px;
+        color: @Nepal;
+        padding: 0 9px;
+        position: relative;
+        &:hover,
+        &:focus{
+          color: @Spray;
+        }
+      }
+      .active{
+        color: @White;
+      }
+      &:last-child{
+        a{
+          padding-right: 0;
+        }
+      }
+      &:first-child{
+        a{
+          padding-left: 0;
+        }
+      }
+      &:not(:last-child){
+        a {
+          &:after {
+            content: '';
+            border-right: 1px solid @Nepal;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            height: 50%;
+            margin: auto 0;
+            color: @Nepal;
+            position: absolute;
+          }
+        }
+      }
+    }
+  }
+  section.tasks-ctn{
+    margin-bottom: 40px;
+    .removeTasks-list{
+      .task-info{
+        margin-left: 15px;
+      }
+    }
+    .tasks-list-common{
+      .task-item{
+        border-left: 9px solid;
+      }
+    }
+  }
+  .task-item{
+    display: flex;
+    background: white;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    position: relative;
+    -webkit-box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
+    .date-ctn{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 94px;
+      text-align: center;
+      color: @DarkGray;
+      .date-num{
+        font: bold 27px @pt_sans;
+      }
+      .date-day{
+        font: 11px @roboto;
+        text-transform: uppercase;
+      }
+    }
+    .task-info{
+      flex-grow: 1;
+      .task-title{
+        font: @heading3;
+      }
+      .task-desc{
+        font: @paragraph;
+        color: @Grey;
+      }
+    }
+    .btn-ctn{
+      display: flex;
+      flex-direction: column;
+      .btn{
+        margin-right: 30px;
+        padding: 6px 0;
+        background: none;
+        outline: none;
+        border: none;
+        color: @Silver;
+        font-size: 18px;
+        &:hover{
+          color: @Nepal;
+        }
+        &:focus{
+          color: @Grey;
+        }
+      }
+    }
+
+    .del-btn{
+      padding: 20px;
+      position: relative;
+      text-align: center;
+      color: @White;
+      font-size: 47px;
+      &:hover{
+        &:before{
+          content: "\e906";
+        }
+        span{
+          display: none;
+        }
+      }
+      span{
+        font: 30px @pt_sans;
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .priority-ctn{
+      padding: 20px;
+      text-align: center;
+      color: @White;
+      font-size: 47px;
+      position: relative;
+      &:hover{
+        &:before{
+          content: "\e90e";
+        }
+        span{
+          display: none;
+        }
+      }
+      span{
+        font: 30px @pt_sans;
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  .globalList-link{
+    color: @Nepal;
+    font: 20px @pt_sans;
+    align-self: flex-start;
+    span{
+      vertical-align: middle;
+      font-size: 10px;
+    }
+    &:hover{
+      color: @Spray;
+    }
+  }
+  section.globalList-ctn{
+    margin-top: 32px;
+    .global-taskList{
+      list-style: none;
+      .global-taskListItem{
+        position: relative;
+        margin-bottom: 25px;
+        &:before{
+          content: '';
+          width: 9px;
+          top: 0;
+          bottom: 0;
+          margin: auto 0;
+          z-index: 2;
+          background: red;
+          left: 0;
+          position: absolute;
+        }
+        .global-taskListItem-title{
+          font: @heading2;
+          text-transform: uppercase;
+          line-height: 15px;
+          position: relative;
+          padding-left: 20px;
+          padding-bottom: 20px;
+          &::before{
+            content: '';
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            vertical-align: text-bottom;
+            background: red;
+            position: absolute;
+            z-index: 3;
+            left: -4px;
+            top: -1px;
+          }
+          &::after{
+            content: '';
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            vertical-align: text-bottom;
+            border: 2px solid @Madison;
+            position: absolute;
+            z-index: 4;
+            left: -2px;
+            top: 1px;
+          }
+        }
+        .global-taskListItem-list{
+
+          .overdue{
+            color: @urgent;
+          }
+          .task-info{
+            padding-left: 9px;
+          }
+        }
+      }
+    }
+  }
+  .message{
+    font: @message;
+    color: @Nepal;
+    text-align: center;
+    margin-bottom: 100px;
+  }
+  .tomato-image{
+    width: 165px;
+    height: 170px;
+    margin: 35px auto 70px;
+  }
+  .btn-ctn{
+    .skip-btn{
+      margin-right: 2%;
+    }
+  }
+
+  .arrow-btn{
+    margin: 0 auto;
+    font-size: 60px;
+    color: @Nepal;
+    padding-bottom: 25px;
+  }
+
+}
+
+//Index page stuff, not project related !
+.index-list{
+  margin-left: 20px;
+  a{
+    color: @Nepal;
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/styles.css">
+  <title>Productivity app</title>
+</head>
+<body>
+<div class="wrapper">
+  <div class="modal-wrapper">
+  <div class="modal-ctn ">
+    <div class="btn-ctn add-task-ctn">
+      <a href="#" class="btn remove-btn icon-trash" role="button"></a>
+      <a href="#" class="btn cancel-btn icon-close" role="button"></a>
+      <a href="#" class="btn add-btn icon-check" role="button"></a>
+    </div>
+    <h1 class="modal-title">Edit Task</h1>
+    <form action="">
+      <label for="taskTitle" class="form-labels">Title</label>
+      <input type="text" id="taskTitle" placeholder="Add title here" value="Creating a new design">
+      <label for="taskDesc" class="form-labels">Description</label>
+      <input type="text" id="taskDesc" placeholder="Add description here">
+      <div class="category-group" role="group">
+        <h4 class="form-labels">Category</h4>
+        <div class="category-ctn">
+          <div class="rb-ctn">
+            <input type="radio" id="workCategoryOption" name="categoryOptions" class="categoryOption" checked>
+            <label for="workCategoryOption" class="optionTitle">Work</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="educationCategoryOption" name="categoryOptions" class="categoryOption">
+            <label for="educationCategoryOption" class="optionTitle">Education</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="hobbyCategoryOption" name="categoryOptions" class="categoryOption">
+            <label for="hobbyCategoryOption" class="optionTitle">Hobby</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="sportCategoryOption" name="categoryOptions" class="categoryOption">
+            <label for="sportCategoryOption" class="optionTitle">Sport</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="otherCategoryOption" name="categoryOptions" class="categoryOption">
+            <label for="otherCategoryOption" class="optionTitle">Other</label>
+          </div>
+        </div>
+      </div>
+      <label for="taskDeadline" class="form-labels">Deadline</label>
+      <input type="text" id="taskDeadline" class="form-labels" placeholder="23 May, 2016">
+      <div class="estimation-group" role="group">
+        <h4 class="form-labels">Estimation</h4>
+        <div class="estimation-ctn">
+          <div class="cb-ctn">
+            <input type="checkbox" id="oneTomato" class="tomatoRank" checked>
+            <label for="oneTomato" class="optionTitle"></label>
+          </div>
+          <div class="cb-ctn">
+            <input type="checkbox" id="twoTomato" class="tomatoRank" checked>
+            <label for="twoTomato" class="optionTitle"></label>
+          </div>
+          <div class="cb-ctn">
+            <input type="checkbox" id="threeTomato" class="tomatoRank" checked>
+            <label for="threeTomato" class="optionTitle"></label>
+          </div>
+          <div class="cb-ctn">
+            <input type="checkbox" id="fourTomato" class="tomatoRank">
+            <label for="fourTomato" class="optionTitle"></label>
+          </div>
+          <div class="cb-ctn">
+            <input type="checkbox" id="fiveTomato" class="tomatoRank">
+            <label for="fiveTomato" class="optionTitle"></label>
+          </div>
+        </div>
+      </div>
+      <div class="priority-group" role="group">
+        <h4 class="form-labels">Priority</h4>
+        <div class="priority-ctn">
+          <div class="rb-ctn">
+            <input type="radio" id="urgentPriorityOption" name="priorityOptions" class="priorityOption" checked>
+            <label for="urgentPriorityOption" class="optionTitle">Urgent</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="highPriorityOption" name="priorityOptions" class="priorityOption">
+            <label for="highPriorityOption" class="optionTitle">High</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="middlePriorityOption" name="priorityOptions" class="priorityOption">
+            <label for="middlePriorityOption" class="optionTitle">Middle</label>
+          </div>
+          <div class="rb-ctn">
+            <input type="radio" id="lowPriorityOption" name="priorityOptions" class="priorityOption">
+            <label for="lowPriorityOption" class="optionTitle">Low</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>
+</body>
+</html>

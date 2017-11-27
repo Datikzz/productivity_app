@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Productivity app</title>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#" class="nav-link icon-list active"></a></li>
+        <li><a href="#" class="nav-link icon-statistics"></a></li>
+        <li><a href="settings_pomodoros.html" class="nav-link icon-settings"></a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="title-ctn">
+      <h1 class="title">Daily Task List</h1>
+      <button class="addTask-btn icon-add"></button>
+    </div>
+    <ul class="daily-tabs">
+      <li class="tabs-item"><a href="#" class="active">To Do</a></li>
+      <li class="tabs-item"><a href="tasks_done.html">Done</a></li>
+    </ul>
+    <h2 class="message">Excellent,<br>all daily tasks done! :)</h2>
+    <ul class="daily-tabs">
+      <li class="tabs-item"><a href="#" class="active">All</a></li>
+      <li class="tabs-item"><a href="#">Urgent</a></li>
+      <li class="tabs-item"><a href="#">High</a></li>
+      <li class="tabs-item"><a href="#">Middle</a></li>
+      <li class="tabs-item"><a href="#">Low</a></li>
+    </ul>
+    <a href="#" class="globalList-link" role="button">Global list <span class="icon-global-list-arrow-down"></span></a>
+    <section class="globalList-ctn">
+      <ul class="global-taskList">
+        <li class="global-taskListItem task-work">
+          <h4 class="global-taskListItem-title">Work</h4>
+          <ul class="global-taskListItem-list">
+            <li class="task-item priority-high">
+              <div class="date-ctn">
+                <p class="date-num">23</p>
+                <p class="date-day">May</p>
+              </div>
+              <div class="task-info">
+                <h3 class="task-title">Lorem ipsum sit amet</h3>
+                <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+              </div>
+              <div class="btn-ctn">
+                <button class="btn icon-arrows-up"></button>
+                <button class="btn edit-btn icon-edit"></button>
+              </div>
+              <a href="#" class="priority-ctn icon-tomato" role="button"><span>3</span></a>
+            </li>
+            <li class="task-item priority-middle">
+              <div class="date-ctn">
+                <p class="date-num">23</p>
+                <p class="date-day">May</p>
+              </div>
+              <div class="task-info">
+                <h3 class="task-title">Lorem ipsum sit amet</h3>
+                <p class="task-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+              </div>
+              <div class="btn-ctn">
+                <button class="btn icon-arrows-up"></button>
+                <button class="btn edit-btn icon-edit"></button>
+              </div>
+              <a href="#" class="priority-ctn icon-tomato" role="button"><span>3</span></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+    </section>
+  </main>
+</div>
+<script src="/bundle.js"></script>
+</body>
+</html>

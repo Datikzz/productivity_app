@@ -1,0 +1,33 @@
+/* example of using mixins */
+@import ( reference ) '~@less-helpers-module/_mixins.less'; // ~@less-helpers-module - is a path to less helpers folder
+
+header{
+  .logo{
+    display: none;
+  }
+}
+
+.fixed-header{
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+  overflow: hidden;
+  background: @Madison;
+  padding: 27px 0;
+  -webkit-box-shadow: 0px 8px 15px -5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 8px 15px -5px rgba(0,0,0,0.75);
+  box-shadow: 0px 8px 15px -5px rgba(0,0,0,0.75);
+  .wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .logo{
+      width: 250px;
+      height: 72px;
+      display: block;
+    }
+    nav{
+      padding: 0;
+    }
+  }
+}
