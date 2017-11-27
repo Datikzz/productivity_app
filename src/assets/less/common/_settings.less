@@ -128,7 +128,7 @@ main{
           padding-bottom: 10px;
           justify-content: space-between;
           padding-right: 28%;
-          label{
+          .settings-label{
             color: @White;
             font: @caption;
             text-transform: uppercase;
@@ -154,8 +154,6 @@ main{
               background: @background-color;
               font: @paragraph;
               color: @White;
-              outline: none;
-              border: none;
               width: 80px;
             }
           }
@@ -191,9 +189,62 @@ main{
       padding-bottom: 25px;
     }
     .graph{
-      width: 1185px;
+      width: 100%;
       margin: auto;
-      padding-bottom: 43px;
+      //padding-bottom: 43px;
+    }
+    .hide{
+      display: none;
+    }
+    .graph-ctn{
+      width: 1185px;
+      height: 10px;
+      margin: 0 auto;
+      display: flex;
+      .longBreak-line{
+        background: @hobby;
+      }
+
+      .iteration-line{
+        display: flex;
+        .workTime-line{
+          background: @work;
+        }
+        .shortBreak-line{
+          background: @hobby;
+        }
+      }
+    }
+    .totalTime-ctn{
+      position: relative;
+      height: 10px;
+      padding-bottom: 10px;
+      span{
+        position: absolute;
+        color: @Nepal;
+        text-align: right;
+        font: 12px/15.36px @pt_sans;
+        display: block;
+      }
+      .startTime{
+        left: 0;
+      }
+      .endTime{
+        right: 0;
+      }
+
+    }
+    .timePoints-ctn{
+      display: flex;
+      padding-top: 5px;
+      overflow: hidden;
+      .timePoint{
+        color: @Nepal;
+        text-align: right;
+        font: 12px/15.36px @pt_sans;
+        display: block;
+        width: 0;
+      }
     }
   }
   .btn-ctn{

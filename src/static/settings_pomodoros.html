@@ -8,16 +8,19 @@
   <title>Productivity app</title>
 </head>
 <body>
-  <div class="wrapper">
-    <header>
+  <header id="header">
+    <div class="wrapper">
+      <img class="logo" src="/Logo.svg" alt="logo">
       <nav>
         <ul>
-          <li><a href="task_list.html" class="nav-link icon-list"></a></li>
+          <li><a href="#" class="nav-link icon-list active"></a></li>
           <li><a href="#" class="nav-link icon-statistics"></a></li>
-          <li><a href="#" class="nav-link icon-settings active"></a></li>
+          <li><a href="settings_pomodoros.html" class="nav-link icon-settings"></a></li>
         </ul>
       </nav>
-    </header>
+    </div>
+  </header>
+  <div class="wrapper">
     <main>
       <div class="titleWithSub-ctn">
         <h1 class="title">Settings</h1>
@@ -31,44 +34,44 @@
         <ul class="settings-ctn">
           <li class="settings-item">
             <div class="row">
-              <label for="workTime">Work Time</label>
-              <div class="input-ctn">
-                <button class="minus">-</button>
-                <input type="text" id="workTime" class="settings-input" size="4" value="25">
-                <button class="plus">+</button>
+              <h4 class="settings-label">Work Time</h4>
+              <div class="input-ctn" id="workTime-voter">
+                <span class="minus minus-btn">-</span>
+                <span id="workTime-value" class="settings-input">25</span>
+                <span class="plus plus-btn">+</span>
               </div>
             </div>
             <h2 class="input-caption">Please select a value between 15 and 25 <span>minutes</span></h2>
           </li>
           <li class="settings-item">
             <div class="row">
-              <label for="workTime">Work Iteration</label>
-              <div class="input-ctn">
-                <button class="minus">-</button>
-                <input type="text" id="workTime" class="settings-input" size="4" value="5">
-                <button class="plus">+</button>
+              <h4 class="settings-label">Work Iteration</h4>
+              <div class="input-ctn" id="iteration-voter">
+                <span class="minus minus-btn">-</span>
+                <span id="iteration-value" class="settings-input">5</span>
+                <span class="plus plus-btn">+</span>
               </div>
             </div>
             <h2 class="input-caption">Please select a value between 2 and 5 <span>iterations</span></h2>
           </li>
           <li class="settings-item">
             <div class="row">
-              <label for="workTime">Short Break</label>
-              <div class="input-ctn">
-                <button class="minus">-</button>
-                <input type="text" id="workTime" class="settings-input" size="4" value="5">
-                <button class="plus">+</button>
+              <h4 class="settings-label">Short Break</h4>
+              <div class="input-ctn" id="shortBreak-voter">
+                <span class="minus minus-btn">-</span>
+                <span id="shortBreak-value" class="settings-input">5</span>
+                <span class="plus plus-btn">+</span>
               </div>
             </div>
             <h2 class="input-caption">Please select a value between 3 and 5 <span>minutes</span></h2>
           </li>
           <li class="settings-item">
             <div class="row">
-              <label for="workTime">Long Break</label>
-              <div class="input-ctn">
-                <button class="minus">-</button>
-                <input type="text" id="workTime" class="settings-input" size="4" value="30">
-                <button class="plus">+</button>
+              <h4 class="settings-label">Long Break</h4>
+              <div class="input-ctn" id="longBreak-voter">
+                <span class="minus minus-btn">-</span>
+                <span id="longBreak-value" class="settings-input">30</span>
+                <span class="plus plus-btn">+</span>
               </div>
             </div>
             <h2 class="input-caption">Please select a value between 15 and 30 <span>minutes</span></h2>
@@ -77,7 +80,64 @@
       </section>
       <section class="cycle">
         <h1 class="title">Your cycle</h1>
-        <img class="graph" src="/graph.png" alt="graph">
+        <div class="totalTime-ctn">
+          <span class="startTime">0m</span>
+          <span class="phaseTime"></span>
+          <span class="endTime"></span>
+        </div>
+        <div class="graph-ctn">
+          <div class="iteration-line">
+            <div class="workTime-line"></div>
+            <div class="shortBreak-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="workTime-line"></div>
+            <div class="shortBreak-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="workTime-line"></div>
+            <div class="shortBreak-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="workTime-line"></div>
+            <div class="shortBreak-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="workTime-line"></div>
+          </div>
+          <div class="longBreak-line"></div>
+          <div class="iteration-line">
+            <div class="workTime-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="shortBreak-line"></div>
+            <div class="workTime-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="shortBreak-line"></div>
+            <div class="workTime-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="shortBreak-line"></div>
+            <div class="workTime-line"></div>
+          </div>
+          <div class="iteration-line">
+            <div class="shortBreak-line"></div>
+            <div class="workTime-line"></div>
+          </div>
+        </div>
+        <div class="timePoints-ctn">
+          <span class="timePoint">30m</span>
+          <span class="timePoint">1h</span>
+          <span class="timePoint">1h30m</span>
+          <span class="timePoint">2h</span>
+          <span class="timePoint">2h30m</span>
+          <span class="timePoint">3h</span>
+          <span class="timePoint">3h30m</span>
+          <span class="timePoint">4h</span>
+          <span class="timePoint">4h30m</span>
+          <span class="timePoint">5h</span>
+        </div>
       </section>
       <div class="btn-ctn">
         <a href="task_list.html" class="redir-btn btn">Go to Tasks</a>
@@ -85,5 +145,6 @@
       </div>
     </main>
   </div>
+  <script src="/bundle.js"></script>
 </body>
 </html>
