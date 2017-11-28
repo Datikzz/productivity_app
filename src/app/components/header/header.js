@@ -1,17 +1,17 @@
 require('./header.less');
 
-var top      = document.getElementById("header"),
-    main = document.getElementsByTagName("main")[0];
-var prevPosition = window.pageYOffset;
+
+
 window.onscroll = function (e) {
+  var top  = document.getElementById("header"),
+      main = document.getElementsByTagName("main")[0],
+      prevPosition = window.pageYOffset;
   this.e = e;
-  var currentPosition = document.documentElement.scrollTop;
-  if (currentPosition >= prevPosition) {
+  if (prevPosition > 1) {
     top.className = 'fixed-header';
     main.style.paddingTop = 100+"px";
   } else {
     top.className = '';
     main.style.paddingTop = 0+"px";
   }
-  prevPosition=currentPosition;
 }

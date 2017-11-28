@@ -62,7 +62,7 @@ window.onload = function () {
     var phaseTime = document.getElementsByClassName('phaseTime')[0];
     endTime.innerText= convertMinsToHrsMins(time);
     phaseTime.innerText= "First cycle: "+convertMinsToHrsMins(firstCycle);
-    phaseTime.style.left = iterationLine[5].offsetLeft+"px";
+    phaseTime.style.left = iterationLine[iterationLine.length/2].offsetLeft+"px";
   }
 
   function convertMinsToHrsMins(time) {
@@ -114,31 +114,35 @@ window.onload = function () {
       else if (event.target.closest('.plus-btn')) {
         voteIncrease();
       }
+      render();
     };
     elem.onmousedown = function () {
       return false;
     };
-
+    var graphCtn = document.getElementsByClassName('graph-ctn')[0];
     function voteDecrease() {
+
+      var listLength = graphElem.length;
       if (+voteElem.innerHTML < step) return;
       if (+voteElem.innerHTML > min) {
         voteElem.innerHTML = parseInt(voteElem.innerHTML, 10) - step;
-        for (var i = 0; i <= graphElem.length; i++) {
-          if (!(graphElem[0].classList.contains("hide"))) {
-            graphElem[0].classList.add("hide");
-          }
-        }
+        graphCtn.removeChild(graphElem[listLength-1]);
+        graphCtn.removeChild(graphElem[0]);
       }
     }
 
     function voteIncrease() {
+      var listLength = graphElem.length;
       if (+voteElem.innerHTML < max) {
         voteElem.innerHTML = parseInt(voteElem.innerHTML, 10) + step;
-        for (var i = 0; i <= graphElem.length; i++) {
-          if (graphElem[0].classList.contains("hide")) {
-            graphElem[0].classList.remove("hide");
-          }
-        }
+        var newIter = document.createElement('div');
+        newIter.className = 'iteration-line';
+        newIter.innerHTML+="<div class='workTime-line'></div><div class='shortBreak-line'></div>"
+        var newIterLast = document.createElement('div');
+        newIterLast.className = 'iteration-line';
+        newIterLast.innerHTML+="<div class='shortBreak-line'></div><div class='workTime-line'></div>"
+        graphCtn.appendChild(newIterLast);
+        graphCtn.insertBefore(newIter,graphCtn.firstChild);
       }
     }
   }
@@ -151,4 +155,3 @@ window.onload = function () {
     graphElem: document.getElementsByClassName("iteration-line")
   });
 };
-
