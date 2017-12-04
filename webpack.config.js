@@ -37,7 +37,7 @@ module.exports = {
           }
         }]
       },
-      { test: /\.handlebars$/, loader: "handlebars-loader"}
+      { test: /\.hbs$/, loader: "handlebars-loader"}
     ]
   },
   plugins: [

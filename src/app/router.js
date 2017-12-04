@@ -1,5 +1,3 @@
-//require('./app/pages/settings-pomodoro/settings_pomodoro');
-
 export const Router = {
   routes: [],
   root: '/',
@@ -56,9 +54,58 @@ export const Router = {
   navigate(path) {
     path = path ? path : '';
     window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
+    for (let i = 0; i < this.routes.length; i++) {
+
+      if(this.routes[i].re == path) {
+        this.routes[i].handler();
+      }
+    }
     return this;
-  }
+  },
 };
 
-Router.add(/about/,function(){console.log("about");})
-Router.navigate('/about');
+
+let context = {tasks: [
+  {taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
+  {taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
+  {taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
+  {taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
+  {taskType: "task-hobby", priorityType: "priority-urgent", dateNum: 23, dateDay: "November", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
+  {taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}]};
+
+//let tasksTempl = require('..//pages/tasks-list/tasks-list.hbs');
+let settingsTempl = require('../app/components/settings-pomodoro/settings_pomodoros.hbs');
+
+let firstEntranceTempl = require('../app/components/first_entrance/first_entrance.hbs');
+let reportTempl = require('../app/components/report/report.hbs');
+let timerTempl = require('../app/components/timer/timer.hbs');
+  let body = document.getElementsByTagName("body")[0];
+  let headerTempl = require('../app/components/header/header.hbs');
+  body.innerHTML = headerTempl();
+// function pushHeader() {
+//   let body = document.getElementsByTagName("body")[0];
+//   let headerTempl = require('../app/components/header/header.hbs');
+//   body.innerHTML = headerTempl();
+// }
+// function pushL() {
+//   let tasksTempl = require('../app/components/task-list/task-list.hbs');
+//   let main = document.getElementsByTagName("main")[0];
+//   main.innerHTML = tasksTempl();
+// }
+
+let main = document.getElementsByTagName("main")[0];
+//let main = document.getElementsByTagName("main")[0];
+//main.innerHTML += tasksTempl(context);
+// main.innerHTML += settingsTempl();
+main.innerHTML += firstEntranceTempl();
+// main.innerHTML += reportTempl();
+// main.innerHTML += timerTempl();
+Router.add(/timer/, pushL);
+
+Router.navigate('/timer/');
+// Router.add(/settings-pomodoro/,() => {main.innerHTML = settingsTempl();});
+// Router.add(/timer/,() => {main.innerHTML = timerTempl();});
+// Router.add(/report/,() => {main.innerHTML = reportTempl();});
+// Router.add(/first-entrance/,() => {main.innerHTML = firstEntranceTempl();});
+// Router.navigate('/first-entrance');
+

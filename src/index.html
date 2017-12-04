@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/styles.css">
   <title>Productivity app</title>
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 </head>
   <body>
     <h1 class="test">Starting index page of your app, example</h1>
@@ -37,5 +38,32 @@
       <li><a href="/static/notifications.html">notifications.html</a></li>
     </ol>
   <script src="/bundle.js"></script>
+    <script>
+      let config = {
+        apiKey: "AIzaSyBT3vWX8OzyYeXfXvGEOGjmSbFP4NakKJ8",
+        authDomain: "pomodoros-19210.firebaseapp.com",
+        databaseURL: "https://pomodoros-19210.firebaseio.com",
+        projectId: "pomodoros-19210",
+        storageBucket: "pomodoros-19210.appspot.com",
+        messagingSenderId: "396525315508"
+      };
+      firebase.initializeApp(config);
+      let database = firebase.database();
+      let table = database.ref().child('null');
+
+      let playersRef = firebase.database().ref("users/");
+
+      playersRef.set ({
+        Dat:{
+        Sadnesss: 'over 9000',
+        Language:"sadnesscri"
+      }
+      });
+
+      let printRef = firebase.database().ref("users/");
+      printRef.on('value', function (snapshot) {
+        console.log(snapshot.val());
+      })
+    </script>
   </body>
 </html>

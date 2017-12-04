@@ -9,6 +9,7 @@
     "start": "webpack-dev-server --open"
   },
   "dependencies": {
+    "firebase": "^4.7.0",
     "handlebars": "^4.0.11",
     "handlebars-loader": "^1.6.0"
   },
