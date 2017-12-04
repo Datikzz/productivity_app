@@ -1,7 +1,6 @@
 require('./header.less');
 
 
-
 window.onscroll = function (e) {
   var top  = document.getElementById("header"),
       main = document.getElementsByTagName("main")[0],

@@ -61,7 +61,9 @@ window.onload = function () {
     var endTime = document.getElementsByClassName('endTime')[0];
     var phaseTime = document.getElementsByClassName('phaseTime')[0];
     endTime.innerText= convertMinsToHrsMins(time);
+    endTime.innerHTML+="<br><span class='marker'>.</span>";
     phaseTime.innerText= "First cycle: "+convertMinsToHrsMins(firstCycle);
+    phaseTime.innerHTML+="<br><span class='marker'>.</span>";
     phaseTime.style.left = iterationLine[iterationLine.length/2].offsetLeft+"px";
   }
 
