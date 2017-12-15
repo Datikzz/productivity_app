@@ -1,0 +1,34 @@
+<div class="title-ctn">
+    <h1 class="title">Daily Task List</h1>
+      <button class="addTask-btn icon-add"></button>
+</div>
+<ul class="daily-tabs">
+    <li class="tabs-item"><a href="" class="active">To Do</a></li>
+    <li class="tabs-item"><a href="">Done</a></li>
+</ul>
+<section class="tasks-ctn">
+    <ul class="tasks-list tasks-list-common">
+      {{#each tasks}}
+          <li class="task-item {{taskType}} {{priorityType}}">
+              <div class="date-ctn">
+                {{#if dateNum}}
+                    <p class="date-num">{{dateNum}}</p>
+                {{/if}}
+                  <p class="date-day">{{dateDay}}</p>
+              </div>
+              <div class="task-info">
+                  <h3 class="task-title">{{taskTitle}}</h3>
+                  <p class="task-desc">{{taskDesc}}</p>
+              </div>
+              <div class="btn-ctn">
+                  <button class="btn edit-btn icon-edit"></button>
+              </div>
+              <a href="#/timer/" class="priority-ctn icon-tomato" role="button"><span>{{priority}}</span></a>
+          </li>
+      {{/each}}
+    </ul>
+</section>
+<a href="#" class="globalList-link" role="button">Global list <span class="icon-arrow-right"></span></a>
+
+
+
