@@ -1,6 +1,6 @@
 import { renderGraph } from './settings_graph';
 import  settingsTempl   from './settings.hbs';
-let categoriesTempl = require('./categories.hbs');
+import categoriesTempl  from './categories.hbs';
 
 let main = document.getElementsByTagName("main")[0];
 

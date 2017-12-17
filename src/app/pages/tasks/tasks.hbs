@@ -2,14 +2,24 @@
     <h1 class="title">Daily Task List</h1>
       <button class="addTask-btn icon-add"></button>
 </div>
-<ul class="daily-tabs">
-    <li class="tabs-item"><a href="" class="active">To Do</a></li>
-    <li class="tabs-item"><a href="">Done</a></li>
-</ul>
+<div class="tabs-ctn">
+  <ul class="hide select-tabs">
+    <li class="tabs-item"><a href="#" class="selectAll">Select</a></li>
+    <li class="tabs-item"><a href="#" class="deselectAll">Deselect</a></li>
+  </ul>
+  <ul class="daily-tabs">
+    <li class="tabs-item"><a href="#" class="active">To Do</a></li>
+    <li class="tabs-item"><a href="tasks_done.html">Done</a></li>
+  </ul>
+</div>
 <section class="tasks-ctn">
-    <ul class="tasks-list tasks-list-common">
+    <ul class="tasks-list">
       {{#each tasks}}
           <li class="task-item {{taskType}} {{priorityType}}">
+            <div class="trs-ctn">
+              <input type="checkbox" name="commonTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
+              <label for="task-{{taskId}}" class="icon-trash"></label>
+            </div>
               <div class="date-ctn">
                 {{#if dateNum}}
                     <p class="date-num">{{dateNum}}</p>
@@ -28,7 +38,6 @@
       {{/each}}
     </ul>
 </section>
-<a href="#" class="globalList-link" role="button">Global list <span class="icon-arrow-right"></span></a>
-
-
-
+<a href="#" class="globalList-btn" role="button">Global list <span class="icon-global-list-arrow-right"></span></a>
+<section class="globalList-ctn hide">
+</section>

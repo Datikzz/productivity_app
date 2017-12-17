@@ -20,6 +20,7 @@
     font: @heading1;
     font-weight: bold;
     color: @White;
+    clear: both;
   }
   .task-ctn{
     justify-content: flex-end;
@@ -135,8 +136,8 @@
         border: none;
         float: left;
       }
-      .rating > input { display: none; }
-      .rating > label {
+      .rating > .tomatoRank { display: none; }
+      .rating > .optionTitle {
         float: right;
         &:before {
         content: '';
@@ -145,7 +146,6 @@
         height: 20px;
         margin-right: 10px;
         text-align: center;
-        color: @Madison;
         font-size: 20px;
         line-height: 14px;
         vertical-align: text-top;
@@ -153,10 +153,9 @@
         border-radius: 50%;
         }
       }
-      .rating > input:checked ~ label,
-      .rating:not(:checked) > label:hover,
-      .rating:not(:checked) > label:hover ~ label { background: url("/fill-tomato.svg") no-repeat; }
-
+      .rating > .tomatoRank:checked ~ label,
+      .rating:not(:checked) > .optionTitle:hover,
+      .rating:not(:checked) > .optionTitle:hover ~ .optionTitle { background: url("/fill-tomato.svg") no-repeat; }
     }
   }
 

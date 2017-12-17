@@ -6,8 +6,6 @@
   opacity: @opacity;
 }
 
-
-
 .loops(){
   .inputsCirclesLoop();
   .categoriesCirclesloop(@categoriesColors; @categoriesLength);
@@ -75,14 +73,12 @@
     main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title{
       color: @color;
     }
-
-    main section.tasks-ctn .task-@{name} .del-btn,
-    main section.globalList-ctn .global-taskList .task-@{name} .del-btn {
+    main section.tasks-ctn .task-@{name} .delTask-btn:checked + label:before{
+      background: @colorActive;
+  }
+    main section.tasks-ctn .task-@{name} .trs-ctn,
+    main section.globalList-ctn .global-taskList .task-@{name} .trs-ctn {
       background: @color;
-      &:hover {
-        background: @colorActive;
-        z-index: 5;
-      }
     }
   }
 

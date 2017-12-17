@@ -1,46 +1,67 @@
-let addModalTempl = require('./addTask.hbs');
-let editModalTempl = require('./editTask.hbs');
-let removeModalTempl = require('./removeTask.hbs');
+import addModalTempl from './addTask.hbs';
+import editModalTempl from './editTask.hbs';
+import removeModalTempl from './removeTask.hbs';
+import * as firebase from 'firebase';
+//import { eventBus } from '../../eventBus';
 
+// eventBus.subscribe('renderAddModal', renderAddModal);
+// eventBus.subscribe('renderEditModal', renderEditModal);
+// eventBus.subscribe('renderRemoveModal', renderRemoveModal);
 
 export function renderAddModal() {
   let modal = document.querySelector('.modal-wrapper');
   modal.style.position = 'fixed';
   modal.innerHTML = addModalTempl();
 
+  //document.querySelector('body').style.overflow = 'hidden';
+
   let closeBtn = document.querySelector('.icon-close');
-  closeBtn.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeModal();
+  });
 
-  document.querySelector('.icon-check').addEventListener('click', submitForm);
+  document.querySelector('.icon-check').addEventListener('click', (e) => {
+    e.preventDefault();
+    submitForm();
+  });
 }
-
 
 export function renderEditModal() {
   let modal = document.querySelector('.modal-wrapper');
   modal.style.position = 'fixed';
   modal.innerHTML = editModalTempl();
 
-  let closeBtn = document.querySelector('.icon-close');
-  closeBtn.addEventListener('click', closeModal);
+  //document.querySelector('body').style.overflow = 'hidden';
 
-  let trashBtn = document.querySelector('.icon-trash');
-  trashBtn.addEventListener('click', renderRemoveModal);
+  let closeBtn = document.querySelector('.icon-close');
+  closeBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    closeModal()});
+
+  let trashBtn = document.querySelector('.remove-btn');
+  trashBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    renderRemoveModal()});
 }
 
-export function renderRemoveModal() {
+function renderRemoveModal() {
   let modal = document.querySelector('.modal-wrapper');
   modal.style.position = 'fixed';
   modal.innerHTML = removeModalTempl();
 
   let closeBtn = document.querySelector('.icon-close');
-  closeBtn.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    closeModal()
+  });
 }
-
 
 function closeModal() {
   let modal = document.querySelector('.modal-wrapper');
   modal.style.position = 'initial';
   modal.innerHTML = '';
+  //document.querySelector('body').style.overflow = 'auto';
 }
 
 let config = {
