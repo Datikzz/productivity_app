@@ -6,3 +6,5 @@ require('./router'); // include router
 /* example of including header component */
 require('./components/header/header');
 require('./components/settings_graph/settings_graph');
+
+

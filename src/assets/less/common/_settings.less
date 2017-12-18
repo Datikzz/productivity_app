@@ -219,10 +219,12 @@ main{
       position: relative;
       height: 10px;
       padding-bottom: 10px;
+      margin-bottom: 15px;
       span{
         position: absolute;
         color: @Nepal;
-        text-align: right;
+        text-align: center;
+        padding-bottom: 5px;
         font: 12px/15.36px @pt_sans;
         display: block;
       }
@@ -231,12 +233,16 @@ main{
       }
       .endTime{
         right: 0;
+        .marker{
+          right: 0;
+        }
       }
 
     }
     .timePoints-ctn{
       display: flex;
       padding-top: 5px;
+      padding-bottom: 20px;
       overflow: hidden;
       .timePoint{
         color: @Nepal;
@@ -244,6 +250,7 @@ main{
         font: 12px/15.36px @pt_sans;
         display: block;
         width: 0;
+
       }
     }
   }

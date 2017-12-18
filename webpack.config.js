@@ -36,7 +36,8 @@ module.exports = {
             name: 'images/[name].[ext]'
           }
         }]
-      }
+      },
+      { test: /\.hbs$/, loader: "handlebars-loader"}
     ]
   },
   plugins: [
