@@ -12,7 +12,6 @@ import Settings from '../app/pages/settings/settings';
 import Router from './router';
 import { EventBus } from './eventBus';
 import Firebase from './firebase';
-require('./firebase');
 
 const router = new Router();
 const settings = new Settings();

@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import { EventBus } from './eventBus';
-import TaskModel from '../app/pages/tasks/tasks-model';
+import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
 
 export default class Firebase {
   constructor(config) {
@@ -17,12 +17,14 @@ export default class Firebase {
   }
 
   createTask(data){
-    //const task = new TaskModel(data);
-    //this.database.ref('tasks/'+data.id).set(data);
+    const task = new TaskModel(data);
+    firebase.database().ref('tasks/' + task.id).set(task);
 
-    this.getTasks().then((data) =>{
-      console.log(data);
-    });
+    this.getDataFromFirebase().then( data => {
+      const taskListCollectionModel = new TasksCollectionModel(data);
+      const taskListCollectionView = new TasksCollectionView(taskListCollectionModel);
+      tasksCollectionView.render();
+    })
   }
 
   getTasks(){

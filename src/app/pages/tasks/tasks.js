@@ -1,7 +1,6 @@
 import tasksTempl from './tasks.hbs';
 import globalListTempl from './global-tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
-//import { renderSettingsTempl } from '../../../app/pages/settings/settings';
 
 import { EventBus } from '../../eventBus';
 
@@ -149,5 +148,3 @@ function renderGlobalList(){
     open = false;
   }
 }
-
-
