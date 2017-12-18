@@ -1,10 +1,9 @@
 import './header.less';
 import headerTempl from './header.hbs';
-import { renderAddModal } from '../../../app/components/modal/modal';
-import { renderTrashmode } from '../../../app/pages/tasks/tasks';
-//import { eventBus } from '../../eventBus';
+import { EventBus } from '../../eventBus';
+
 window.addEventListener('scroll',(e) => {
-  let top  = document.getElementById("header"),
+  const top  = document.getElementById("header"),
       main = document.getElementsByTagName("main")[0],
       addBtn = document.querySelector('a.icon-add'),
       prevPosition = window.pageYOffset;
@@ -19,21 +18,17 @@ window.addEventListener('scroll',(e) => {
   }
 });
 
-let header = document.querySelector("header");
-
+const header = document.querySelector("header");
 header.innerHTML = headerTempl();
 
-let addBtn = document.querySelector('.icon-add');
-console.log(addBtn);
+const addBtn = document.querySelector('.icon-add');
 addBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('blah');
-  //eventBus.emit('renderAddModal')
-  renderAddModal();
+  EventBus.emit('renderAddModal');
 });
 
-let trashBtn = document.querySelector('.icon-trash');
+const trashBtn = document.querySelector('.icon-trash');
 trashBtn.addEventListener('click',(e) => {
   e.preventDefault();
-  renderTrashmode();
+  EventBus.emit('renderTrashMode');
 } );

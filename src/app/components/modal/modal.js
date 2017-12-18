@@ -2,66 +2,92 @@ import addModalTempl from './addTask.hbs';
 import editModalTempl from './editTask.hbs';
 import removeModalTempl from './removeTask.hbs';
 import * as firebase from 'firebase';
-//import { eventBus } from '../../eventBus';
+import { EventBus } from '../../eventBus';
 
-// eventBus.subscribe('renderAddModal', renderAddModal);
-// eventBus.subscribe('renderEditModal', renderEditModal);
-// eventBus.subscribe('renderRemoveModal', renderRemoveModal);
 
-export function renderAddModal() {
-  let modal = document.querySelector('.modal-wrapper');
-  modal.style.position = 'fixed';
-  modal.innerHTML = addModalTempl();
+class Modal {
+  renderAddModal(){
+    const modal = document.querySelector('.modal-wrapper');
+    modal.style.position = 'fixed';
+    modal.innerHTML = addModalTempl();
 
-  //document.querySelector('body').style.overflow = 'hidden';
+    //document.querySelector('body').style.overflow = 'hidden';
 
-  let closeBtn = document.querySelector('.icon-close');
-  closeBtn.addEventListener('click', (e) => {
+    const closeBtn = document.querySelector('.icon-close');
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.closeModal();
+    });
+
+    document.querySelector('.icon-check').addEventListener('click', (e) => {
+      e.preventDefault();
+      this.submitForm(e);
+    });
+  }
+
+  renderEditModal() {
+    const modal = document.querySelector('.modal-wrapper');
+    modal.style.position = 'fixed';
+    modal.innerHTML = editModalTempl();
+
+    //document.querySelector('body').style.overflow = 'hidden';
+
+    const closeBtn = document.querySelector('.icon-close');
+    closeBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      this.closeModal()});
+
+    const trashBtn = document.querySelector('.remove-btn');
+    trashBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      this.renderRemoveModal()});
+  }
+
+  renderRemoveModal() {
+    const modal = document.querySelector('.modal-wrapper');
+    modal.style.position = 'fixed';
+    modal.innerHTML = removeModalTempl();
+
+    const closeBtn = document.querySelector('.icon-close');
+    closeBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      this.closeModal()});
+  }
+
+  closeModal() {
+    const modal = document.querySelector('.modal-wrapper');
+    modal.style.position = 'initial';
+    modal.innerHTML = '';
+    //document.querySelector('body').style.overflow = 'auto';
+  }
+
+
+  submitForm(e){
     e.preventDefault();
-    closeModal();
-  });
+    console.log('blah blah data sent');
+    let taskType = document.querySelector('input[name="categoryOptions"]:checked').value;
+    let priorityType = document.querySelector('input[name="priorityOptions"]:checked').value;
+    let date = document.getElementById('taskDeadline').value;
+    let taskTitle = document.getElementById('taskTitle').value;
+    let taskDesc = document.getElementById('taskDesc').value;
+    let estimation = document.querySelector('input[name="estimation"]:checked').value;
 
-  document.querySelector('.icon-check').addEventListener('click', (e) => {
-    e.preventDefault();
-    submitForm();
-  });
-}
+    this.saveTasks({
+      taskType: taskType,
+      priorityType: priorityType,
+      date: date,
+      taskTitle: taskTitle,
+      taskDesc: taskDesc,
+      estimation: estimation
+    });
+  }
 
-export function renderEditModal() {
-  let modal = document.querySelector('.modal-wrapper');
-  modal.style.position = 'fixed';
-  modal.innerHTML = editModalTempl();
-
-  //document.querySelector('body').style.overflow = 'hidden';
-
-  let closeBtn = document.querySelector('.icon-close');
-  closeBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    closeModal()});
-
-  let trashBtn = document.querySelector('.remove-btn');
-  trashBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    renderRemoveModal()});
-}
-
-function renderRemoveModal() {
-  let modal = document.querySelector('.modal-wrapper');
-  modal.style.position = 'fixed';
-  modal.innerHTML = removeModalTempl();
-
-  let closeBtn = document.querySelector('.icon-close');
-  closeBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    closeModal()
-  });
-}
-
-function closeModal() {
-  let modal = document.querySelector('.modal-wrapper');
-  modal.style.position = 'initial';
-  modal.innerHTML = '';
-  //document.querySelector('body').style.overflow = 'auto';
+  saveTasks(data){
+    // database.set(tasks);
+    // send as single object
+    let newTask = database.push();
+    newTask.set(data);
+  }
 }
 
 let config = {
@@ -74,6 +100,7 @@ let config = {
 };
 
 firebase.initializeApp(config);
+
 let database = firebase.database().ref('tasks');
 
 let printRef = firebase.database().ref("tasks");
@@ -81,33 +108,8 @@ printRef.on('value', function (snapshot) {
   console.log(snapshot.val());
 });
 
-// let tasks = [];
+export let modal = new Modal();
 
-function submitForm(e){
-  e.preventDefault();
-  console.log('blah');
-  let taskType = document.querySelector('input[name="categoryOptions"]:checked').value;
-  let priorityType = document.querySelector('input[name="priorityOptions"]:checked').value;
-  let date = document.getElementById('taskDeadline').value;
-  let taskTitle = document.getElementById('taskTitle').value;
-  let taskDesc = document.getElementById('taskDesc').value;
-  let estimation = document.querySelector('input[name="estimation"]:checked').value;
-
-  // tasks.push({taskType: taskType,priorityType: priorityType,date: date,taskTitle: taskTitle, taskDesc: taskDesc,estimation: estimation});
-
-  saveTasks({
-    taskType: taskType,
-    priorityType: priorityType,
-    date: date,
-    taskTitle: taskTitle,
-    taskDesc: taskDesc,
-    estimation: estimation
-  });
-}
-
-function saveTasks(data){
-  // database.set(tasks);
-  // send as single object
-  let newTask = database.push();
-  newTask.set(data);
-}
+EventBus.subscribe('renderAddModal', modal.renderAddModal.bind(modal));
+EventBus.subscribe('renderEditModal', modal.renderEditModal.bind(modal));
+EventBus.subscribe('renderRemoveModal', modal.renderRemoveModal.bind(modal));

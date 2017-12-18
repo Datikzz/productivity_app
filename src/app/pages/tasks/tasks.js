@@ -1,10 +1,9 @@
 import tasksTempl from './tasks.hbs';
 import globalListTempl from './global-tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
+//import { renderSettingsTempl } from '../../../app/pages/settings/settings';
 
-import { renderAddModal,renderEditModal,renderRemoveModal } from '../../../app/components/modal/modal';
-import { renderSettingsTempl } from '../../../app/pages/settings/settings';
-//import { eventBus } from '../../eventBus';
+import { EventBus } from '../../eventBus';
 
 let context = {tasks: [
   {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
@@ -15,6 +14,9 @@ let context = {tasks: [
   {taskId: 6, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}]};
 
 
+EventBus.subscribe('renderTasksTempl', renderTasksTempl);
+EventBus.subscribe('renderTrashMode', renderTrashMode);
+
 export function renderTasksTempl(){
   let main = document.getElementsByTagName("main")[0];
 
@@ -23,8 +25,7 @@ export function renderTasksTempl(){
     let addBtn = document.querySelector('.addTask-btn');
     addBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      renderAddModal();
-      //eventBus.emit('renderAddModal')
+      EventBus.emit('renderAddModal');
     }
     );
 
@@ -32,8 +33,7 @@ export function renderTasksTempl(){
     tasksList.addEventListener('click',(e)=>{
       const target = e.target;
       if(target.classList.contains('edit-btn')){
-        renderEditModal();
-        //eventBus.emit('renderEditModal')
+        EventBus.emit('renderEditModal');
       }
     });
 
@@ -53,19 +53,22 @@ export function renderTasksTempl(){
 
     document.querySelector('.addTask-btn').addEventListener('click', (e) => {
       e.preventDefault();
-      renderAddModal();
-     //eventBus.emit('renderAddModal');
+      EventBus.emit('renderAddModal');
    }
     );
-
     document.querySelector('.skip-btn').addEventListener('click', (e) => {
       e.preventDefault();
       renderTasksTempl()}
     );
+
+    document.querySelector('.settings-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      EventBus.emit('renderSettingsTempl')}
+    );
   }
 }
 
-export function renderTrashmode(){
+function renderTrashMode(){
   let trashBtn = document.getElementsByClassName('tasks-list');
   for(let i=0;i < trashBtn.length; i++){
     trashBtn[i].classList.toggle('deleteMode');//add
@@ -121,8 +124,6 @@ function countRemoves() {
 }
 
 function recountRemoves() {
-
-
   for(let i = 0; i < items.length; i++){
     if(items[i].checked === false){
       removesCounter--;
@@ -131,7 +132,6 @@ function recountRemoves() {
   document.querySelector('.trashCounter').style.display = 'block';
   document.querySelector('.trashCounter').innerText = removesCounter;
 }
-
 
 let open = false;
 
@@ -151,15 +151,3 @@ function renderGlobalList(){
 }
 
 
-// let globalContext = {
-//   hobby: [
-//     {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}],
-//   work: [
-//     {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}],
-//   education: [
-//     {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}],
-//   sport: [
-//     {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}],
-//   other: [
-//     {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}]
-//   }

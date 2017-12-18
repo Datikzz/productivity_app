@@ -26,7 +26,6 @@ export default class Router {
           return this;
         }
 
-        //this.navigate(newPath);
         match.shift();
         elem.handler.apply({}, match);
 

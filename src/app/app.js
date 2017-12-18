@@ -7,15 +7,16 @@ import './components/modal/modal';
 
 import { renderReportTempl } from '../app/pages/report/report';
 import { renderTimerTempl } from '../app/pages/timer/timer';
-import { renderSettingsTempl } from '../app/pages/settings/settings';
 import { renderTasksTempl } from '../app/pages/tasks/tasks';
+import Settings from '../app/pages/settings/settings';
 import Router from './router';
-import { eventBus } from './eventBus';
+import { EventBus } from './eventBus';
 
 const router = new Router();
+const settings = new Settings();
 
 router.defaultRoute = '/tasks-list/';
-router.add(/settings/,renderSettingsTempl);
+router.add(/settings/,settings.renderSettingsTempl);
 router.add(/timer/,renderTimerTempl);
 router.add(/report/,renderReportTempl);
 router.add(/tasks-list/, renderTasksTempl);
