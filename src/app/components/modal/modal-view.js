@@ -1,12 +1,17 @@
 import addModalTempl from './addTask.hbs';
 import editModalTempl from './editTask.hbs';
 import removeModalTempl from './removeTask.hbs';
-import * as firebase from 'firebase';
+
 import { EventBus } from '../../eventBus';
 
-
-class Modal {
-  renderAddModal(){
+export class ModalView {
+  constructor() {
+    EventBus.subscribe('renderAddModal', renderAddModal.bind(this));
+    EventBus.subscribe('renderEditModal',
+    renderEditModal.bind(this));
+    EventBus.subscribe('renderRemoveModal', renderRemoveModal.bind(this));
+  }
+  renderAddModal() {
     const modal = document.querySelector('.modal-wrapper');
     modal.style.position = 'fixed';
     modal.innerHTML = addModalTempl();
@@ -62,38 +67,18 @@ class Modal {
     console.log('blah blah data sent');
     let taskType = document.querySelector('input[name="categoryOptions"]:checked').value;
     let priorityType = document.querySelector('input[name="priorityOptions"]:checked').value;
-    let date = document.getElementById('taskDeadline').value;
+    let deadline = document.getElementById('taskDeadline').value;
     let taskTitle = document.getElementById('taskTitle').value;
     let taskDesc = document.getElementById('taskDesc').value;
-    let estimation = document.querySelector('input[name="estimation"]:checked').value;
+    let estimationTotal = document.querySelector('input[name="estimation"]:checked').value;
 
-    this.saveTasks({
+    return{
       taskType: taskType,
       priorityType: priorityType,
-      date: date,
+      deadline: deadline,
       taskTitle: taskTitle,
       taskDesc: taskDesc,
-      estimation: estimation
-    });
-  }
-
-  saveTasks(data){
-    let newTask = database.push();
-    newTask.set(data);
+      estimationTotal: estimationTotal,
+    };
   }
 }
-
-
-//
-// let database = firebase.database().ref("tasks");
-//
-// let printRef = firebase.database().ref("tasks");
-// printRef.on('value', function (snapshot) {
-//   console.log(snapshot.val());
-// });
-
-export let modal = new Modal();
-
-EventBus.subscribe('renderAddModal', modal.renderAddModal.bind(modal));
-EventBus.subscribe('renderEditModal', modal.renderEditModal.bind(modal));
-EventBus.subscribe('renderRemoveModal', modal.renderRemoveModal.bind(modal));

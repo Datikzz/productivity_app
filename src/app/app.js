@@ -11,9 +11,12 @@ import { renderTasksTempl } from '../app/pages/tasks/tasks';
 import Settings from '../app/pages/settings/settings';
 import Router from './router';
 import { EventBus } from './eventBus';
+import Firebase from './firebase';
+require('./firebase');
 
 const router = new Router();
 const settings = new Settings();
+
 
 router.defaultRoute = '/tasks-list/';
 router.add(/settings/,settings.renderSettingsTempl);

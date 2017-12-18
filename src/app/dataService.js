@@ -1,16 +1,16 @@
 export default class DataService{
-  getTask: (id) => {
+  getTask(id){
     return this.firebaseRef.once('value').then((snap) => {
       return snap.val();
     }
   },
-  createTask: () => {
+  createTask(){
 
   },
-  removeTask: (id) => {
+  removeTask(id){
 
   },
-  editTask(id) => {
+  editTask(id){
 
   }
 }
