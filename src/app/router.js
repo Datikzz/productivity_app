@@ -20,7 +20,7 @@ export default class Router {
       let match = fragment.match(elem.re);
 
       if (match) {
-        if (match[0] == '') {
+        if (match[0] === '') {
           this.navigate(this.defaultRoute);
 
           return this;
