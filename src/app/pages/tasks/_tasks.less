@@ -1,28 +1,27 @@
-
-.deleteMode{
-  .trs-ctn{
+.deleteMode {
+  .trs-ctn {
+    width: 87px !important;
     margin-right: 15px;
-    width: 87px !important;;
   }
-  .delTask-btn + label{
+  .delTask-btn + label {
     cursor: pointer;
   }
 
-  .delTask-btn + label:before{
+  .delTask-btn + label:before {
     padding: 20px !important;
     width: 47px !important;
     opacity: 1 !important;
   }
 
-  .date-ctn{
+  .date-ctn {
     display: none !important;
   }
 }
 
-section.tasks-ctn{
+section.tasks-ctn {
   margin-bottom: 40px;
 }
-.task-item{
+.task-item {
   display: flex;
   background: white;
   align-items: center;
@@ -32,22 +31,47 @@ section.tasks-ctn{
   -webkit-box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
-  .date-ctn{
+  .trs-ctn {
+    width: 9px;
+    .delTask-btn {
+      opacity: 0;
+      position: absolute;
+      & + label {
+        position: relative;
+        padding: 0;
+      }
+      & + label:before {
+        padding: 20px 0;
+        opacity: 0;
+        width: 0;
+        display: inline-block;
+        font-size: 47px;
+        text-align: center;
+        vertical-align: text-top;
+        color: @White;
+      }
+      &:checked + label:before {
+        content: '\E906';
+      }
+    }
+  }
+  .date-ctn {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 94px;
     text-align: center;
     color: @DarkGray;
     .date-num{
+      width: 94px;
       font: bold 27px @pt_sans;
     }
     .date-day{
+      width: 94px;
       font: 11px @roboto;
       text-transform: uppercase;
     }
   }
-  .task-info{
+  .task-info {
     flex-grow: 1;
     .task-title{
       font: @heading3;
@@ -57,7 +81,7 @@ section.tasks-ctn{
       color: @Grey;
     }
   }
-  .btn-ctn{
+  .btn-ctn {
     display: flex;
     flex-direction: column;
     .btn{
@@ -76,31 +100,8 @@ section.tasks-ctn{
       }
     }
   }
-  .trs-ctn{
-    width: 9px;
-    .delTask-btn{
-      opacity: 0;
-      position: absolute;
-      & + label{
-        position: relative;
-        padding: 0;
-      }
-      & + label:before{
-        padding: 20px 0;
-        opacity: 0;
-        width: 0;
-        display: inline-block;
-        font-size: 47px;
-        text-align: center;
-        vertical-align: text-top;
-        color: @White;
-      }
-      &:checked + label:before{
-        content: '\E906';
-      }
-    }
-  }
-  .priority-ctn{
+
+  .priority-ctn {
     padding: 20px;
     text-align: center;
     color: @White;
@@ -124,19 +125,19 @@ section.tasks-ctn{
     }
   }
 }
-.globalList-btn{
+.globalList-btn {
   color: @Nepal;
   font: 20px @pt_sans;
   align-self: flex-start;
-  span{
+  span {
     vertical-align: middle;
     font-size: 10px;
   }
-  &:hover{
+  &:hover {
     color: @Spray;
   }
 }
-section.globalList-ctn{
+section.globalList-ctn {
   margin-top: 32px;
   clear: both;
   .global-taskList{
@@ -196,6 +197,144 @@ section.globalList-ctn{
     }
     .task-item{
       margin-bottom: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+
+  .deleteMode {
+    .trs-ctn {
+      margin-right: 15px;
+      width: 87px !important;;
+    }
+
+    .delTask-btn + label:before {
+      padding: 20px !important;
+      width: 47px !important;
+    }
+  }
+
+  section.tasks-ctn {
+    margin-bottom: 20px;
+  }
+
+  .task-item {
+    margin-bottom: 12px;
+    .trs-ctn {
+      .delTask-btn{
+        & + label:before{
+          padding: 34px 0 33px 0;
+          font-size: 47px;
+        }
+      }
+    }
+
+    .date-ctn {
+
+      .date-num {
+        width: 104px;
+        font: bold 27px @pt_sans;
+      }
+      .date-day {
+        width: 104px;
+        font-size: 14px
+      }
+    }
+
+    .task-info {
+      .task-title {
+        font-size: 22px;
+        line-height: 38px;
+      }
+      .task-desc {
+        font-size: 19px;
+      }
+    }
+
+    .btn-ctn {
+      .btn {
+        font-size: 24px;
+      }
+    }
+
+    .priority-ctn {
+      padding: 26px 20px 28px 21px;
+      font-size: 60px;
+      span{
+        font-size: 28px;
+      }
+    }
+  }
+
+  .globalList-btn {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .deleteMode {
+    .trs-ctn {
+      width: 101px !important;;
+    }
+
+    .delTask-btn + label:before {
+      padding: 37px 16px !important;
+      width: 61px !important;
+      font-size: 56px;
+    }
+  }
+
+  section.tasks-ctn {
+    margin-bottom: 48px;
+  }
+
+  .task-item {
+    margin-bottom: 12px;
+    .trs-ctn {
+      width: 20px;
+      .delTask-btn {
+        & + label:before {
+          padding: 37px 0;
+          font-size: 47px;
+        }
+      }
+    }
+    .date-ctn {
+      .date-num {
+        width: 112px;
+        font: bold 27px @pt_sans;
+      }
+      .date-day {
+        width: 112px;
+        font-size: 14px;
+      }
+    }
+
+    .task-info {
+      .task-title {
+        font-size: 24px;
+        line-height: 27px;
+      }
+      .task-desc {
+        font-size: 17px;
+      }
+    }
+
+    .priority-ctn {
+      padding: 27px 18px 28px 17px;
+      font-size: 66px;
+      span{
+        font-size: 28px;
+      }
+    }
+  }
+
+  .globalList-btn {
+    span{
+      font-size: 12px;
+      padding-left: 6px
     }
   }
 }

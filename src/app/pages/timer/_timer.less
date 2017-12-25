@@ -1,0 +1,117 @@
+main{
+  .timer-title{
+    .title{
+      padding-right: 0px;
+      margin-bottom: 40px;
+    }
+  }
+
+  .start-btn{
+    font-size: 16px;
+    padding: 14px 48px;
+  }
+}
+
+.subheading{
+  font-family: @roboto;
+  font-size: 17px;
+  color: @White;
+  text-align: center;
+}
+
+.tomato-list{
+  list-style: none;
+  padding-top: 30px;
+  display: flex;
+  align-items: center;
+  color: @White;
+  justify-content: center;
+  img{
+    width: 25px;
+    height: 25px;
+    padding: 0 5px;
+  }
+}
+
+.timer-img{
+  width: 253px;
+  height: 253px;
+  padding-top: 50px;
+  padding-bottom: 70px;
+  margin: 0 auto;
+}
+
+.bottom-btn-ctn{
+  .btn:first-child{
+    margin-right: 2%;
+  }
+}
+
+.timer-ctn{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  span{
+    font-size: 50px;
+    color: @Nepal;
+    &:hover{
+      color: @Spray;
+    }
+  }
+}
+
+
+@media screen and (max-width: 1280px) {
+  main {
+    .timer-title {
+      margin-bottom: 0px;
+    }
+  }
+
+  .tomato-list {
+    padding-top: 40px;
+  }
+
+  .subheading {
+    font-size: 22px;
+  }
+
+  .timer-img {
+    width: 265px;
+    height: 265px;
+    padding-top: 116px;
+    padding-bottom: 70px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main{
+    .timer-title {
+      position: static;
+      .title {
+        margin-top: 58px;
+        font-size: 30px;
+        margin-bottom: 27px;
+      }
+    }
+    .subheading {
+      font-size: 19px;
+      word-spacing: 3px;
+    }
+
+    .tomato-list {
+      padding-top: 33px;
+    }
+
+    .timer-img{
+      padding-top: 78px;
+      padding-bottom: 258px;
+    }
+
+    .start-btn {
+      font-size: 21px;
+      width: 69%;
+      padding: 23px 25px;
+    }
+  }
+}

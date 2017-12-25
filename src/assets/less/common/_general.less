@@ -1,4 +1,4 @@
-*{
+* {
   padding: 0;
   margin: 0;
 }
@@ -7,88 +7,62 @@ body {
   background: @background-color;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
-.wrapper{
-  width: 1185px;
+.wrapper {
+  max-width: 1185px;
   margin: 0 auto;
 }
 
-.hide{
+.hide {
   display: none !important;
 }
 
-header{
-    nav{
-      padding: 58px 0 10px;
-      ul{
-        display: flex;
-        justify-content: flex-end;
-        list-style-type: none;
-        li{
-          padding-left: 35px;
-          font-size: 18px;
-          a{
-            color: @Nepal;
-            text-decoration: none;
-            &:hover,
-            &:focus{
-              color: @Spray;
-            }
-          }
-          .active{
-            color: @White;
-          }
-        }
-      }
-    }
-  }
-
-main{
+main {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 50px;
 
-  .title-ctn{
+  .title-ctn {
     display: flex;
     justify-content: center;
     color: @White;
-    padding-bottom: 28px;
-    .title{
+    margin-bottom: 28px;
+    .title {
       font: @heading1;
       font-weight: 600;
       word-spacing: 4px;
       padding-right: 22px;
     }
-    .addTask-btn{
+    .addTask-btn {
       background: none;
       outline: none;
       border: none;
       color: @White;
     }
   }
-  .tabs-ctn{
-    // display: flex;
-    // justify-content: space-between;
-  }
-  .daily-tabs{
+
+  .daily-tabs {
     float: right;
   }
 
-  .select-tabs{
+  .select-tabs {
     float: left;
   }
+
+  .tabs-ctn {
+    padding-bottom: 20px;
+  }
+
   .select-tabs,
-  .daily-tabs{
+  .daily-tabs {
     display: flex;
     justify-content: flex-end;
     list-style-type: none;
-    padding-bottom: 20px;
-    .tabs-item{
+    .tabs-item {
       a {
         font: @caption;
         font-size: 16px;
@@ -100,20 +74,20 @@ main{
           color: @Spray;
         }
       }
-      .active{
+      .active {
         color: @White;
       }
-      &:last-child{
-        a{
+      &:last-child {
+        a {
           padding-right: 0;
         }
       }
-      &:first-child{
-        a{
+      &:first-child {
+        a {
           padding-left: 0;
         }
       }
-      &:not(:last-child){
+      &:not(:last-child) {
         a {
           &:after {
             content: '';
@@ -130,28 +104,168 @@ main{
       }
     }
   }
-  .message{
+
+  .message {
     font: @message;
     color: @Nepal;
     text-align: center;
     margin-bottom: 100px;
   }
-  .tomato-image{
+
+  .tomato-image {
     width: 165px;
     height: 170px;
     margin: 35px auto 70px;
   }
-  .btn-ctn{
-    .skip-btn{
-      margin-right: 2%;
+
+  .btn{
+    color: @White;
+    font: @caption;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    align-self: center;
+    padding: 13px 25px 12px;
+  }
+
+  .green-btn {
+    background: @MountainMeadow;
+    &:hover,
+    &focus {
+      background: @MountainMeadowDark;
     }
   }
 
-  .arrow-btn{
+  .blue-btn {
+    background: @Malibu;
+    &:hover,
+    &focus {
+      background: @CuriousBlue;
+    }
+  }
+
+  .red-btn {
+    background: @Tomato;
+    &:hover,
+    &focus {
+      background: @DarkCoral;
+    }
+  }
+
+  .redir-ctn {
+    display: flex;
+    justify-content: space-between;
+    .btn{
+      width: 39%;
+    }
+  }
+
+  .btn-ctn {
+    display: flex;
+    justify-content: center;
+    .btn {
+      width: 50%;
+    }
+    .save-btn {
+      padding-left: 45px;
+      padding-right: 45px;
+      margin-left: 2%;
+      background: @MountainMeadow;
+      &:hover,
+      &:focus {
+        background: @MountainMeadowDark;
+      }
+    }
+  }
+
+  .arrow-btn {
     margin: 0 auto;
     font-size: 60px;
     color: @Nepal;
     padding-bottom: 25px;
   }
+}
 
+@media screen and (max-width: 1280px) {
+  .wrapper {
+    margin: 0 50px;
+  }
+  main{
+    .title-ctn {
+      margin-bottom: 58px;
+      .title {
+        font-size: 30px;
+        word-spacing: 5px;
+        padding-right: 33px;
+      }
+      .addTask-btn {
+        background: none;
+        outline: none;
+        border: none;
+        color: @White;
+      }
+    }
+    .tabs-ctn {
+      padding-bottom: 22px;
+    }
+    .select-tabs,
+    .daily-tabs {
+      .tabs-item {
+        a {
+          font-size: 22px;
+          line-height: 31px;
+          padding: 0 14px;
+        }
+      }
+    }
+    .tomato-image {
+      width: 214px;
+      height: 200px;
+      margin: 132px auto 175px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    margin: 0 28px;
+  }
+  main {
+    .title-ctn {
+      position: absolute;
+      top: -50px;
+      margin-bottom: 58px;
+      .title {
+        font-size: 32px;
+        word-spacing: 0px;
+        padding-right: 33px;
+      }
+      .addTask-btn{
+        font-size: 15px;
+      }
+    }
+
+    .tabs-ctn {
+      padding-top: 35px;
+      padding-bottom: 52px;
+    }
+
+    .select-tabs,
+    .daily-tabs {
+      .tabs-item {
+        a {
+          font-size: 24px;
+          padding: 0 15px;
+        }
+      }
+    }
+
+    .redir-ctn {
+      margin: 0 84px 0 86px;
+    }
+
+    .tomato-image {
+      margin: 207px auto 65px;
+    }
+  }
 }

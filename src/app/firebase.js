@@ -13,19 +13,19 @@ export default class Firebase {
       messagingSenderId: "396525315508"
     };
     firebase.initializeApp(this.config);
-    EventBus.subscribe('createTask', this.createTask.bind(this));
+    //EventBus.subscribe('createTask', this.createTask.bind(this));
   }
 
-  createTask(data){
-    const task = new TaskModel(data);
-    firebase.database().ref('tasks/' + task.id).set(task);
-
-    this.getDataFromFirebase().then( data => {
-      const taskListCollectionModel = new TasksCollectionModel(data);
-      const taskListCollectionView = new TasksCollectionView(taskListCollectionModel);
-      tasksCollectionView.render();
-    })
-  }
+  // createTask(data){
+    // const task = new TaskModel(data);
+    // firebase.database().ref('tasks/' + task.id).set(task);
+  //
+  //   this.getDataFromFirebase().then( data => {
+  //     const taskListCollectionModel = new TasksCollectionModel(data);
+  //     const taskListCollectionView = new TasksCollectionView(taskListCollectionModel);
+  //     tasksCollectionView.render();
+  //   })
+  // }
 
   getTasks(){
     return firebase.database().ref('tasks').once('value').then((snap) => {return snap.val();}
@@ -33,4 +33,4 @@ export default class Firebase {
   }
 }
 const firik = new Firebase();
-firik.createTask();
+// firik.createTask();

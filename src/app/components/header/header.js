@@ -10,7 +10,7 @@ window.addEventListener('scroll',(e) => {
   if (prevPosition > 1) {
     top.className = 'fixed-header';
     addBtn.className = 'icon-add';
-    main.style.paddingTop = 100+"px";
+    main.style.paddingTop = 96+"px";
   } else {
     top.className = '';
     addBtn.className = 'icon-add hide';

@@ -5,6 +5,29 @@ header{
   .logo{
     display: none;
   }
+  nav{
+      padding: 58px 0 10px;
+      ul{
+        display: flex;
+        justify-content: flex-end;
+        list-style-type: none;
+        li{
+          padding-left: 35px;
+          font-size: 18px;
+          a{
+            color: @Nepal;
+            text-decoration: none;
+            &:hover,
+            &:focus{
+              color: @Spray;
+            }
+          }
+          .active{
+            color: @White;
+          }
+        }
+      }
+    }
   .icon-trash{
     position: relative;
     .trashCounter{
@@ -45,6 +68,33 @@ header{
     }
     nav{
       padding: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px){
+  header {
+    nav {
+      padding: 57px 0 10px;
+      ul {
+        li {
+          font-size: 25px;
+          padding-left: 43px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px){
+  header {
+    nav {
+      padding: 52px 0 10px;
+      ul {
+        li {
+          font-size: 26px;
+        }
+      }
     }
   }
 }
