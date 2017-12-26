@@ -5,6 +5,9 @@
 
 body {
   background: @background-color;
+  min-width: 600px;
+  position: relative;
+  margin: 0 auto;
 }
 
 a {
@@ -109,13 +112,13 @@ main {
     font: @message;
     color: @Nepal;
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 62px;
   }
 
   .tomato-image {
-    width: 165px;
-    height: 170px;
-    margin: 35px auto 70px;
+    width: 171px;
+    height: 160px;
+    margin: 96px auto 70px;
   }
 
   .btn{
@@ -163,9 +166,7 @@ main {
   .btn-ctn {
     display: flex;
     justify-content: center;
-    .btn {
-      width: 50%;
-    }
+
     .save-btn {
       padding-left: 45px;
       padding-right: 45px;
@@ -186,11 +187,12 @@ main {
   }
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1279px) {
   .wrapper {
     margin: 0 50px;
   }
   main{
+    padding-bottom: 100px;
     .title-ctn {
       margin-bottom: 58px;
       .title {
@@ -231,6 +233,7 @@ main {
     margin: 0 28px;
   }
   main {
+    padding-bottom: 70px;
     .title-ctn {
       position: absolute;
       top: -50px;
@@ -260,8 +263,18 @@ main {
       }
     }
 
+    .btn-ctn{
+      .save-btn{
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+    }
+
     .redir-ctn {
       margin: 0 84px 0 86px;
+      .btn {
+        width: 50%;
+      }
     }
 
     .tomato-image {

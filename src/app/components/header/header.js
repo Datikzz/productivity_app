@@ -32,3 +32,21 @@ trashBtn.addEventListener('click',(e) => {
   e.preventDefault();
   EventBus.emit('renderTrashMode');
 } );
+
+let selectedBtn;
+
+const nav = document.getElementsByClassName('nav-buttons')[0];
+nav.addEventListener('click',(e) =>{
+  let target = e.target;
+  if(target.classList.contains('nav-link')) {
+    highlight(target);
+  }
+});
+
+function highlight(el){
+  if(selectedBtn){
+    selectedBtn.classList.remove('active');
+  }
+  selectedBtn = el;
+  selectedBtn.classList.add('active');
+}

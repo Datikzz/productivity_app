@@ -14,20 +14,23 @@ let context = {tasks: [
 
 EventBus.subscribe('renderTasksTempl', renderTasksTempl);
 EventBus.subscribe('renderTrashMode', renderTrashMode);
+EventBus.subscribe('hideTrashIcon', hideTrashIcon);
+EventBus.subscribe('showTrashIcon', showTrashIcon);
 
 export function renderTasksTempl(){
-  let main = document.getElementsByTagName("main")[0];
+  const main = document.getElementsByTagName("main")[0];
 
   if(sessionStorage.getItem('newUser')){
     main.innerHTML = tasksTempl(context);
-    let addBtn = document.querySelector('.addTask-btn');
+    EventBus.emit('showTrashIcon');
+    const addBtn = document.querySelector('.addTask-btn');
     addBtn.addEventListener('click', (e) => {
       e.preventDefault();
       EventBus.emit('renderAddModal');
     }
     );
 
-    let tasksList = document.querySelector('.tasks-list');
+    const tasksList = document.querySelector('.tasks-list');
     tasksList.addEventListener('click',(e)=>{
       const target = e.target;
       if(target.classList.contains('edit-btn')){
@@ -35,9 +38,9 @@ export function renderTasksTempl(){
       }
     });
 
-    let globalListCtn = document.querySelector(".globalList-ctn");
+    const globalListCtn = document.querySelector(".globalList-ctn");
     globalListCtn.innerHTML = globalListTempl(context);
-    let globalListBtn = document.querySelector('.globalList-btn');
+    const globalListBtn = document.querySelector('.globalList-btn');
     globalListBtn.addEventListener('click', (e) => {
       e.preventDefault();
       renderGlobalList();
@@ -48,7 +51,7 @@ export function renderTasksTempl(){
   else {
     sessionStorage.setItem('newUser','U');
     main.innerHTML = firstEntranceTempl();
-
+    EventBus.emit('hideTrashIcon');
     document.querySelector('.addTask-btn').addEventListener('click', (e) => {
       e.preventDefault();
       EventBus.emit('renderAddModal');
@@ -56,7 +59,8 @@ export function renderTasksTempl(){
     );
     document.querySelector('.skip-btn').addEventListener('click', (e) => {
       e.preventDefault();
-      renderTasksTempl()}
+      EventBus.emit('renderTasksTempl');
+    }
     );
 
     document.querySelector('.settings-btn').addEventListener('click', (e) => {
@@ -66,24 +70,34 @@ export function renderTasksTempl(){
   }
 }
 
+function hideTrashIcon(){
+  const trashIcon = document.querySelector('.icon-trash');
+  trashIcon.parentElement.classList.add('hide');
+}
+
+function showTrashIcon(){
+  const trashIcon = document.querySelector('.icon-trash');
+  trashIcon.parentElement.classList.remove('hide');
+}
+
 function renderTrashMode(){
-  let trashBtn = document.getElementsByClassName('tasks-list');
+  const trashBtn = document.getElementsByClassName('tasks-list');
   for(let i=0;i < trashBtn.length; i++){
     trashBtn[i].classList.toggle('deleteMode');//add
   }
 
-  let selectTabs = document.getElementsByClassName('select-tabs');
+  const selectTabs = document.getElementsByClassName('select-tabs');
   for(let i=0;i < selectTabs.length; i++){
     selectTabs[i].classList.toggle('hide');
   }
 
-  let selectBtn = document.querySelector('.selectAll');
+  const selectBtn = document.querySelector('.selectAll');
   selectBtn.addEventListener('click', (e) => {
     e.preventDefault();
     selectAll()}
   );
 
-  let deselectBtn = document.querySelector('.deselectAll');
+  const deselectBtn = document.querySelector('.deselectAll');
   deselectBtn.addEventListener('click', (e) => {
     e.preventDefault();
     deselectAll()}

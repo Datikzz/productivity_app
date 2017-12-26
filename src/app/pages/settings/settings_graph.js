@@ -1,5 +1,9 @@
 export function renderGraph() {
   render();
+  try{
+    window.addEventListener('resize', render);
+  }
+  catch(e){}
   function Voter(options){
     let elem = options.elem;
     let step = options.step;

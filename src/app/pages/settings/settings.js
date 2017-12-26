@@ -9,7 +9,7 @@ export default class Settings {
   renderSettingsTempl(){
     main.innerHTML = settingsTempl();
     renderGraph();
-
+    EventBus.emit('hideTrashIcon');
     const categoriesBtn = document.querySelectorAll('.tabs-item')[1];
     categoriesBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -19,6 +19,7 @@ export default class Settings {
 
   renderCategoriesTempl(){
     main.innerHTML = categoriesTempl();
+    EventBus.emit('hideTrashIcon');
     const pomodorosBtn = document.querySelectorAll('.tabs-item')[0];
     pomodorosBtn.addEventListener('click',(e) => {
       e.preventDefault();

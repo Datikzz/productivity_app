@@ -1,7 +1,18 @@
 
+main {
+  .fe-ctn {
+    justify-content: center;
+    .btn {
+      font-size: 18px;
+      padding-bottom: 8px;
+      margin: 15px;
+      width: auto;
+    }
+  }
+}
+
 @media screen and (max-width: 1280px) {
   main {
-    padding-bottom: 100px;
     .message {
       padding: 0 80px;
       margin-bottom: 95px;
@@ -9,10 +20,11 @@
       font-size: 36px;
     }
     .fe-ctn {
-      margin: 0 37%;
+      justify-content: center;
       .btn {
         font-size: 18px;
         padding-bottom: 8px;
+        margin: 15px;
         width: auto;
       }
       .skip-btn{
@@ -30,22 +42,23 @@
 }
 @media screen and (max-width: 768px) {
   main {
-    padding-bottom: 100px;
     .message {
       padding: 0 80px;
-      margin-bottom: 199px;
+      margin-bottom: 154px;
       line-height: 45px;
       br{
         display: none;
       }
     }
     .fe-ctn {
-      margin: 0 84px 0 86px;
+      margin: 0 68px 0 89px;
+      justify-content: space-between;
       .btn {
         width: 48%;
         font-size: 22.64px;
         padding-top: 21px;
         padding-bottom: 22px;
+        margin: 0;
       }
       .skip-btn {
         padding-left: 0;

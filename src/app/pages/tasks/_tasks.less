@@ -20,6 +20,21 @@
 
 section.tasks-ctn {
   margin-bottom: 40px;
+
+  .tasks-list-done{
+    .task-item{
+      background: @Silver;
+      .task-info{
+        .task-title{
+          font: @heading3;
+          text-decoration: line-through;
+        }
+      }
+      .edit-btn{
+        display: none;
+      }
+    }
+  }
 }
 .task-item {
   display: flex;
@@ -205,13 +220,13 @@ section.globalList-ctn {
 
   .deleteMode {
     .trs-ctn {
-      margin-right: 15px;
-      width: 87px !important;;
+      margin-right: 30px;
+      width: 101px !important;;
     }
 
     .delTask-btn + label:before {
-      padding: 20px !important;
-      width: 47px !important;
+      padding: 32px 20px !important;
+      width: 61px !important;
     }
   }
 
@@ -224,8 +239,8 @@ section.globalList-ctn {
     .trs-ctn {
       .delTask-btn{
         & + label:before{
-          padding: 34px 0 33px 0;
-          font-size: 47px;
+          padding: 32px 0;
+          font-size: 50px;
         }
       }
     }

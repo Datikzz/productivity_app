@@ -8,7 +8,7 @@ import { EventBus } from '../../eventBus';
 class Modal {
   renderAddModal(){
     const modal = document.querySelector('.modal-wrapper');
-    modal.style.position = 'fixed';
+    modal.style.position = 'absolute';
     modal.innerHTML = addModalTempl();
 
     const closeBtn = document.querySelector('.icon-close');
@@ -26,7 +26,7 @@ class Modal {
 
   renderEditModal() {
     const modal = document.querySelector('.modal-wrapper');
-    modal.style.position = 'fixed';
+    modal.style.position = 'absolute';
     modal.innerHTML = editModalTempl();
 
     const closeBtn = document.querySelector('.icon-close');
@@ -42,7 +42,7 @@ class Modal {
 
   renderRemoveModal() {
     const modal = document.querySelector('.modal-wrapper');
-    modal.style.position = 'fixed';
+    modal.style.position = 'absolute';
     modal.innerHTML = removeModalTempl();
 
     const closeBtn = document.querySelector('.icon-close');
