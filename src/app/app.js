@@ -5,6 +5,7 @@ import './components/header/header';
 import './components/modal/modal';
 
 
+
 import { renderReportTempl } from '../app/pages/report/report';
 import { renderTimerTempl } from '../app/pages/timer/timer';
 import { renderTasksTempl } from '../app/pages/tasks/tasks';
@@ -25,3 +26,5 @@ router.add(/tasks-list/, renderTasksTempl);
 router.add(renderTasksTempl);
 
 router.listen();
+
+

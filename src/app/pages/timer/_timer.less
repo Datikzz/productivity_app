@@ -1,8 +1,8 @@
 main{
   .timer-title{
     .title{
-      padding-right: 0px;
-      margin-bottom: 40px;
+      padding-right: 0;
+      margin-bottom: 0;
     }
   }
 
@@ -10,6 +10,13 @@ main{
     font-size: 16px;
     padding: 14px 48px;
   }
+}
+
+.addTask-btn {
+  background: none;
+  outline: none;
+  border: none;
+  color: @White;
 }
 
 .subheading{
@@ -33,38 +40,150 @@ main{
   }
 }
 
-.timer-img{
-  width: 253px;
+.timer-group {
   height: 253px;
-  padding-top: 50px;
-  padding-bottom: 70px;
-  margin: 0 auto;
+  margin: 50px auto 70px;
+  position: relative;
+  width: 253px;
+  border: 5px solid @urgent;
+  border-radius: 50%;
 }
 
-.bottom-btn-ctn{
-  .btn:first-child{
+.timer {
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  height: 240px;
+  width: 240px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  &:after {
+  background: @Madison;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  position: absolute;
+  height: 170px;
+  width: 170px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  }
+}
+
+.timer .hand {
+  float: left;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 50%;
+  span {
+    border-top-color: @Nepal;
+    border-right-color: @Nepal;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    height: 0;
+    width: 0;
+    right: -4px;
+    top: 0;
+    transform: rotate(225deg);
+    border-style: solid;
+    border-width: 124px;
+    animation-timing-function: linear;
+  }
+}
+
+.timer .hand:first-child {
+  transform: rotate(180deg);
+}
+
+.face {
+  border-radius: 50%;
+  height: 196px;
+  width: 196px;
+  position: absolute;
+  text-align: center;
+  color: @White;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.face h2 {
+  padding-top: 45%;
+  font-family: @roboto;
+  font-size: 24px;
+}
+
+
+.face .num {
+  padding-top: 16%;
+  font-family: @roboto;
+  font-size: 100px;
+}
+
+.face p {
+  border-radius: 20px;
+  font-size: 24px;
+  font-weight: 400;
+  font-family: @roboto;
+  position: absolute;
+  bottom: 28px;
+}
+
+.timer-redir-btn{
+  .btn:nth-child(odd){
     margin-right: 2%;
   }
 }
 
-.timer-ctn{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  span{
-    font-size: 50px;
-    color: @Nepal;
-    &:hover{
-      color: @Spray;
-    }
+
+.icon-arrow-right,
+.icon-arrow-left {
+  font-size: 40px;
+  position: absolute;
+  color: @Nepal;
+}
+
+.icon-arrow-right{
+  right: 0;
+}
+
+@keyframes spin1 {
+  0% {
+    transform: rotate(225deg);
+  }
+  50% {
+    transform: rotate(225deg);
+  }
+  100% {
+    transform: rotate(405deg);
   }
 }
 
+@keyframes spin2 {
+  0% {
+    transform: rotate(225deg);
+  }
+  50% {
+    transform: rotate(405deg);
+  }
+  100% {
+    transform: rotate(405deg);
+  }
+}
 
 @media screen and (max-width: 1280px) {
   main {
     .timer-title {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
   }
 
@@ -76,11 +195,11 @@ main{
     font-size: 22px;
   }
 
-  .timer-img {
+  .timer-group {
     width: 265px;
     height: 265px;
-    padding-top: 116px;
-    padding-bottom: 70px;
+    margin-top: 116px;
+    margin-bottom: 70px;
   }
 }
 
@@ -103,9 +222,9 @@ main{
       padding-top: 33px;
     }
 
-    .timer-img{
-      padding-top: 78px;
-      padding-bottom: 258px;
+    .timer-group{
+      margin-top: 78px;
+      margin-bottom: 258px;
     }
 
     .start-btn {

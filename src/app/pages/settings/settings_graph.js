@@ -46,11 +46,11 @@ export function renderGraph() {
     let iterVal = parseInt(document.getElementById("iteration-value").innerHTML,10);
     let time = (workTimeVal*(iterVal*2))+(shortBreakVal*((iterVal*2)-2))+longBreakVal;
     let firstCycle = (workTimeVal*iterVal)+(shortBreakVal*(iterVal-1))+longBreakVal;
-    let timePoint = document.getElementsByClassName("timePoint");
-    let workTimeLine = document.getElementsByClassName("workTime-line");
-    let shortBreakLine = document.getElementsByClassName("shortBreak-line");
-    let longBreakLine = document.getElementsByClassName("longBreak-line");
-    let iterationLine = document.getElementsByClassName("iteration-line");
+    const timePoint = document.getElementsByClassName("timePoint");
+    const workTimeLine = document.getElementsByClassName("workTime-line");
+    const shortBreakLine = document.getElementsByClassName("shortBreak-line");
+    const longBreakLine = document.getElementsByClassName("longBreak-line");
+    const iterationLine = document.getElementsByClassName("iteration-line");
 
     for (let i = 0; i < workTimeLine.length; i++) {
       workTimeLine[i].style.width = ((ctnWidth.offsetWidth * workTimeVal)) / time + "px";
@@ -63,8 +63,8 @@ export function renderGraph() {
     }
     longBreakLine[0].style.width = ((ctnWidth.offsetWidth*longBreakVal)/time)+"px";
 
-    let endTime = document.getElementsByClassName('endTime')[0];
-    let phaseTime = document.getElementsByClassName('phaseTime')[0];
+    const endTime = document.getElementsByClassName('endTime')[0];
+    const phaseTime = document.getElementsByClassName('phaseTime')[0];
     endTime.innerText= convertMinsToHrsMins(time);
     endTime.innerHTML+="<br><span class='marker'>.</span>";
     phaseTime.innerText= "First cycle: "+convertMinsToHrsMins(firstCycle);

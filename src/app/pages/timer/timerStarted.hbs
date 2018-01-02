@@ -2,19 +2,31 @@
     <h1 class="title">1. Creating a New Design</h1>
 </div>
 <p class="subheading">Lorem ipsum dolor sit amet consectetur adipiscing</p>
+
 <ul class="tomato-list">
     <li><img src="/empty-tomato.svg" alt="tomato"></li>
     <li><img src="/empty-tomato.svg" alt="tomato"></li>
     <li><img src="/empty-tomato.svg" alt="tomato"></li>
+    <button class="addTask-btn icon-add"></button>
 </ul>
-<a href="#/tasks-list/" class="icon-arrow-left"></a>
+
+
+<a href="#/tasks-list/" class="icon-arrow-left hide"></a>
+<a href="#/reports/" class="icon-arrow-right hide"></a>
 <div class="timer-group">
     <div class="timer minute">
         <div class="hand"><span></span></div>
         <div class="hand"><span></span></div>
     </div>
     <div class="face">
-        <h2 class="text">Lets do it!</h2>
+        <h2 class="text"></h2>
+        <h2 class="num">5</h2>
+        <p class="time-text">min</p>
     </div>
 </div>
-<a href="#" class="btn start-btn green-btn">Start</a>
+<div class="btn-ctn timer-redir-btn">
+    <a href="#" class="btn red-btn">Fail Pomodora</a>
+    <a href="#" class="btn green-btn">Finish Pomodora</a>
+    <a href="#" class="btn green-btn hide">Start Pomodora</a>
+    <a href="#" class="btn blue-btn hide">Finish Task</a>
+</div>
