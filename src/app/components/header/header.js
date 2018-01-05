@@ -1,6 +1,6 @@
 import './header.less';
 import headerTempl from './header.hbs';
-import { EventBus } from '../../eventBus';
+import eventbus from '../../eventBus';
 
 window.addEventListener('scroll',(e) => {
   const top  = document.getElementById("header"),
@@ -24,13 +24,13 @@ header.innerHTML = headerTempl();
 const addBtn = document.querySelector('.icon-add');
 addBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  EventBus.emit('renderAddModal');
+  eventbus.emit('renderAddModal');
 });
 
 const trashBtn = document.querySelector('.icon-trash');
 trashBtn.addEventListener('click',(e) => {
   e.preventDefault();
-  EventBus.emit('renderTrashMode');
+  eventbus.emit('renderTrashMode');
 } );
 
 let selectedBtn;

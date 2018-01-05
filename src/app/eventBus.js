@@ -1,7 +1,10 @@
-export const EventBus = {
-  handlers: [],
+class EventBus {
 
-  emit: function(eventName) {
+  constructor() {
+    this.handlers = [];
+  }
+
+  emit(eventName, arg) {
     // console.log('blah1');
     // this.handlers.filter((handler) => {
     //   handler.eventName === eventName;
@@ -11,12 +14,12 @@ export const EventBus = {
     // });
     for(let i in this.handlers){
       if(this.handlers[i].eventName === eventName){
-        this.handlers[i].handlerFn();
+        this.handlers[i].handlerFn(arg);
       }
     }
-  },
+  }
 
-  subscribe: function(eventName, handlerFn) {
+  subscribe(eventName, handlerFn) {
     this.handlers.push(
       {
       'eventName': eventName,
@@ -24,5 +27,5 @@ export const EventBus = {
       });
   }
 }
-
-console.log(EventBus.handlers);
+const eventbus = new EventBus();
+export default eventbus;

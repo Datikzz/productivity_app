@@ -1,11 +1,11 @@
 import timerTempl from './timer.hbs';
 import timerStartedTempl from './timerStarted.hbs';
-import { EventBus } from '../../eventBus';
+import eventbus from '../../eventBus';
 
 export function renderTimerTempl(){
   const main = document.getElementsByTagName("main")[0];
   main.innerHTML = timerTempl();
-  EventBus.emit('hideTrashIcon');
+  eventbus.emit('hideTrashIcon');
 }
 
   const main = document.getElementsByTagName("main")[0];
@@ -171,4 +171,3 @@ function finishTask() {
   document.querySelector('.icon-arrow-left').classList.remove('hide');
   document.querySelector('.icon-arrow-right').classList.remove('hide');
 }
-

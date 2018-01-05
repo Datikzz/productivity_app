@@ -11,7 +11,7 @@ import { renderTimerTempl } from '../app/pages/timer/timer';
 import { renderTasksTempl } from '../app/pages/tasks/tasks';
 import Settings from '../app/pages/settings/settings';
 import Router from './router';
-import { EventBus } from './eventBus';
+import eventbus from './eventBus';
 import Firebase from './firebase';
 
 const router = new Router();
@@ -26,5 +26,3 @@ router.add(/tasks-list/, renderTasksTempl);
 router.add(renderTasksTempl);
 
 router.listen();
-
-

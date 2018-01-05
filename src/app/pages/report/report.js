@@ -1,11 +1,11 @@
 import reportTempl from './report.hbs';
-import { EventBus } from '../../eventBus';
+import eventbus from '../../eventBus';
 import Highcharts from 'highcharts';
 require('highcharts/modules/exporting')(Highcharts);
 export function renderReportTempl(){
   const main = document.getElementsByTagName("main")[0];
   main.innerHTML = reportTempl();
-  EventBus.emit('hideTrashIcon');
+  eventbus.emit('hideTrashIcon');
   renderChart();
 }
 
@@ -90,4 +90,3 @@ function renderChart() {
     }]
   });
 }
-

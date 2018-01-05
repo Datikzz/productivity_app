@@ -2,7 +2,7 @@ import addModalTempl from './addTask.hbs';
 import editModalTempl from './editTask.hbs';
 import removeModalTempl from './removeTask.hbs';
 import * as firebase from 'firebase';
-import { EventBus } from '../../eventBus';
+import eventbus from '../../eventBus';
 
 
 class Modal {
@@ -62,7 +62,7 @@ class Modal {
     console.log('blah blah data sent');
     let taskType = document.querySelector('input[name="categoryOptions"]:checked').value;
     let priorityType = document.querySelector('input[name="priorityOptions"]:checked').value;
-    let date = document.getElementById('taskDeadline').value;
+    let deadline = document.getElementById('taskDeadline').value;
     let taskTitle = document.getElementById('taskTitle').value;
     let taskDesc = document.getElementById('taskDesc').value;
     let estimation = document.querySelector('input[name="estimation"]:checked').value;
@@ -70,7 +70,7 @@ class Modal {
     this.saveTasks({
       taskType: taskType,
       priorityType: priorityType,
-      date: date,
+      deadline: deadline,
       taskTitle: taskTitle,
       taskDesc: taskDesc,
       estimation: estimation
@@ -78,8 +78,9 @@ class Modal {
   }
 
   saveTasks(data){
-    let newTask = database.push();
-    newTask.set(data);
+    eventbus.emit('createTask', data);
+    // let newTask = database.push();
+    // newTask.set(data);
   }
 }
 
@@ -94,6 +95,6 @@ class Modal {
 
 export let modal = new Modal();
 
-EventBus.subscribe('renderAddModal', modal.renderAddModal.bind(modal));
-EventBus.subscribe('renderEditModal', modal.renderEditModal.bind(modal));
-EventBus.subscribe('renderRemoveModal', modal.renderRemoveModal.bind(modal));
+eventbus.subscribe('renderAddModal', modal.renderAddModal.bind(modal));
+eventbus.subscribe('renderEditModal', modal.renderEditModal.bind(modal));
+eventbus.subscribe('renderRemoveModal', modal.renderRemoveModal.bind(modal));

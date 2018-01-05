@@ -1,6 +1,8 @@
 import * as firebase from 'firebase';
-import { EventBus } from './eventBus';
+import eventbus from './eventBus';
 import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
+import TaskModel from '../app/pages/tasks/tasks_model';
+import {renderTasksTempl}  from '../app/pages/tasks/tasks';
 
 export default class Firebase {
   constructor(config) {
@@ -12,20 +14,29 @@ export default class Firebase {
       storageBucket: "pomodoros-19210.appspot.com",
       messagingSenderId: "396525315508"
     };
+    eventbus.subscribe('createTask', this.createTask.bind(this));
     firebase.initializeApp(this.config);
-    //EventBus.subscribe('createTask', this.createTask.bind(this));
+    this.firebaseRef = firebase.database().ref('tasks');
+    //eventBus.subscribe('createTask', this.createTask.bind(this));
   }
 
-  // createTask(data){
-    // const task = new TaskModel(data);
-    // firebase.database().ref('tasks/' + task.id).set(task);
-  //
-  //   this.getDataFromFirebase().then( data => {
-  //     const taskListCollectionModel = new TasksCollectionModel(data);
-  //     const taskListCollectionView = new TasksCollectionView(taskListCollectionModel);
-  //     tasksCollectionView.render();
-  //   })
-  // }
+  getDataFromFirebase() {
+    return this.firebaseRef.once('value').then((snap) => {
+      return snap.val();
+    });
+  }
+
+  createTask(data){
+    const task = new TaskModel(data);
+    firebase.database().ref('tasks/' + task.id).set(task);
+
+    //renderTasksTempl();
+
+    this.getDataFromFirebase().then( data => {
+      const taskListCollectionModel = new TasksCollectionModel(data);
+      renderTasksTempl(taskListCollectionModel.getTasksData());
+    })
+  }
 
   getTasks(){
     return firebase.database().ref('tasks').once('value').then((snap) => {return snap.val();}

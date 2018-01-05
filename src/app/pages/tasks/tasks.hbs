@@ -14,7 +14,7 @@
 </div>
 <section class="tasks-ctn">
     <ul class="tasks-list">
-      {{#each tasks}}
+      {{#each this}}
           <li class="task-item {{taskType}} {{priorityType}}">
             <div class="trs-ctn">
               <input type="checkbox" name="commonTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{taskId}}">

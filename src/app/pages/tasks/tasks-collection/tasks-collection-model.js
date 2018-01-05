@@ -1,7 +1,8 @@
 export default class TasksCollectionModel {
-  constructor(){
+  constructor(data){
     this.data = data;
   }
+
   getTasksData(){
     const context = {
       work: [],
@@ -11,20 +12,21 @@ export default class TasksCollectionModel {
       other: []
     };
     for(let i in this.data){
-      switch(this.data[i][category]){
-        case 'work':
+
+      switch(this.data[i]['taskType']){
+        case 'task-work':
           context['work'].push(this.data[i]);
           break;
-        case 'hobby':
+        case 'task-hobby':
           context['hobby'].push(this.data[i]);
           break;
-        case 'education':
+        case 'task-education':
           context['education'].push(this.data[i]);
           break;
-        case 'sport':
+        case 'task-sport':
           context['sport'].push(this.data[i]);
           break;
-        case 'other':
+        case 'task-other':
           context['other'].push(this.data[i]);
           break;
         default:

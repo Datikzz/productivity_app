@@ -1,8 +1,16 @@
 import tasksTempl from './tasks.hbs';
 import globalListTempl from './global-tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
+import eventbus from '../../eventBus';
 
-import { EventBus } from '../../eventBus';
+// 
+// constructor(model) {
+//   this.model = model;
+// }
+//
+// render() {
+//   const context = this.model.getTasksData();
+// }
 
 let context = {tasks: [
   {taskId: 1, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: null, dateDay: "Today", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3},
@@ -12,21 +20,22 @@ let context = {tasks: [
   {taskId: 5, taskType: "task-hobby", priorityType: "priority-urgent", dateNum: 23, dateDay: "November", taskTitle: "Lorem ipsum sit amet",taskDesc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",priority: 3}]};
 
 
-EventBus.subscribe('renderTasksTempl', renderTasksTempl);
-EventBus.subscribe('renderTrashMode', renderTrashMode);
-EventBus.subscribe('hideTrashIcon', hideTrashIcon);
-EventBus.subscribe('showTrashIcon', showTrashIcon);
+eventbus.subscribe('renderTasksTempl', renderTasksTempl);
+eventbus.subscribe('renderTrashMode', renderTrashMode);
+eventbus.subscribe('hideTrashIcon', hideTrashIcon);
+eventbus.subscribe('showTrashIcon', showTrashIcon);
 
-export function renderTasksTempl(){
+export function renderTasksTempl(context){
+  console.log(context);
   const main = document.getElementsByTagName("main")[0];
 
   if(sessionStorage.getItem('newUser')){
     main.innerHTML = tasksTempl(context);
-    EventBus.emit('showTrashIcon');
+    eventbus.emit('showTrashIcon');
     const addBtn = document.querySelector('.addTask-btn');
     addBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      EventBus.emit('renderAddModal');
+      eventbus.emit('renderAddModal');
     }
     );
 
@@ -34,7 +43,7 @@ export function renderTasksTempl(){
     tasksList.addEventListener('click',(e)=>{
       const target = e.target;
       if(target.classList.contains('edit-btn')){
-        EventBus.emit('renderEditModal');
+        eventbus.emit('renderEditModal');
       }
     });
 
@@ -51,21 +60,21 @@ export function renderTasksTempl(){
   else {
     sessionStorage.setItem('newUser','U');
     main.innerHTML = firstEntranceTempl();
-    EventBus.emit('hideTrashIcon');
+    eventbus.emit('hideTrashIcon');
     document.querySelector('.addTask-btn').addEventListener('click', (e) => {
       e.preventDefault();
-      EventBus.emit('renderAddModal');
+      eventbus.emit('renderAddModal');
    }
     );
     document.querySelector('.skip-btn').addEventListener('click', (e) => {
       e.preventDefault();
-      EventBus.emit('renderTasksTempl');
+      eventbus.emit('renderTasksTempl');
     }
     );
 
     document.querySelector('.settings-btn').addEventListener('click', (e) => {
       e.preventDefault();
-      EventBus.emit('renderSettingsTempl')}
+      eventbus.emit('renderSettingsTempl')}
     );
   }
 }
