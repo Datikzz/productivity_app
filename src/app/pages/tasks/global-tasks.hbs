@@ -14,31 +14,35 @@
 
 <section class="globalList-ctn">
   <ul class="global-taskList tasks-list">
-  {{#each tasks}}
-  <li class="global-taskListItem {{taskType}}">
-    <h4 class="global-taskListItem-title">{{taskType}}</h4>
-    <li class="task-item {{taskType}} {{priorityType}}">
-      <div class="trs-ctn">
-        <input type="checkbox" name="deleteGlobalTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
-        <label for="task-{{taskId}}" class="icon-trash"></label>
-      </div>
-      <div class="date-ctn">
-        {{#if dateNum}}
-          <p class="date-num">{{dateNum}}</p>
-        {{/if}}
-        <p class="date-day">{{dateDay}}</p>
-      </div>
-      <div class="task-info">
-        <h3 class="task-title">{{taskTitle}}</h3>
-        <p class="task-desc">{{taskDesc}}</p>
-      </div>
-      <div class="btn-ctn">
-        <button class="btn icon-arrows-up"></button>
-        <button class="btn edit-btn icon-edit"></button>
-      </div>
-      <a href="#" class="priority-ctn icon-tomato" role="button"><span>{{priority}}</span></a>
+  {{#each this}}
+    {{#if this.length}}
+      <li class="global-taskListItem task-{{@key}}">
+      <h4 class="global-taskListItem-title">{{@key}}</h4>
+        {{#each this}}
+        <li class="task-item {{this.taskType}} {{this.priorityType}}">
+          <div class="trs-ctn">
+            <input type="checkbox" name="deleteGlobalTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{this.taskId}}">
+            <label for="task-{{this.taskId}}" class="icon-trash"></label>
+          </div>
+          <div class="date-ctn">
+            {{#if this.dateNum}}
+              <p class="date-num">{{this.dateNum}}</p>
+            {{/if}}
+            <p class="date-day">{{this.dateDay}}</p>
+          </div>
+          <div class="task-info">
+            <h3 class="task-title">{{this.taskTitle}}</h3>
+            <p class="task-desc">{{this.taskDesc}}</p>
+          </div>
+          <div class="btn-ctn">
+            <button class="btn icon-arrows-up"></button>
+            <button class="btn edit-btn icon-edit"></button>
+          </div>
+          <a href="#/timer/" class="priority-ctn icon-tomato" role="button"><span>{{this.estimationTotal}}</span></a>
+        </li>
+        {{/each}}
     </li>
-  </li>
+      {{/if}}
   {{/each}}
   </ul>
 </section>

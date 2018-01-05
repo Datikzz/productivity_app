@@ -1,16 +1,17 @@
 import addModalTempl from './addTask.hbs';
 import editModalTempl from './editTask.hbs';
 import removeModalTempl from './removeTask.hbs';
-import * as firebase from 'firebase';
 import eventbus from '../../eventBus';
-
+import 'jquery-ui/ui/widgets/datepicker';
+import 'webpack-jquery-ui/css';
+import 'jquery-ui/themes/base/base.css';
 
 class Modal {
   renderAddModal(){
     const modal = document.querySelector('.modal-wrapper');
-    modal.style.position = 'absolute';
+    modal.style.position = 'fixed';
     modal.innerHTML = addModalTempl();
-
+    $('#taskDeadline').datepicker();
     const closeBtn = document.querySelector('.icon-close');
     closeBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -79,21 +80,10 @@ class Modal {
 
   saveTasks(data){
     eventbus.emit('createTask', data);
-    // let newTask = database.push();
-    // newTask.set(data);
   }
 }
 
-
-//
-// let database = firebase.database().ref("tasks");
-//
-// let printRef = firebase.database().ref("tasks");
-// printRef.on('value', function (snapshot) {
-//   console.log(snapshot.val());
-// });
-
-export let modal = new Modal();
+export const modal = new Modal();
 
 eventbus.subscribe('renderAddModal', modal.renderAddModal.bind(modal));
 eventbus.subscribe('renderEditModal', modal.renderEditModal.bind(modal));
