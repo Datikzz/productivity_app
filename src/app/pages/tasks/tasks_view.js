@@ -4,7 +4,6 @@ import completedListTempl from './done_tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
 import eventbus from '../../eventBus';
 import fireBase from '../../firebase';
-import firebase from 'firebase';
 
 
 export default class TasksCollectionView {
@@ -49,17 +48,18 @@ export default class TasksCollectionView {
         e.preventDefault();
         this.renderCompletedTasks();
       });
-      
+
       if(main){
         main.addEventListener('click',(e)=>{
           const target = e.target;
           if(target.classList.contains('edit-btn')){
             const taskId = target.parentElement.parentElement.childNodes[1].childNodes[1].value;
-            eventbus.emit('renderEditModal', taskId);
+            console.log(this.model.data[taskId]);
+            eventbus.emit('renderEditModal', this.model.data[taskId]);
           }
         });
       }
-      
+
       console.log(dailyTasks);
       console.log(globalTasks);
       globalListCtn.innerHTML = globalListTempl(globalTasks);
@@ -86,7 +86,7 @@ export default class TasksCollectionView {
       );
     }
   }
-  
+
   renderCompletedTasks() {
     const completedTasks = this.model.getCompletedTasksData();
     const tasksList = document.getElementsByClassName('tasks-ctn')[0];
@@ -133,12 +133,13 @@ export default class TasksCollectionView {
     const filterMiddle = this.model.getFilteredGlobalTasksData('priority-middle');
     const filterLow = this.model.getFilteredGlobalTasksData('priority-low');
     const filterNav = document.getElementsByClassName('filter-tabs')[0];
+
     if(!this.globalOpened){
       globalListWrapper.classList.remove('hide');
       globalListBtn.className = 'icon-global-list-arrow-down';
-      
+
       this.highlight(all);
-      
+
       filterNav.addEventListener('click',(e) =>{
         let target = e.target;
         if(target.classList.contains('filter-item')) {
@@ -149,27 +150,27 @@ export default class TasksCollectionView {
       all.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterAll);
-      })
+      });
 
       urgent.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterUrgent);
-      })
+      });
 
       high.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterHigh);
-      })
+      });
 
       middle.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterMiddle);
-      })
-      
+      });
+
       low.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterLow);
-      })
+      });
 
       this.globalOpened = true;
       this.moveToDaily();
@@ -276,7 +277,7 @@ export default class TasksCollectionView {
     this.commonChecked=true;
     }
   }
-  
+
   recountRemoves() {
     if(this.removesCounter!=0) {
       for(let i in this.dailyItems) {
@@ -300,9 +301,9 @@ export default class TasksCollectionView {
     document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
     this.globalChecked=true;
     }
-    
+
   }
-  
+
   recountGlobalRemoves() {
     if(this.removesGlobalCounter!=0) {
       for(let i in this.globalItems) {

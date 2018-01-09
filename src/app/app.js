@@ -10,7 +10,6 @@ import { settings }  from '../app/pages/settings/settings';
 import TasksCollectionView from '../app/pages/tasks/tasks_view';
 import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
 import Router from './router';
-import eventbus from './eventBus';
 import fireBase from './firebase';
 
 
@@ -33,7 +32,7 @@ router.add(() => {
     const taskListCollectionModel = new TasksCollectionModel(data);
     const tasksCollectionView = new TasksCollectionView(taskListCollectionModel);
     tasksCollectionView.render();
-    
+
   });
 });
 

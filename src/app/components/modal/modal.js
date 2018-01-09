@@ -5,6 +5,7 @@ import eventbus from '../../eventBus';
 import 'jquery-ui/ui/widgets/datepicker';
 import 'webpack-jquery-ui/css';
 import 'jquery-ui/themes/base/base.css';
+import fireBase from '../../firebase';
 
 import TasksCollectionView from '../../pages/tasks/tasks_view';
 
@@ -17,7 +18,7 @@ class Modal {
 
   renderAddModal(){
     const modal = document.getElementsByClassName('modal-wrapper')[0];
-    
+
     modal.style.position = 'fixed';
     modal.innerHTML = addModalTempl();
     $('#taskDeadline').datepicker({dateFormat: 'd MM, yy', minDate: 0}).val();
@@ -29,27 +30,40 @@ class Modal {
 
     document.querySelector('.icon-check').addEventListener('click', (e) => {
       e.preventDefault();
-      this.submitForm(e);
+      this.saveTasks(this.submitForm(e));
       this.closeModal();
     });
   }
 
-  renderEditModal(taskId) {
+  renderEditModal(data) {
     const modal = document.getElementsByClassName('modal-wrapper')[0];
     modal.style.position = 'fixed';
-    modal.innerHTML = editModalTempl();
+    modal.innerHTML = editModalTempl(data);
+
+    const form = document.forms.editModal;
+
+    for (let elem of form) {
+      elem.checked = elem.value === data.taskType || elem.value === data.priorityType || elem.value === data.estimationTotal;
+    }
+
     $('#taskDeadline').datepicker({dateFormat: 'd MM, yy', minDate: 0}).val();
     const closeBtn = document.getElementsByClassName('icon-close')[0];
     closeBtn.addEventListener('click', (e)=>{
       e.preventDefault();
       this.closeModal()});
 
+    document.querySelector('.icon-check').addEventListener('click', (e) => {
+      e.preventDefault();
+      this.editTasks(data.taskId,this.submitForm(e));
+      this.closeModal();
+    });
+
     const trashBtn = document.getElementsByClassName('remove-btn')[0];
     trashBtn.addEventListener('click', (e)=>{
       e.preventDefault();
-      this.renderRemoveModal(taskId);
+      this.renderRemoveModal(data.taskId);
     });
-      
+
   }
 
   renderRemoveModal(taskId) {
@@ -77,7 +91,7 @@ class Modal {
       else{
         eventbus.emit('deleteTask', taskId);
       }
-      
+
       this.closeModal();
     })
   }
@@ -98,16 +112,20 @@ class Modal {
     const taskDesc = document.getElementById('taskDesc').value;
     const estimation = document.querySelector('input[name="estimation"]:checked').value;
 
-    this.saveTasks({
+    return {
       taskType: taskType,
       priorityType: priorityType,
       deadline: deadline,
       taskTitle: taskTitle,
       taskDesc: taskDesc,
       estimation: estimation
-    });
+    };
   }
 
+  editTasks(taskId, data){
+    fireBase.makeDaily(taskId, data);
+    fireBase.getTasks();
+  }
 
   saveTasks(data){
     eventbus.emit('createTask', data);
