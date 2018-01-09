@@ -1,0 +1,24 @@
+<ul class="tasks-list tasks-list-done">
+  {{#each tasks}}
+      <li class="task-item {{taskType}} {{priorityType}}">
+        <div class="trs-ctn">
+          <input type="checkbox" name="commonTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
+          <label for="task-{{taskId}}" class="icon-trash"></label>
+        </div>
+          <div class="date-ctn">
+            {{#if dateNum}}
+                <p class="date-num">{{dateNum}}</p>
+            {{/if}}
+              <p class="date-day">{{dateDay}}</p>
+          </div>
+          <div class="task-info">
+              <h3 class="task-title">{{taskTitle}}</h3>
+              <p class="task-desc">{{taskDesc}}</p>
+          </div>
+          <div class="btn-ctn">
+              <button class="btn edit-btn icon-edit"></button>
+          </div>
+          <span class="priority-ctn icon-tomato"><span>{{estimationTotal}}</span></span>
+      </li>
+  {{/each}}
+</ul>

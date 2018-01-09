@@ -5,6 +5,10 @@ import eventbus from '../../eventBus';
 
 
 class Settings {
+  constructor(){
+    eventbus.subscribe('renderSettingsTempl', this.renderSettingsTempl.bind(this));
+    eventbus.subscribe('renderCategoriesTempl', this.renderCategoriesTempl.bind(this));
+  }
   renderSettingsTempl(){
     const main = document.getElementsByTagName("main")[0];
     main.innerHTML = settingsTempl();
@@ -31,5 +35,3 @@ class Settings {
 
 
 export const settings = new Settings();
-eventbus.subscribe('renderSettingsTempl', settings.renderSettingsTempl.bind(settings));
-eventbus.subscribe('renderCategoriesTempl', settings.renderCategoriesTempl.bind(settings));

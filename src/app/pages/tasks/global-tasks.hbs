@@ -1,27 +1,14 @@
-<div class="tabs-ctn">
-  <ul class="select-tabs hide">
-    <li class="tabs-item"><a href="#">Select</a></li>
-    <li class="tabs-item"><a href="#">Deselect</a></li>
-  </ul>
-  <ul class="daily-tabs">
-    <li class="tabs-item"><a href="#" class="active">All</a></li>
-    <li class="tabs-item"><a href="#">Urgent</a></li>
-    <li class="tabs-item"><a href="#">High</a></li>
-    <li class="tabs-item"><a href="#">Middle</a></li>
-    <li class="tabs-item"><a href="#">Low</a></li>
-  </ul>
-</div>
 
-<section class="globalList-ctn">
-  <ul class="global-taskList tasks-list">
+  <ul class="global-taskList">
   {{#each this}}
     {{#if this.length}}
-      <li class="global-taskListItem task-{{@key}}">
+    <li>
+      <ul class="global-taskListItem task-{{@key}} tasks-list">
       <h4 class="global-taskListItem-title">{{@key}}</h4>
         {{#each this}}
         <li class="task-item {{this.taskType}} {{this.priorityType}}">
           <div class="trs-ctn">
-            <input type="checkbox" name="deleteGlobalTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{this.taskId}}">
+            <input type="checkbox" name="deleteGlobalTask" value="{{taskId}}" class="delTask-btn" id="task-{{this.taskId}}">
             <label for="task-{{this.taskId}}" class="icon-trash"></label>
           </div>
           <div class="date-ctn">
@@ -41,8 +28,8 @@
           <a href="#/timer/" class="priority-ctn icon-tomato" role="button"><span>{{this.estimationTotal}}</span></a>
         </li>
         {{/each}}
+      </ul>
     </li>
       {{/if}}
   {{/each}}
   </ul>
-</section>

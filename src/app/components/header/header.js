@@ -28,10 +28,31 @@ addBtn.addEventListener('click', (e) => {
 });
 
 const trashBtn = document.querySelector('.icon-trash');
-trashBtn.addEventListener('click',(e) => {
+
+trashBtn.addEventListener('click', (e) => {
+  const trashCounter = document.getElementsByClassName('trashCounter')[0];
+  const checkedDaily = document.getElementsByName('commonTask');
+  const checkedGlobal = document.getElementsByName('deleteGlobalTask');
+  const listOfChecked = [];
   e.preventDefault();
-  eventbus.emit('renderTrashMode');
-} );
+  if(+trashCounter.innerText > 0){
+
+    for(let i in checkedDaily) {
+      if(checkedDaily[i].checked === true) {
+        listOfChecked.push(checkedDaily[i].value);
+      }
+    }
+
+    for(let i in checkedGlobal) {
+      if(checkedGlobal[i].checked === true) {
+        listOfChecked.push(checkedGlobal[i].value);
+      }
+    }
+    eventbus.emit('renderRemoveModal',listOfChecked);
+  } else {
+    eventbus.emit('renderTrashMode');
+  }
+});
 
 let selectedBtn;
 

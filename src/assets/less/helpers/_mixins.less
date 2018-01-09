@@ -52,52 +52,54 @@
       background: @color;
     }
   }
+}
 
-  //Tasks categories colors
-  .task-category-variation(@categoriesNames; @categoriesColors; @index) when (iscolor(extract(@categoriesColors, @index))) and (@index > 0) {
-    .task-category-variation(@categoriesNames; @categoriesColors; (@index - 1));
+//Tasks categories colors
+.task-category-variation(@categoriesNames; @categoriesColors; @index) when (iscolor(extract(@categoriesColors, @index))) and (@index > 0) {
+  .task-category-variation(@categoriesNames; @categoriesColors; (@index - 1));
 
-    @name: extract(@categoriesNames, @index);
-    @color: extract(@categoriesColors, @index);
-    @colorActive: extract(@categoriesActive, @index);
+  @name: extract(@categoriesNames, @index);
+  @color: extract(@categoriesColors, @index);
+  @colorActive: extract(@categoriesActive, @index);
 
-    main section.tasks-ctn .tasks-list-common .task-@{name},
-    main section.tasks-ctn .tasks-list-done .task-@{name}{
-      border-left-color: @color !important;
-    }
-    main section.globalList-ctn .global-taskList .task-@{name}:before,
-    main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title:before{
-      background: @color;
-    }
-
-    main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title{
-      color: @color;
-    }
-    main section.tasks-ctn .task-@{name} .delTask-btn:checked + label:before{
-      background: @colorActive;
+  main section.tasks-ctn .tasks-list-common .task-@{name},
+  main section.tasks-ctn .tasks-list-done .task-@{name}{
+    border-left-color: @color !important;
   }
-    main section.tasks-ctn .task-@{name} .trs-ctn,
-    main section.globalList-ctn .global-taskList .task-@{name} .trs-ctn {
-      background: @color;
-    }
+  main section.globalList-ctn .global-taskList .task-@{name}:before,
+  main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title:before{
+    background: @color;
   }
 
-  //Tasks priority colors
-  .task-priority-variation(@priorityNames; @priorityColors; @index) when (iscolor(extract(@priorityColors, @index))) and (@index > 0) {
-    .task-priority-variation(@priorityNames; @priorityColors; (@index - 1));
-
-    @name: extract(@priorityNames, @index);
-    @color: extract(@priorityColors, @index);
-    @colorActive: extract(@priorityActive, @index);
-
-    .priority-@{name} .priority-ctn {
-      background: @color;
-      &:hover {
-        background: @colorActive;
-      }
-    }
-    .priority-@{name} .task-title {
-      color: @color;
-    }
+  main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title{
+    color: @color;
+  }
+  main section.tasks-ctn .task-@{name} .delTask-btn:checked + label:before,
+  main section.globalList-ctn .task-@{name} .delTask-btn:checked + label:before{
+    background: @colorActive;
+  }
+  main section.tasks-ctn .task-@{name} .trs-ctn,
+  main section.globalList-ctn .global-taskList .task-@{name} .trs-ctn {
+    background: @color;
   }
 }
+
+//Tasks priority colors
+.task-priority-variation(@priorityNames; @priorityColors; @index) when (iscolor(extract(@priorityColors, @index))) and (@index > 0) {
+  .task-priority-variation(@priorityNames; @priorityColors; (@index - 1));
+
+  @name: extract(@priorityNames, @index);
+  @color: extract(@priorityColors, @index);
+  @colorActive: extract(@priorityActive, @index);
+
+  .priority-@{name} .priority-ctn {
+    background: @color;
+    &:hover {
+      background: @colorActive;
+    }
+  }
+  .priority-@{name} .task-title {
+    color: @color;
+  }
+}
+

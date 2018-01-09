@@ -1,6 +1,6 @@
 export default class TaskModel {
   constructor(data){
-    this.taskId = Date.now();
+    this.taskId = data.taskId || Date.now();
     this.taskType = data.taskType;
     this.createDate = Date.now();
     this.startDate = 0;
@@ -8,7 +8,9 @@ export default class TaskModel {
     this.taskTitle = data.taskTitle;
     this.taskDesc = data.taskDesc;
     this.priorityType = data.priorityType;
-    this.isActive = false;
+    this.isActive = data.isActive || false;
+    this.isFailed = data.isFailed || false;
+    this.isDone = data.isDone || false;
     this.estimationTotal = data.estimation;
     this.estimationUsed = 0;
   }

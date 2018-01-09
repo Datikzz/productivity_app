@@ -2,9 +2,7 @@ import * as firebase from 'firebase';
 import eventbus from './eventBus';
 import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
 import TaskModel from '../app/pages/tasks/tasks_model';
-//import tasksCollectionView from '../app/pages/tasks/tasks';
-import TasksCollectionView from '../app/pages/tasks/tasks';
-import { renderTasksTempl } from '../app/pages/tasks/tasks';
+import TasksCollectionView from '../app/pages/tasks/tasks_view';
 
 
 class Firebase {
@@ -19,6 +17,7 @@ class Firebase {
     };
 
     eventbus.subscribe('createTask', this.createTask.bind(this));
+    eventbus.subscribe('deleteTask', this.deleteTask.bind(this));
     firebase.initializeApp(this.config);
     this.firebaseRef = firebase.database().ref('tasks');
   }
@@ -32,21 +31,25 @@ class Firebase {
   createTask(data){
     const task = new TaskModel(data);
     firebase.database().ref('tasks/' + task.taskId).set(task);
+    this.getTasks();
+  }
 
+  deleteTask(taskId){
+    firebase.database().ref('tasks/' + taskId).remove();
+    this.getTasks();
+  }
+  
+  makeDaily(taskId,data){
+    firebase.database().ref('tasks/' + taskId).update(data);
     this.getTasks();
   }
 
   getTasks(){
-    console.log('asd');
     this.getDataFromFirebase().then( data => {
       const taskListCollectionModel = new TasksCollectionModel(data);
-      // renderTasksTempl(taskListCollectionModel.getTasksData());//function
       const tasksCollectionView = new TasksCollectionView(taskListCollectionModel);
       tasksCollectionView.render();
-
-      //eventbus.emit('renderTasksTempl',taskListCollectionModel.getTasksData());
     });
-    //return firebase.database().ref('tasks').once('value').then((snap) => {return snap.val();});
   }
 }
 

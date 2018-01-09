@@ -20,7 +20,6 @@
 
 section.tasks-ctn {
   margin-bottom: 40px;
-
   .tasks-list-done{
     .task-item{
       background: @Silver;
@@ -54,6 +53,7 @@ section.tasks-ctn {
       & + label {
         position: relative;
         padding: 0;
+        z-index: 2;
       }
       & + label:before {
         padding: 20px 0;
@@ -220,7 +220,7 @@ section.globalList-ctn {
 
   .deleteMode {
     .trs-ctn {
-      margin-right: 30px;
+      margin-right: 12px;
       width: 101px !important;;
     }
 
@@ -352,4 +352,14 @@ section.globalList-ctn {
       padding-left: 6px
     }
   }
+
+  // section.globalList-ctn {
+  //   .global-taskList{
+  //     .global-taskListItem{
+  //       &:before{
+  //         width: 20px;
+  //       }
+  //     }
+  //   }
+  // }
 }

@@ -9,36 +9,58 @@
   </ul>
   <ul class="daily-tabs">
     <li class="tabs-item"><a href="#" class="active">To Do</a></li>
-    <li class="tabs-item"><a href="#">Done</a></li>
+    <li class="tabs-item"><a href="#" class="done">Done</a></li>
   </ul>
 </div>
+
 <section class="tasks-ctn">
-    <ul class="tasks-list">
-      {{#each this}}
-          <li class="task-item {{taskType}} {{priorityType}}">
-            <div class="trs-ctn">
-              <input type="checkbox" name="commonTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
-              <label for="task-{{taskId}}" class="icon-trash"></label>
-            </div>
-              <div class="date-ctn">
-                {{#if dateNum}}
-                    <p class="date-num">{{dateNum}}</p>
-                {{/if}}
-                  <p class="date-day">{{dateDay}}</p>
-              </div>
-              <div class="task-info">
-                  <h3 class="task-title">{{taskTitle}}</h3>
-                  <p class="task-desc">{{taskDesc}}</p>
-              </div>
-              <div class="btn-ctn">
-                  <button class="btn edit-btn icon-edit"></button>
-              </div>
-              <a href="#/timer/" class="priority-ctn icon-tomato" role="button"><span>{{priority}}</span></a>
-          </li>
-      {{/each}}
-    </ul>
+  {{#if tasks.length}}
+  <ul class="tasks-list">
+    {{#each tasks}}
+      <li class="task-item {{taskType}} {{priorityType}}" data-attribute='{{taskId}}'>
+        <div class="trs-ctn">
+          <input type="checkbox" name="commonTask" value="{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
+          <label for="task-{{taskId}}" class="icon-trash"></label>
+        </div>
+          <div class="date-ctn">
+            {{#if dateNum}}
+                <p class="date-num">{{dateNum}}</p>
+            {{/if}}
+              <p class="date-day">{{dateDay}}</p>
+          </div>
+          <div class="task-info">
+              <h3 class="task-title">{{taskTitle}}</h3>
+              <p class="task-desc">{{taskDesc}}</p>
+          </div>
+          <div class="btn-ctn">
+              <button class="btn edit-btn icon-edit"></button>
+          </div>
+          <a href="#/timer/" class="priority-ctn icon-tomato" role="button"><span>{{estimationTotal}}</span></a>
+      </li>
+    {{/each}}
+  </ul>
+  {{else}}
+    <h2 class="message">Excellent,<br>all daily tasks done! :)</h2>
+    {{!-- <h2 class="message">Task added,<br>drag it to the top 5 in daily task list</h2>
+    <span class="arrow-btn icon-arrow_circle"></span> --}}
+{{/if}}
 </section>
 <a href="#" class="globalList-btn" role="button">Global list <span class="icon-global-list-arrow-right"></span></a>
-<!--<section class="globalList-ctn hide">-->
-<section class="globalList-ctn">
+<section class="globalList-wrapper hide">
+    <div class="tabs-ctn">
+    <ul class="select-tabs hide">
+      <li class="tabs-item"><a href="#" class="selectAllGlobal">Select</a></li>
+      <li class="tabs-item"><a href="#" class="deselectAllGlobal">Deselect</a></li>
+    </ul>
+    <ul class="daily-tabs filter-tabs">
+      <li class="tabs-item"><a href="#" class="all filter-item active">All</a></li>
+      <li class="tabs-item"><a href="#" class="urgent filter-item">Urgent</a></li>
+      <li class="tabs-item"><a href="#" class="high filter-item">High</a></li>
+      <li class="tabs-item"><a href="#" class="middle filter-item">Middle</a></li>
+      <li class="tabs-item"><a href="#" class="low filter-item">Low</a></li>
+    </ul>
+  </div>
+  <section class="globalList-ctn"</section>
+
+  </section>
 </section>

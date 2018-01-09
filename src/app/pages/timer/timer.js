@@ -86,21 +86,20 @@ class Timer{
   document.querySelector('.timer-group .face .time-text').innerText = 'min';
   document.querySelector('.tomato-list img[src="/empty-tomato.svg"]').src = '/tomato-failed.svg';
 
-  if(document.querySelector('.tomato-list img[src="/empty-tomato.svg"]')){
-    document.querySelectorAll('.timer-redir-btn .btn')[0].classList.add('hide');
-    document.querySelectorAll('.timer-redir-btn .btn')[1].classList.add('hide');
-    document.querySelectorAll('.timer-redir-btn .btn')[2].classList.remove('hide');
-    document.querySelectorAll('.timer-redir-btn .btn')[3].classList.add('hide');
-    this.breakTimer();
+    if(document.querySelector('.tomato-list img[src="/empty-tomato.svg"]')) {
+      document.querySelectorAll('.timer-redir-btn .btn')[0].classList.add('hide');
+      document.querySelectorAll('.timer-redir-btn .btn')[1].classList.add('hide');
+      document.querySelectorAll('.timer-redir-btn .btn')[2].classList.remove('hide');
+      document.querySelectorAll('.timer-redir-btn .btn')[3].classList.add('hide');
+      this.breakTimer();
+    } else {
+      document.querySelectorAll('.timer-redir-btn .btn')[0].classList.add('hide');
+      document.querySelectorAll('.timer-redir-btn .btn')[1].classList.add('hide');
+      document.querySelectorAll('.timer-redir-btn .btn')[2].classList.add('hide');
+      document.querySelectorAll('.timer-redir-btn .btn')[3].classList.remove('hide');
+      this.breakTimer();
+    }
   }
-  else {
-    document.querySelectorAll('.timer-redir-btn .btn')[0].classList.add('hide');
-    document.querySelectorAll('.timer-redir-btn .btn')[1].classList.add('hide');
-    document.querySelectorAll('.timer-redir-btn .btn')[2].classList.add('hide');
-    document.querySelectorAll('.timer-redir-btn .btn')[3].classList.remove('hide');
-    this.breakTimer();
-  }
-}
 
   finishPomodoro() {
     document.querySelector('.timer-group .face .text').innerText = 'Break';
@@ -143,7 +142,7 @@ class Timer{
     secondHalf.style.animationName = '';
     void firstHalf.offsetWidth;
     void secondHalf.offsetWidth;
-}
+  }
 
   finishTask() {
     const filled = document.querySelectorAll('.tomato-list img[src="/fill-tomato.svg"]').length;
@@ -182,8 +181,7 @@ export function renderTimerTempl(){
       renderStartTimer();
     }
   });
-
-
+  
 let workTime = 60;
 let breakTime = 2;
 
