@@ -6,9 +6,9 @@
       <ul class="global-taskListItem task-{{@key}} tasks-list">
       <h4 class="global-taskListItem-title">{{@key}}</h4>
         {{#each this}}
-        <li class="task-item {{this.taskType}} {{this.priorityType}}">
+        <li class="task-item {{this.taskType}} {{this.priorityType}}" data-attribute="{{this.taskId}}">
           <div class="trs-ctn">
-            <input type="checkbox" name="deleteGlobalTask" value="{{taskId}}" class="delTask-btn" id="task-{{this.taskId}}">
+            <input type="checkbox" name="deleteGlobalTask" value="{{this.taskId}}" class="delTask-btn" id="task-{{this.taskId}}">
             <label for="task-{{this.taskId}}" class="icon-trash"></label>
           </div>
           <div class="date-ctn">
@@ -25,7 +25,7 @@
             <button class="btn icon-arrows-up"></button>
             <button class="btn edit-btn icon-edit"></button>
           </div>
-          <a href="#/timer/" class="priority-ctn icon-tomato" role="button"><span>{{this.estimationTotal}}</span></a>
+          <a href="#" class="priority-ctn icon-tomato" role="button"><span>{{this.estimationTotal}}</span></a>
         </li>
         {{/each}}
       </ul>

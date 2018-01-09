@@ -118,12 +118,12 @@ class Modal {
       deadline: deadline,
       taskTitle: taskTitle,
       taskDesc: taskDesc,
-      estimation: estimation
+      estimationTotal: estimation
     };
   }
 
   editTasks(taskId, data){
-    fireBase.makeDaily(taskId, data);
+    fireBase.updateTask(taskId, data);
     fireBase.getTasks();
   }
 

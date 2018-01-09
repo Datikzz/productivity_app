@@ -2,6 +2,7 @@ import tasksTempl from './tasks.hbs';
 import globalListTempl from './global-tasks.hbs';
 import completedListTempl from './done_tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
+import Timer from  '../timer/timer'
 import eventbus from '../../eventBus';
 import fireBase from '../../firebase';
 
@@ -51,11 +52,20 @@ export default class TasksCollectionView {
 
       if(main){
         main.addEventListener('click',(e)=>{
+          e.stopImmediatePropagation();
           const target = e.target;
+          
           if(target.classList.contains('edit-btn')){
-            const taskId = target.parentElement.parentElement.childNodes[1].childNodes[1].value;
-            console.log(this.model.data[taskId]);
+            const taskId = target.parentElement.parentElement.dataset.attribute;
             eventbus.emit('renderEditModal', this.model.data[taskId]);
+          }
+
+          if(target.classList.contains('priority-ctn')){
+            e.preventDefault();
+
+            const taskId = target.parentElement.dataset.attribute;
+            const timer = new Timer(this.model.data[taskId]);
+            timer.render();
           }
         });
       }
@@ -82,6 +92,7 @@ export default class TasksCollectionView {
       document.querySelector('.skip-btn').addEventListener('click', (e) => {
           e.preventDefault();
           eventbus.emit('renderTasksTempl');
+          eventbus.emit('saveSettings');
         }
       );
     }
@@ -90,6 +101,10 @@ export default class TasksCollectionView {
   renderCompletedTasks() {
     const completedTasks = this.model.getCompletedTasksData();
     const tasksList = document.getElementsByClassName('tasks-ctn')[0];
+    const globalListCtn = document.getElementsByClassName('globalList-wrapper')[0];
+    const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
+    globalListBtn.classList.add('hide');
+    globalListCtn.classList.add('hide');
     tasksList.innerHTML = completedListTempl(completedTasks);
   }
 
@@ -100,7 +115,7 @@ export default class TasksCollectionView {
       const target = e.target;
       if(target.classList.contains('icon-arrows-up')) {
         const taskId = target.parentElement.parentElement.childNodes[1].childNodes[1].value;
-        fireBase.makeDaily(taskId, { isActive: true });
+        fireBase.updateTask(taskId, { isActive: true });
         fireBase.getTasks();
       }
     });

@@ -39,7 +39,7 @@ class Firebase {
     this.getTasks();
   }
   
-  makeDaily(taskId,data){
+  updateTask(taskId,data){
     firebase.database().ref('tasks/' + taskId).update(data);
     this.getTasks();
   }

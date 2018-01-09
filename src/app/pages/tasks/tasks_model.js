@@ -11,7 +11,7 @@ export default class TaskModel {
     this.isActive = data.isActive || false;
     this.isFailed = data.isFailed || false;
     this.isDone = data.isDone || false;
-    this.estimationTotal = data.estimation;
+    this.estimationTotal = data.estimationTotal;
     this.estimationUsed = 0;
   }
 }

@@ -8,20 +8,29 @@ class Settings {
   constructor(){
     eventbus.subscribe('renderSettingsTempl', this.renderSettingsTempl.bind(this));
     eventbus.subscribe('renderCategoriesTempl', this.renderCategoriesTempl.bind(this));
+    eventbus.subscribe('saveSettings', this.saveSettings.bind(this));
   }
+
   renderSettingsTempl(){
     const main = document.getElementsByTagName("main")[0];
     main.innerHTML = settingsTempl();
     renderGraph();
     eventbus.emit('hideTrashIcon');
+
     const categoriesBtn = document.querySelectorAll('.tabs-item')[1];
     categoriesBtn.addEventListener('click', (e) => {
       e.preventDefault();
       eventbus.emit('renderCategoriesTempl');
     });
+
+    const saveBtn = document.getElementsByClassName('save-btn')[0];
+    saveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      eventbus.emit('saveSettings');
+    })
   }
 
-  renderCategoriesTempl(){
+  renderCategoriesTempl() {
     const main = document.getElementsByTagName("main")[0];
     main.innerHTML = categoriesTempl();
     eventbus.emit('hideTrashIcon');
@@ -30,6 +39,31 @@ class Settings {
       e.preventDefault();
       eventbus.emit('renderSettingsTempl');
     });
+  }
+
+  saveSettings() {
+    const workTimeValue = document.getElementById('workTime-value');
+    const iterationValue = document.getElementById('iteration-value');
+    const shortBreakValue = document.getElementById('shortBreak-value');
+    const longBreakValue = document.getElementById('longBreak-value');
+    let settingsObject;
+    if(workTimeValue){
+      settingsObject = { 
+        workTime: +workTimeValue.innertext, 
+        iteration: +iterationValue.innerText,
+        shortBreak: +shortBreakValue.innerText,
+        longBreak: +longBreakValue.innerText
+      }
+    } else {
+      settingsObject = { 
+        workTime: 25, 
+        iteration: 5,
+        shortBreak: 5,
+        longBreak: 30
+      }
+    }
+
+    localStorage.setItem('settings', JSON.stringify(settingsObject));
   }
 }
 
