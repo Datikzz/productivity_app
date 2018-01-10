@@ -25,25 +25,25 @@ export function renderGraph() {
     };
 
     function voteDecrease(){
-      if(+voteElem.innerHTML < step) return;
-      if(+voteElem.innerHTML > min){
-        voteElem.innerHTML  = parseInt(voteElem.innerHTML, 10) - step;
+      if(+voteElem.innerText < step) return;
+      if(+voteElem.innerText > min){
+        voteElem.innerText  = parseInt(voteElem.innerText, 10) - step;
       }
     }
 
     function voteIncrease(){
       if(+voteElem.innerHTML < max){
-        voteElem.innerHTML  = parseInt(voteElem.innerHTML, 10) + step;
+        voteElem.innerText  = parseInt(voteElem.innerText, 10) + step;
       }
     }
   }
   function render() {
-    let ctnWidth = document.getElementsByClassName("graph-ctn")[0];
-
-    let workTimeVal = parseInt(document.getElementById("workTime-value").innerHTML,10);
-    let shortBreakVal = parseInt(document.getElementById("shortBreak-value").innerHTML,10);
-    let longBreakVal = parseInt(document.getElementById("longBreak-value").innerHTML,10);
-    let iterVal = parseInt(document.getElementById("iteration-value").innerHTML,10);
+    const ctnWidth = document.getElementsByClassName("graph-ctn")[0];
+    const settings = JSON.parse(localStorage.getItem('settings'));
+    let workTimeVal = +document.getElementById("workTime-value").innerText;
+    let shortBreakVal = +document.getElementById("shortBreak-value").innerText;
+    let longBreakVal = +document.getElementById("longBreak-value").innerText;
+    let iterVal = +document.getElementById("iteration-value").innerText;
     let time = (workTimeVal*(iterVal*2))+(shortBreakVal*((iterVal*2)-2))+longBreakVal;
     let firstCycle = (workTimeVal*iterVal)+(shortBreakVal*(iterVal-1))+longBreakVal;
     const timePoint = document.getElementsByClassName("timePoint");
@@ -114,7 +114,7 @@ export function renderGraph() {
     let voteElem = options.voteElem;
     let graphElem = options.graphElem;
 
-    elem.onclick = function (event) {
+    elem.addEventListener('click', (event) => {
       if (event.target.closest('.minus-btn')) {
         voteDecrease();
       }
@@ -122,10 +122,10 @@ export function renderGraph() {
         voteIncrease();
       }
       render();
-    };
-    elem.onmousedown = function () {
+    });
+    elem.addEventListener('mousedown', () => {
       return false;
-    };
+    });
     let graphCtn = document.getElementsByClassName('graph-ctn')[0];
     function voteDecrease() {
 
@@ -142,10 +142,10 @@ export function renderGraph() {
       let listLength = graphElem.length;
       if (+voteElem.innerHTML < max) {
         voteElem.innerHTML = parseInt(voteElem.innerHTML, 10) + step;
-        let newIter = document.createElement('div');
+        const newIter = document.createElement('div');
         newIter.className = 'iteration-line';
         newIter.innerHTML+="<div class='workTime-line'></div><div class='shortBreak-line'></div>"
-        let newIterLast = document.createElement('div');
+        const newIterLast = document.createElement('div');
         newIterLast.className = 'iteration-line';
         newIterLast.innerHTML+="<div class='shortBreak-line'></div><div class='workTime-line'></div>"
         graphCtn.appendChild(newIterLast);

@@ -6,7 +6,6 @@ import Timer from  '../timer/timer'
 import eventbus from '../../eventBus';
 import fireBase from '../../firebase';
 
-
 export default class TasksCollectionView {
   constructor(model) {
     this.model = model;
@@ -45,27 +44,25 @@ export default class TasksCollectionView {
         }
       );
 
-      doneBtn.addEventListener('click', (e) =>{
+      doneBtn.addEventListener('click', (e) => {
         e.preventDefault();
         this.renderCompletedTasks();
       });
 
       if(main){
-        main.addEventListener('click',(e)=>{
+        main.addEventListener('click',(e)=> {
           e.stopImmediatePropagation();
           const target = e.target;
-          
-          if(target.classList.contains('edit-btn')){
+
+          if(target.classList.contains('edit-btn')) {
             const taskId = target.parentElement.parentElement.dataset.attribute;
             eventbus.emit('renderEditModal', this.model.data[taskId]);
           }
 
-          if(target.classList.contains('priority-ctn')){
-            e.preventDefault();
-
+          if(target.classList.contains('priority-ctn')) {
             const taskId = target.parentElement.dataset.attribute;
-            const timer = new Timer(this.model.data[taskId]);
-            timer.render();
+            console.log(this.model.data[taskId]);
+            localStorage.setItem('taskId', JSON.stringify(this.model.data[taskId]));
           }
         });
       }

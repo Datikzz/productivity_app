@@ -2,6 +2,7 @@ import { renderGraph } from './settings_graph';
 import  settingsTempl   from './settings.hbs';
 import categoriesTempl  from './categories.hbs';
 import eventbus from '../../eventBus';
+import Router from '../../router';
 
 
 class Settings {
@@ -14,6 +15,13 @@ class Settings {
   renderSettingsTempl(){
     const main = document.getElementsByTagName("main")[0];
     main.innerHTML = settingsTempl();
+    if(localStorage.getItem('settings') !== null) {
+      const settings = JSON.parse(localStorage.getItem('settings'));
+      document.getElementById("workTime-value").innerText =  settings.workTime;
+      document.getElementById("shortBreak-value").innerText = settings.shortBreak;
+      document.getElementById("longBreak-value").innerText = settings.longBreak;
+      //document.getElementById("iteration-value").innerText = settings.iteration;
+    }
     renderGraph();
     eventbus.emit('hideTrashIcon');
 
@@ -27,6 +35,8 @@ class Settings {
     saveBtn.addEventListener('click', (e) => {
       e.preventDefault();
       eventbus.emit('saveSettings');
+      const router = new Router();
+      router.navigate('/tasks-list/');
     })
   }
 
@@ -47,16 +57,16 @@ class Settings {
     const shortBreakValue = document.getElementById('shortBreak-value');
     const longBreakValue = document.getElementById('longBreak-value');
     let settingsObject;
-    if(workTimeValue){
-      settingsObject = { 
-        workTime: +workTimeValue.innertext, 
+    if(workTimeValue && iterationValue && shortBreakValue && longBreakValue){
+      settingsObject = {
+        workTime: +workTimeValue.innerText,
         iteration: +iterationValue.innerText,
         shortBreak: +shortBreakValue.innerText,
         longBreak: +longBreakValue.innerText
       }
     } else {
-      settingsObject = { 
-        workTime: 25, 
+      settingsObject = {
+        workTime: 25,
         iteration: 5,
         shortBreak: 5,
         longBreak: 30

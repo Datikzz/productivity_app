@@ -4,53 +4,50 @@ import eventbus from '../../eventBus';
 
 export default class Timer{
   constructor(model) {
-    console.log(model);
-    this.model = model;
+    this.model = JSON.parse(model);
+    this.settings = JSON.parse(localStorage.getItem('settings'));
   }
 
   render() {
     const main = document.getElementsByTagName("main")[0];
     main.innerHTML = timerTempl(this.model);
     eventbus.emit('hideTrashIcon');
-
-    main.addEventListener('click',(e) => {
-      if(e.target.className === 'btn start-btn green-btn'){
+    const startBtn = document.getElementsByClassName('start-btn')[0];
+    startBtn.addEventListener('click',(e) => {
         e.preventDefault();
-        this.renderStartTimer();
-    }});
-  }
+        main.innerHTML = timerStartedTempl(this.model);
 
-  renderStartTimer() {
-    main.innerHTML = timerStartedTempl(this.model);
-    this.startTimer();
+        this.startTimer();
+        document.querySelectorAll('.timer-redir-btn .btn')[0].addEventListener('click',(e) => {
+          e.preventDefault();
+          this.failPomodoro();
+        });
 
-    document.querySelectorAll('.timer-redir-btn .btn')[0].addEventListener('click',(e) => {
-      e.preventDefault();
-      this.failPomodoro();
-    });
+        document.querySelectorAll('.timer-redir-btn .btn')[1].addEventListener('click',(e) => {
+          e.preventDefault();
+          this.finishPomodoro();
+        });
 
-    document.querySelectorAll('.timer-redir-btn .btn')[1].addEventListener('click',(e) => {
-      e.preventDefault();
-      this.finishPomodoro();
-    });
+        document.querySelectorAll('.timer-redir-btn .btn')[2].addEventListener('click',(e) => {
+          e.preventDefault();
+          this.startTimer();
+        });
 
-    document.querySelectorAll('.timer-redir-btn .btn')[2].addEventListener('click',(e) => {
-      e.preventDefault();
-      this.startTimer();
-    });
-
-    document.querySelectorAll('.timer-redir-btn .btn')[3].addEventListener('click',(e) => {
-      e.preventDefault();
-      this.finishTask();
+        document.querySelectorAll('.timer-redir-btn .btn')[3].addEventListener('click',(e) => {
+          e.preventDefault();
+          this.finishTask();
+        });
     });
   }
+
+
 
   startTimer() {
     this.resetAnimation();
     document.querySelector('.timer .hand:first-child span').style.animationName = 'spin1';
     document.querySelector('.timer .hand:last-child span').style.animationName = 'spin2';
     document.querySelector('.timer-group .face .text').innerText = '';
-    document.querySelector('.timer-group .face .num').innerText = '5';
+    document.querySelector('.timer-group .face .num').innerText = this.settings.workTime;
     document.querySelector('.timer-group .face .time-text').innerText = 'min';
     document.querySelectorAll('.timer-redir-btn .btn')[0].classList.remove('hide');
     document.querySelectorAll('.timer-redir-btn .btn')[1].classList.remove('hide');
@@ -59,7 +56,7 @@ export default class Timer{
 
     const spans = document.querySelectorAll('.timer .hand span');
     for(let item of spans){
-      item.style.animationDuration = 10+'s';
+      item.style.animationDuration = this.settings.workTime*60 +'s';
     }
 
     document.querySelector('.timer .hand:last-child span').addEventListener('animationend',(e) =>{
@@ -83,7 +80,7 @@ export default class Timer{
 
   failPomodoro() {
     document.querySelector('.timer-group .face .text').innerText = 'Break';
-    document.querySelector('.timer-group .face .num').innerText = '3';
+    document.querySelector('.timer-group .face .num').innerText = this.settings.shortBreak;
     document.querySelector('.timer-group .face .time-text').innerText = 'min';
     document.querySelector('.tomato-list img[src="/empty-tomato.svg"]').src = '/tomato-failed.svg';
 
@@ -104,7 +101,7 @@ export default class Timer{
 
   finishPomodoro() {
     document.querySelector('.timer-group .face .text').innerText = 'Break';
-    document.querySelector('.timer-group .face .num').innerText = '3';
+    document.querySelector('.timer-group .face .num').innerText = this.settings.shortBreak;
     document.querySelector('.timer-group .face .time-text').innerText = 'min';
     document.querySelector('.tomato-list img[src="/empty-tomato.svg"]').src = '/fill-tomato.svg';
 
@@ -126,13 +123,12 @@ export default class Timer{
 
   breakTimer() {
     this.resetAnimation();
-    let breakTime = 2;
     document.querySelector('.timer .hand:first-child span').style.animationName = 'spin1';
     document.querySelector('.timer .hand:last-child span').style.animationName = 'spin2';
 
     const spans = document.querySelectorAll('.timer .hand span');
     for(let item of spans){
-      item.style.animationDuration = breakTime+'s';
+      item.style.animationDuration = this.settings.shortBreak * 60 +'s';
     }
   }
 
