@@ -39,7 +39,6 @@ class Modal {
     const modal = document.getElementsByClassName('modal-wrapper')[0];
     modal.style.position = 'fixed';
     modal.innerHTML = editModalTempl(data);
-
     const form = document.forms.editModal;
 
     for (let elem of form) {
@@ -50,7 +49,7 @@ class Modal {
     const closeBtn = document.getElementsByClassName('icon-close')[0];
     closeBtn.addEventListener('click', (e)=>{
       e.preventDefault();
-      this.closeModal()});
+      this.closeModal();});
 
     document.querySelector('.icon-check').addEventListener('click', (e) => {
       e.preventDefault();
@@ -74,7 +73,8 @@ class Modal {
     const closeBtn = document.querySelector('.icon-close');
     closeBtn.addEventListener('click', (e)=>{
       e.preventDefault();
-      this.closeModal()});
+      this.closeModal();
+    });
 
     const deleteBtn = document.getElementsByClassName('remove-btn')[0];
     deleteBtn.addEventListener('click', (e) => {
@@ -84,7 +84,7 @@ class Modal {
           eventbus.emit('deleteTask', taskId[i]);
           TasksCollectionView.removesCounter = 0;
           TasksCollectionView.removesGlobalCounter = 0;
-          document.getElementsByClassName('trashCounter')[0].innertext = 0;
+          document.getElementsByClassName('trashCounter')[0].innertext = '';
           document.getElementsByClassName('trashCounter')[0].style.display = 'none';
         }
       }
@@ -93,7 +93,7 @@ class Modal {
       }
 
       this.closeModal();
-    })
+    });
   }
 
   closeModal() {
@@ -104,12 +104,11 @@ class Modal {
 
   submitForm(e){
     e.preventDefault();
-    console.log('blah blah data sent');
-    const taskType = document.querySelector('input[name="categoryOptions"]:checked').value;
+    const taskType = document.querySelector('input[name="categoryOptions"]:checked').value ;
     const priorityType = document.querySelector('input[name="priorityOptions"]:checked').value;
-    const deadline = document.getElementById('taskDeadline').value;
-    const taskTitle = document.getElementById('taskTitle').value;
-    const taskDesc = document.getElementById('taskDesc').value;
+    const deadline = Date.parse(document.getElementById('taskDeadline').value) || Date.now();
+    const taskTitle = document.getElementById('taskTitle').value || 'Add Title';
+    const taskDesc = document.getElementById('taskDesc').value || 'Add Description';
     const estimation = document.querySelector('input[name="estimation"]:checked').value;
 
     return {
@@ -123,7 +122,7 @@ class Modal {
   }
 
   editTasks(taskId, data){
-    fireBase.updateTask(taskId, data);
+    eventbus.emit('updateTask', taskId, data);
     fireBase.getTasks();
   }
 

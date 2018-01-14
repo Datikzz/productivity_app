@@ -1,11 +1,12 @@
 /* root component starts here */
 import 'assets/less/main.less'; // include general styles
 
-import './components/header/header';
+import './components/header/header_view';
 import './components/modal/modal';
 
+import './helpers';
+
 import { renderReportTempl } from '../app/pages/report/report';
-// import { renderTimerTempl } from '../app/pages/timer/timer';
 import { settings }  from '../app/pages/settings/settings';
 import TasksCollectionView from '../app/pages/tasks/tasks_view';
 import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
@@ -24,19 +25,10 @@ router.add(/timer/, () => {
 });
 router.add(/report/,renderReportTempl);
 router.add(/tasks-list/, () => {
-  fireBase.getDataFromFirebase().then( data => {
-    const taskListCollectionModel = new TasksCollectionModel(data);
-    const tasksCollectionView = new TasksCollectionView(taskListCollectionModel);
-    tasksCollectionView.render();
-  });
+  fireBase.getTasks();
 });
 router.add(() => {
-  fireBase.getDataFromFirebase().then( data => {
-    const taskListCollectionModel = new TasksCollectionModel(data);
-    const tasksCollectionView = new TasksCollectionView(taskListCollectionModel);
-    tasksCollectionView.render();
-
-  });
+  fireBase.getTasks();
 });
 
 router.listen();

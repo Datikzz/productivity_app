@@ -13,14 +13,14 @@ class Settings {
   }
 
   renderSettingsTempl(){
-    const main = document.getElementsByTagName("main")[0];
+    const main = document.getElementsByTagName('main')[0];
     main.innerHTML = settingsTempl();
     if(localStorage.getItem('settings') !== null) {
       const settings = JSON.parse(localStorage.getItem('settings'));
-      document.getElementById("workTime-value").innerText =  settings.workTime;
-      document.getElementById("shortBreak-value").innerText = settings.shortBreak;
-      document.getElementById("longBreak-value").innerText = settings.longBreak;
-      //document.getElementById("iteration-value").innerText = settings.iteration;
+      document.getElementById('workTime-value').innerText =  settings.workTime;
+      document.getElementById('shortBreak-value').innerText = settings.shortBreak;
+      document.getElementById('longBreak-value').innerText = settings.longBreak;
+      //document.getElementById('iteration-value').innerText = settings.iteration;
     }
     renderGraph();
     eventbus.emit('hideTrashIcon');
@@ -41,7 +41,7 @@ class Settings {
   }
 
   renderCategoriesTempl() {
-    const main = document.getElementsByTagName("main")[0];
+    const main = document.getElementsByTagName('main')[0];
     main.innerHTML = categoriesTempl();
     eventbus.emit('hideTrashIcon');
     const pomodorosBtn = document.querySelectorAll('.tabs-item')[0];
@@ -63,16 +63,16 @@ class Settings {
         iteration: +iterationValue.innerText,
         shortBreak: +shortBreakValue.innerText,
         longBreak: +longBreakValue.innerText
-      }
+      };
     } else {
       settingsObject = {
         workTime: 25,
         iteration: 5,
         shortBreak: 5,
         longBreak: 30
-      }
+      };
     }
-
+    localStorage.setItem('currentIteration', 0);
     localStorage.setItem('settings', JSON.stringify(settingsObject));
   }
 }

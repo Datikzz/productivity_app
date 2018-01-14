@@ -3,7 +3,7 @@ import eventbus from '../../eventBus';
 import Highcharts from 'highcharts';
 require('highcharts/modules/exporting')(Highcharts);
 export function renderReportTempl(){
-  const main = document.getElementsByTagName("main")[0];
+  const main = document.getElementsByTagName('main')[0];
   main.innerHTML = reportTempl();
   eventbus.emit('hideTrashIcon');
   renderChart();
@@ -34,7 +34,7 @@ function renderChart() {
     },
 
     yAxis: {
-      gridLineColor: "#345168",
+      gridLineColor: '#345168',
       allowDecimals: false,
       min: 0,
       title: {

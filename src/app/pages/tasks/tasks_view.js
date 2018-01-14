@@ -2,7 +2,6 @@ import tasksTempl from './tasks.hbs';
 import globalListTempl from './global-tasks.hbs';
 import completedListTempl from './done_tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
-import Timer from  '../timer/timer'
 import eventbus from '../../eventBus';
 import fireBase from '../../firebase';
 
@@ -14,6 +13,7 @@ export default class TasksCollectionView {
     this.dailyItems = document.getElementsByName('commonTask');
     this.globalItems = document.getElementsByName('deleteGlobalTask');
     this.globalOpened = false;
+    this.trashMode = false;
     this.commonChecked = false;
     this.globalChecked = false;
     this.selectedBtn;
@@ -32,16 +32,22 @@ export default class TasksCollectionView {
       main.innerHTML = tasksTempl(dailyTasks);
       const addBtn = document.getElementsByClassName('addTask-btn')[0];
       const doneBtn = document.getElementsByClassName('done')[0];
-      const tasksList = document.getElementsByClassName('tasks-list')[0];
       const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
       const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
 
       eventbus.emit('showTrashIcon');
 
-      addBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          eventbus.emit('renderAddModal');
+      const taskHeaderBtn = document.getElementsByClassName('icon-list')[0];
+      taskHeaderBtn.addEventListener('click', () => {
+        if(this.trashMode){
+          this.renderTrashMode();
         }
+      });
+
+      addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        eventbus.emit('renderAddModal');
+      }
       );
 
       doneBtn.addEventListener('click', (e) => {
@@ -51,30 +57,27 @@ export default class TasksCollectionView {
 
       if(main){
         main.addEventListener('click',(e)=> {
-          e.stopImmediatePropagation();
+          
           const target = e.target;
 
           if(target.classList.contains('edit-btn')) {
+            e.preventDefault();
             const taskId = target.parentElement.parentElement.dataset.attribute;
             eventbus.emit('renderEditModal', this.model.data[taskId]);
           }
 
           if(target.classList.contains('priority-ctn')) {
             const taskId = target.parentElement.dataset.attribute;
-            console.log(this.model.data[taskId]);
             localStorage.setItem('taskId', JSON.stringify(this.model.data[taskId]));
           }
         });
       }
 
-      console.log(dailyTasks);
-      console.log(globalTasks);
       globalListCtn.innerHTML = globalListTempl(globalTasks);
       globalListBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          this.renderGlobalList();
-        }
-      );
+        e.preventDefault();
+        this.renderGlobalList();
+      });
     }
 
     else {
@@ -82,15 +85,15 @@ export default class TasksCollectionView {
       main.innerHTML = firstEntranceTempl();
       eventbus.emit('hideTrashIcon');
       document.querySelector('.addTask-btn').addEventListener('click', (e) => {
-          e.preventDefault();
-          eventbus.emit('renderAddModal');
-        }
+        e.preventDefault();
+        eventbus.emit('renderAddModal');
+      }
       );
       document.querySelector('.skip-btn').addEventListener('click', (e) => {
-          e.preventDefault();
-          eventbus.emit('renderTasksTempl');
-          eventbus.emit('saveSettings');
-        }
+        e.preventDefault();
+        eventbus.emit('renderTasksTempl');
+        eventbus.emit('saveSettings');
+      }
       );
     }
   }
@@ -107,7 +110,6 @@ export default class TasksCollectionView {
 
   moveToDaily() {
     const moveBtns = document.getElementsByClassName('globalList-ctn')[0];
-    const main = document.getElementsByTagName('main')[0];
     moveBtns.addEventListener('click',(e)=>{
       const target = e.target;
       if(target.classList.contains('icon-arrows-up')) {
@@ -129,9 +131,9 @@ export default class TasksCollectionView {
   }
 
   renderGlobalList() {
-    const globalListWrapper = document.getElementsByClassName("globalList-wrapper")[0];
-    const globalListBtn = document.querySelector(".globalList-btn span");
-    const globalListCtn = document.getElementsByClassName("globalList-ctn")[0];
+    const globalListWrapper = document.getElementsByClassName('globalList-wrapper')[0];
+    const globalListBtn = document.querySelector('.globalList-btn span');
+    const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
 
     const all = document.getElementsByClassName('all')[0];
     const urgent = document.getElementsByClassName('urgent')[0];
@@ -162,26 +164,46 @@ export default class TasksCollectionView {
       all.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterAll);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
       });
 
       urgent.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterUrgent);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
       });
 
       high.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterHigh);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
       });
 
       middle.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterMiddle);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
       });
 
       low.addEventListener('click', (e) => {
         e.preventDefault();
         globalListCtn.innerHTML = globalListTempl(filterLow);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
       });
 
       this.globalOpened = true;
@@ -205,38 +227,52 @@ export default class TasksCollectionView {
   renderTrashMode(){
     const trashBtn = document.getElementsByClassName('tasks-list');
     const selectTabs = document.getElementsByClassName('select-tabs');
+    if(!this.trashMode){
+
+      for(let i=0; i < trashBtn.length; i++){
+        trashBtn[i].classList.add('deleteMode');
+      }
+      for(let i=0; i < selectTabs.length; i++){
+        selectTabs[i].classList.remove('hide');
+      }
+
+      this.trashModeEventListeners();
+      this.trashMode = true;
+    } else {
+      for(let i=0; i < trashBtn.length; i++){
+        trashBtn[i].classList.remove('deleteMode');
+      }
+      for(let i=0; i < selectTabs.length; i++){
+        selectTabs[i].classList.add('hide');
+      }
+
+      this.trashMode = false;
+    }
+  }
+
+  trashModeEventListeners() {
     const selectBtn = document.getElementsByClassName('selectAll')[0];
     const deselectBtn = document.getElementsByClassName('deselectAll')[0];
     const selectGlobalBtn = document.getElementsByClassName('selectAllGlobal')[0];
     const deselectGlobalBtn = document.getElementsByClassName('deselectAllGlobal')[0];
-
-
-    for(let i=0; i < trashBtn.length; i++){
-      trashBtn[i].classList.toggle('deleteMode');//add
-    }
-
-    for(let i=0; i < selectTabs.length; i++){
-      selectTabs[i].classList.toggle('hide');//remove
-    }
-
     selectBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      this.selectAll()}
+      this.selectAll();}
     );
 
     deselectBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      this.deselectAll()}
+      this.deselectAll();}
     );
 
     selectGlobalBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      this.selectAllGlobal()}
+      this.selectAllGlobal();}
     );
 
     deselectGlobalBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      this.deselectAllGlobal()}
+      this.deselectAllGlobal();}
     );
   }
 
@@ -284,9 +320,9 @@ export default class TasksCollectionView {
           this.removesCounter++;
         }
       }
-    document.querySelector('.trashCounter').style.display = 'block';
-    document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
-    this.commonChecked=true;
+      document.querySelector('.trashCounter').style.display = 'block';
+      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      this.commonChecked=true;
     }
   }
 
@@ -297,8 +333,8 @@ export default class TasksCollectionView {
           this.removesCounter--;
         }
       }
-    document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
-    this.commonChecked=false;
+      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      this.commonChecked=false;
     }
   }
 
@@ -309,9 +345,9 @@ export default class TasksCollectionView {
           this.removesGlobalCounter++;
         }
       }
-    document.querySelector('.trashCounter').style.display = 'block';
-    document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
-    this.globalChecked=true;
+      document.querySelector('.trashCounter').style.display = 'block';
+      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      this.globalChecked=true;
     }
 
   }
@@ -323,8 +359,8 @@ export default class TasksCollectionView {
           this.removesGlobalCounter--;
         }
       }
-    document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
-    this.globalChecked=false;
+      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      this.globalChecked=false;
     }
   }
 }

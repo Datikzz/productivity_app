@@ -2,7 +2,7 @@ export default class TasksCollectionModel {
   constructor(data) {
     this.data = data;
   }
-
+  
   getDailyTasksData() {
     const dailyData = {
       tasks: []

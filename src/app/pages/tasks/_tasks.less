@@ -1,20 +1,27 @@
 .deleteMode {
-  .trs-ctn {
-    width: 87px !important;
-    margin-right: 15px;
-  }
-  .delTask-btn + label {
-    cursor: pointer;
-  }
+  .task-item{
+    border-left: 0;
+    .trs-ctn {
+      width: 87px !important;
+      margin-right: 15px;
+      .delTask-btn{
+        display: block;
+        & + label:before{
+          padding: 32px 20px;
+        }
+      }
+    }
+    .delTask-btn + label {
+      cursor: pointer;
+    }
 
-  .delTask-btn + label:before {
-    padding: 20px !important;
-    width: 47px !important;
-    opacity: 1 !important;
-  }
+    .delTask-btn + label:before {
+      opacity: 1 !important;
+    }
 
-  .date-ctn {
-    display: none !important;
+    .date-ctn {
+      display: none !important;
+    }
   }
 }
 
@@ -45,10 +52,12 @@ section.tasks-ctn {
   -webkit-box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 5px 33px 0px rgba(0,0,0,0.75);
+  border-left: 9px solid;
   .trs-ctn {
-    width: 9px;
+    //width: 9px;
     .delTask-btn {
       opacity: 0;
+      display: none;
       position: absolute;
       & + label {
         position: relative;
@@ -109,9 +118,6 @@ section.tasks-ctn {
       font-size: 18px;
       &:hover{
         color: @Nepal;
-      }
-      &:focus{
-        color: @Grey;
       }
     }
   }
@@ -219,14 +225,16 @@ section.globalList-ctn {
 @media screen and (max-width: 1280px) {
 
   .deleteMode {
-    .trs-ctn {
-      margin-right: 12px;
-      width: 101px !important;;
-    }
+    .task-item{
+      .trs-ctn {
+        margin-right: 12px;
+        width: 101px !important;;
+      }
 
-    .delTask-btn + label:before {
-      padding: 32px 20px !important;
-      width: 61px !important;
+      .delTask-btn + label:before {
+        //padding: 32px 20px !important;
+        width: 61px;
+      }
     }
   }
 
@@ -239,7 +247,6 @@ section.globalList-ctn {
     .trs-ctn {
       .delTask-btn{
         & + label:before{
-          padding: 32px 0;
           font-size: 50px;
         }
       }
@@ -290,15 +297,16 @@ section.globalList-ctn {
 @media screen and (max-width: 768px) {
 
   .deleteMode {
-    .trs-ctn {
-      width: 101px !important;;
-    }
-
-    .delTask-btn + label:before {
-      padding: 37px 16px !important;
-      width: 61px !important;
-      font-size: 56px;
-    }
+    .task-item{
+      .trs-ctn {
+        width: 101px;
+        margin-right: 20px;
+        .delTask-btn + label:before {
+          width: 61px;
+          font-size: 57px;
+        }
+      }
+    } 
   }
 
   section.tasks-ctn {
@@ -308,10 +316,9 @@ section.globalList-ctn {
   .task-item {
     margin-bottom: 12px;
     .trs-ctn {
-      width: 20px;
+      //width: 20px;
       .delTask-btn {
         & + label:before {
-          padding: 37px 0;
           font-size: 47px;
         }
       }

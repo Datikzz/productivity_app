@@ -2,23 +2,26 @@ import './header.less';
 import headerTempl from './header.hbs';
 import eventbus from '../../eventBus';
 
-window.addEventListener('scroll',(e) => {
-  const top  = document.getElementById("header"),
-      main = document.getElementsByTagName("main")[0],
-      addBtn = document.querySelector('a.icon-add'),
-      prevPosition = window.pageYOffset;
-  if (prevPosition > 1) {
-    top.className = 'fixed-header';
-    addBtn.className = 'icon-add';
-    main.style.paddingTop = 96+"px";
-  } else {
-    top.className = '';
-    addBtn.className = 'icon-add hide';
-    main.style.paddingTop = 0+"px";
+
+window.addEventListener('scroll',() => {
+  const top  = document.getElementById('header'),
+    main = document.getElementsByTagName('main')[0],
+    addBtn = document.querySelector('a.icon-add'),
+    prevPosition = window.pageYOffset;
+  if(top){
+    if (prevPosition > 1) {
+      top.className = 'fixed-header';
+      addBtn.className = 'icon-add';
+      main.style.paddingTop = 96+'px';
+    } else {
+      top.className = '';
+      addBtn.className = 'icon-add hide';
+      main.style.paddingTop = 0+'px';
+    }
   }
 });
 
-const header = document.querySelector("header");
+const header = document.getElementById('header');
 header.innerHTML = headerTempl();
 
 const addBtn = document.querySelector('.icon-add');

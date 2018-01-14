@@ -20,13 +20,11 @@
       <li class="task-item {{taskType}} {{priorityType}}" data-attribute="{{taskId}}">
         <div class="trs-ctn">
           <input type="checkbox" name="commonTask" value="{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
-          <label for="task-{{taskId}}" class="icon-trash"></label>
+          <label for="task-{{taskId}}" class="icon-trash td-btn"></label>
         </div>
           <div class="date-ctn">
-            {{#if dateNum}}
-                <p class="date-num">{{dateNum}}</p>
-            {{/if}}
-              <p class="date-day">{{dateDay}}</p>
+              <p class="date-num">{{#formatDateNum deadline}}{{/formatDateNum}}</p>
+              <p class="date-day">{{#formatDateMonth deadline}}{{/formatDateMonth}}</p>
           </div>
           <div class="task-info">
               <h3 class="task-title">{{taskTitle}}</h3>

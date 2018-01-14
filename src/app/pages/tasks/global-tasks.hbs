@@ -12,10 +12,8 @@
             <label for="task-{{this.taskId}}" class="icon-trash"></label>
           </div>
           <div class="date-ctn">
-            {{#if this.dateNum}}
-              <p class="date-num">{{this.dateNum}}</p>
-            {{/if}}
-            <p class="date-day">{{this.dateDay}}</p>
+            <p class="date-num">{{#formatDateNum deadline}}{{/formatDateNum}}</p>
+            <p class="date-day">{{#formatDateMonth deadline}}{{/formatDateMonth}}</p>
           </div>
           <div class="task-info">
             <h3 class="task-title">{{this.taskTitle}}</h3>

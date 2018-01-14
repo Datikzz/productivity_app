@@ -62,9 +62,8 @@
   @color: extract(@categoriesColors, @index);
   @colorActive: extract(@categoriesActive, @index);
 
-  main section.tasks-ctn .tasks-list-common .task-@{name},
-  main section.tasks-ctn .tasks-list-done .task-@{name}{
-    border-left-color: @color !important;
+  main section.tasks-ctn .tasks-list .task-@{name}{
+    border-left-color: @color;
   }
   main section.globalList-ctn .global-taskList .task-@{name}:before,
   main section.globalList-ctn .global-taskList .task-@{name} .global-taskListItem-title:before{
