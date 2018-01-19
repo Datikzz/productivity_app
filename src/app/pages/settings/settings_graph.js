@@ -1,14 +1,23 @@
+/**
+ * Render graph on settings page
+ * @namespace renderGraph
+ */
 export function renderGraph() {
   const workTimeItem = document.getElementById('workTime-value');
   const shortBreakItem = document.getElementById('shortBreak-value');
   const longBreakItem = document.getElementById('longBreak-value');
   const iterItem = document.getElementById('iteration-value');
-  
+
   if(workTimeItem && shortBreakItem && longBreakItem && iterItem){
     render();
     window.addEventListener('resize', render);
   }
-  
+  /**
+   * Create setting item
+   * @param {object} options - The object containing values for new setting item
+   * @constructor Voter
+   * @memberOf renderGraph
+   */
   function Voter(options){
     let elem = options.elem;
     let step = options.step;
@@ -28,21 +37,29 @@ export function renderGraph() {
     elem.addEventListener('mousedown', () => {
       return false;
     });
-
+    /**
+     * Decrease setting value
+     */
     function voteDecrease(){
       if(+voteElem.innerText < step) return;
       if(+voteElem.innerText > min){
         voteElem.innerText  = parseInt(voteElem.innerText, 10) - step;
       }
     }
-
+    /**
+     * Increase setting value
+     */
     function voteIncrease(){
       if(+voteElem.innerHTML < max){
         voteElem.innerText  = parseInt(voteElem.innerText, 10) + step;
       }
     }
   }
-  
+
+  /**
+   * Render graph lines
+   * @memberOf renderGraph
+   */
   function render() {
     const ctnWidth = document.getElementsByClassName('graph-ctn')[0];
     const settings = JSON.parse(localStorage.getItem('settings'));
@@ -78,6 +95,11 @@ export function renderGraph() {
     phaseTime.style.left = iterationLine[iterationLine.length/2].offsetLeft+'px';
   }
 
+  /**
+   * Convent minutes to format Hours:Minutes
+   * @param {number} time - the minutes value
+   * @returns {string} The converted time string
+   */
   function convertMinsToHrsMins(time) {
     let h = Math.floor(time / 60);
     let m = time % 60;
@@ -112,6 +134,11 @@ export function renderGraph() {
     graphElem: document.getElementsByClassName('longBreak-line')
   });
 
+  /**
+   * Create iteration setting item
+   * @param {object} options - The object containing values for iteration setting item
+   * @constructor VoterIter
+   */
   function VoterIter(options) {
     let elem = options.elem;
     let step = options.step;
@@ -133,6 +160,10 @@ export function renderGraph() {
       return false;
     });
     let graphCtn = document.getElementsByClassName('graph-ctn')[0];
+    /**
+     * Decrease setting value
+     * @memberOf Settings
+     */
     function voteDecrease() {
 
       let listLength = graphElem.length;
@@ -143,7 +174,10 @@ export function renderGraph() {
         graphCtn.removeChild(graphElem[0]);
       }
     }
-
+    /**
+     * Increase setting value
+     * @memberOf Settings
+     */
     function voteIncrease() {
       let listLength = graphElem.length;
       if (+voteElem.innerHTML < max) {

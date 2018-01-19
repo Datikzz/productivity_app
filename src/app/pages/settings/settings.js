@@ -4,14 +4,26 @@ import categoriesTempl  from './categories.hbs';
 import eventbus from '../../eventBus';
 import Router from '../../router';
 
-
+/**
+ * Class representing settings page
+ * @namespace  Settings
+ */
 class Settings {
+  /**
+   * constructor of Settings
+   * @constructs Settings
+   * @memberOf Settings
+   */
   constructor(){
     eventbus.subscribe('renderSettingsTempl', this.renderSettingsTempl.bind(this));
     eventbus.subscribe('renderCategoriesTempl', this.renderCategoriesTempl.bind(this));
     eventbus.subscribe('saveSettings', this.saveSettings.bind(this));
   }
 
+  /**
+   * Render settings template
+   * @memberOf Settings
+   */
   renderSettingsTempl(){
     const main = document.getElementsByTagName('main')[0];
     main.innerHTML = settingsTempl();
@@ -36,10 +48,14 @@ class Settings {
       e.preventDefault();
       eventbus.emit('saveSettings');
       const router = new Router();
+      eventbus.emit('renderNotif', 'info', 'Settings saved');
       router.navigate('/tasks-list/');
     })
   }
-
+  /**
+   * Render categories template
+   * @memberOf Settings
+   */
   renderCategoriesTempl() {
     const main = document.getElementsByTagName('main')[0];
     main.innerHTML = categoriesTempl();
@@ -51,6 +67,10 @@ class Settings {
     });
   }
 
+  /**
+   * Set settings values to local storage
+   * @memberOf Settings
+   */
   saveSettings() {
     const workTimeValue = document.getElementById('workTime-value');
     const iterationValue = document.getElementById('iteration-value');

@@ -1,11 +1,23 @@
 import tasksTempl from './tasks.hbs';
 import globalListTempl from './global-tasks.hbs';
+import dailyListTempl from './daily_tasks.hbs';
 import completedListTempl from './done_tasks.hbs';
 import firstEntranceTempl  from './first_entrance.hbs';
+import notification from '../../components/notification/notification';
 import eventbus from '../../eventBus';
 import fireBase from '../../firebase';
-
+import '../../tooltip';
+$('.nav-link').tooltip();
+/**
+ * Class representing Tasks Collection  View
+ * @namespace  TaskModel
+ */
 export default class TasksCollectionView {
+  /**
+   * Create a model.
+   * @param {object} model - model for task page
+   * @memberOf TaskModel
+   */
   constructor(model) {
     this.model = model;
     this.removesCounter = 0;
@@ -23,18 +35,41 @@ export default class TasksCollectionView {
     eventbus.subscribe('hideTrashIcon', this.hideTrashIcon.bind(this));
   }
 
+  /**
+   * Render the tasks list page
+   * @memberOf TaskModel
+   */
   render() {
     const globalTasks = this.model.getGlobalTasksData();
-    const dailyTasks = this.model.getDailyTasksData();
     const main = document.getElementsByTagName('main')[0];
+
     if(sessionStorage.getItem('newUser')) {
 
-      main.innerHTML = tasksTempl(dailyTasks);
-      const addBtn = document.getElementsByClassName('addTask-btn')[0];
+      main.innerHTML = tasksTempl();
+      this.renderDailyTasks();
+      $('.globalList-btn').tooltip();
+      $('.edit-btn').tooltip();
+      const tasktabs = document.getElementsByClassName('tasks-tabs')[0];
+      const toDoBtn = document.getElementsByClassName('toDo-btn')[0];
       const doneBtn = document.getElementsByClassName('done')[0];
+      this.highlight(toDoBtn);
+
+      tasktabs.addEventListener('click',(e) =>{
+        let target = e.target;
+        if(target.classList.contains('filter-item')) {
+          this.highlight(target);
+        }
+      });
+
+
+      if(this.trashMode){
+        this.trashMode=false;
+        this.renderTrashMode();
+      }
+
+      const addBtn = document.getElementsByClassName('addTask-btn')[0];
       const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
       const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
-
       eventbus.emit('showTrashIcon');
 
       const taskHeaderBtn = document.getElementsByClassName('icon-list')[0];
@@ -44,11 +79,15 @@ export default class TasksCollectionView {
         }
       });
 
+      toDoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.renderDailyTasks();
+      });
+
       addBtn.addEventListener('click', (e) => {
         e.preventDefault();
         eventbus.emit('renderAddModal');
-      }
-      );
+      });
 
       doneBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -57,7 +96,7 @@ export default class TasksCollectionView {
 
       if(main){
         main.addEventListener('click',(e)=> {
-          
+
           const target = e.target;
 
           if(target.classList.contains('edit-btn')) {
@@ -69,6 +108,29 @@ export default class TasksCollectionView {
           if(target.classList.contains('priority-ctn')) {
             const taskId = target.parentElement.dataset.attribute;
             localStorage.setItem('taskId', JSON.stringify(this.model.data[taskId]));
+          }
+
+          if(target.classList.contains('td-btn')) {
+            if(target.previousElementSibling.name === 'commonTask') {
+              if (target.previousElementSibling.checked === false) {
+                this.removesCounter++;
+              } else {
+                this.removesCounter--;
+              }
+            }
+            if(target.previousElementSibling.name === 'deleteGlobalTask') {
+              if (target.previousElementSibling.checked === false) {
+                this.removesGlobalCounter++;
+              } else {
+                this.removesGlobalCounter--;
+              }
+            }
+            document.getElementsByClassName('trashCounter')[0].style.display = 'block';
+            document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
+            if((this.removesGlobalCounter + this.removesCounter) === 0){
+              document.getElementsByClassName('trashCounter')[0].style.display = 'none';
+              document.getElementsByClassName('trashCounter')[0].innerText = '';
+            }
           }
         });
       }
@@ -93,11 +155,30 @@ export default class TasksCollectionView {
         e.preventDefault();
         eventbus.emit('renderTasksTempl');
         eventbus.emit('saveSettings');
-      }
-      );
+      });
     }
   }
 
+  /**
+   * Render the daily tasks list
+   * @memberOf TaskModel
+   */
+  renderDailyTasks() {
+    const tasksList = document.getElementsByClassName('tasks-ctn')[0];
+    const dailyTasks = this.model.getDailyTasksData();
+    const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
+    globalListBtn.classList.remove('hide');
+    tasksList.innerHTML = dailyListTempl(dailyTasks);
+    if(this.trashMode){
+      this.trashMode=false;
+      this.renderTrashMode();
+    }
+  };
+
+  /**
+   * Render the completed tasks list
+   * @memberOf TaskModel
+   */
   renderCompletedTasks() {
     const completedTasks = this.model.getCompletedTasksData();
     const tasksList = document.getElementsByClassName('tasks-ctn')[0];
@@ -106,30 +187,56 @@ export default class TasksCollectionView {
     globalListBtn.classList.add('hide');
     globalListCtn.classList.add('hide');
     tasksList.innerHTML = completedListTempl(completedTasks);
+    if(this.trashMode){
+      this.trashMode=false;
+      this.renderTrashMode();
+    }
   }
 
+  /**
+   * Change status of global task to daily
+   * @memberOf TaskModel
+   */
   moveToDaily() {
     const moveBtns = document.getElementsByClassName('globalList-ctn')[0];
+    const dailyTasks = this.model.getDailyTasksData();
     moveBtns.addEventListener('click',(e)=>{
       const target = e.target;
       if(target.classList.contains('icon-arrows-up')) {
-        const taskId = target.parentElement.parentElement.childNodes[1].childNodes[1].value;
-        fireBase.updateTask(taskId, { isActive: true });
-        fireBase.getTasks();
+       if(dailyTasks.tasks.length < 5) {
+         const taskId = target.parentElement.parentElement.childNodes[1].childNodes[1].value;
+         fireBase.updateTask(taskId, {isActive: true});
+         fireBase.getTasks();
+         eventbus.emit('renderNotif', 'info', 'Task is daily now');
+       } else {
+         eventbus.emit('renderNotif', 'error', 'Daily limit of tasks has been reached');
+       }
       }
     });
   }
 
+  /**
+   * Hide trash icon from header
+   * @memberOf TaskModel
+   */
   hideTrashIcon() {
     const trashIcon = document.getElementsByClassName('icon-trash')[0];
     trashIcon.parentElement.classList.add('hide');
   }
 
+  /**
+   * Show trash icon from header
+   * @memberOf TaskModel
+   */
   showTrashIcon() {
     const trashIcon = document.getElementsByClassName('icon-trash')[0];
     trashIcon.parentElement.classList.remove('hide');
   }
 
+  /**
+   * Render global tasks list
+   * @memberOf TaskModel
+   */
   renderGlobalList() {
     const globalListWrapper = document.getElementsByClassName('globalList-wrapper')[0];
     const globalListBtn = document.querySelector('.globalList-btn span');
@@ -147,7 +254,8 @@ export default class TasksCollectionView {
     const filterMiddle = this.model.getFilteredGlobalTasksData('priority-middle');
     const filterLow = this.model.getFilteredGlobalTasksData('priority-low');
     const filterNav = document.getElementsByClassName('filter-tabs')[0];
-
+    $('.priority-ctn').tooltip();
+    $('.edit-btn').tooltip();
     if(!this.globalOpened){
       globalListWrapper.classList.remove('hide');
       globalListBtn.className = 'icon-global-list-arrow-down';
@@ -216,6 +324,11 @@ export default class TasksCollectionView {
     }
   }
 
+  /**
+   * Toggle class 'active' of selected element
+   * @param {HTMLElement} el - selected DOM element
+   * @memberOf TaskModel
+   */
   highlight(el){
     if(this.selectedBtn){
       this.selectedBtn.classList.remove('active');
@@ -224,6 +337,10 @@ export default class TasksCollectionView {
     this.selectedBtn.classList.add('active');
   }
 
+  /**
+   * Render trash mode for tasks
+   * @memberOf TaskModel
+   */
   renderTrashMode(){
     const trashBtn = document.getElementsByClassName('tasks-list');
     const selectTabs = document.getElementsByClassName('select-tabs');
@@ -250,6 +367,10 @@ export default class TasksCollectionView {
     }
   }
 
+  /**
+   * Add eventlisteners to elements, when 'trash mode' is active
+   * @memberOf TaskModel
+   */
   trashModeEventListeners() {
     const selectBtn = document.getElementsByClassName('selectAll')[0];
     const deselectBtn = document.getElementsByClassName('deselectAll')[0];
@@ -276,13 +397,22 @@ export default class TasksCollectionView {
     );
   }
 
+  /**
+   * Select all daily/completed tasks
+   * @memberOf TaskModel
+   */
   selectAll() {
     for(let i=0; i < this.dailyItems.length; i++){
       this.dailyItems[i].checked = true;
     }
+    this.removesCounter = 0;
     this.countRemoves();
   }
 
+  /**
+   * Deselect all daily/completed tasks
+   * @memberOf TaskModel
+   */
   deselectAll() {
     const counter = document.getElementsByClassName('trashCounter')[0];
     for(let i=0; i < this.dailyItems.length; i++){
@@ -294,6 +424,10 @@ export default class TasksCollectionView {
     }
   }
 
+  /**
+   * Select all global tasks
+   * @memberOf TaskModel
+   */
   selectAllGlobal() {
     for(let i = 0; i < this.globalItems.length; i++){
       this.globalItems[i].checked = true;
@@ -301,6 +435,10 @@ export default class TasksCollectionView {
     this.countGlobalRemoves();
   }
 
+  /**
+   * Deselect all global tasks
+   * @memberOf TaskModel
+   */
   deselectAllGlobal() {
     const counter = document.getElementsByClassName('trashCounter')[0];
     //for(let i in arr)//ask this
@@ -313,6 +451,10 @@ export default class TasksCollectionView {
     }
   }
 
+  /**
+   * Count all checked daily/completed tasks
+   * @memberOf TaskModel
+   */
   countRemoves() {
     if(!this.commonChecked){
       for(let i in this.dailyItems) {
@@ -320,12 +462,16 @@ export default class TasksCollectionView {
           this.removesCounter++;
         }
       }
-      document.querySelector('.trashCounter').style.display = 'block';
-      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      document.getElementsByClassName('trashCounter')[0].style.display = 'block';
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
       this.commonChecked=true;
     }
   }
 
+  /**
+   * Recount all checked daily/completed tasks
+   * @memberOf TaskModel
+   */
   recountRemoves() {
     if(this.removesCounter!=0) {
       for(let i in this.dailyItems) {
@@ -333,11 +479,15 @@ export default class TasksCollectionView {
           this.removesCounter--;
         }
       }
-      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
       this.commonChecked=false;
     }
   }
 
+  /**
+   * Count all checked global tasks
+   * @memberOf TaskModel
+   */
   countGlobalRemoves() {
     if(!this.globalChecked){
       for(let i in this.globalItems) {
@@ -345,13 +495,16 @@ export default class TasksCollectionView {
           this.removesGlobalCounter++;
         }
       }
-      document.querySelector('.trashCounter').style.display = 'block';
-      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      document.getElementsByClassName('trashCounter')[0].style.display = 'block';
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
       this.globalChecked=true;
     }
-
   }
 
+  /**
+   * Recount all checked global tasks
+   * @memberOf TaskModel
+   */
   recountGlobalRemoves() {
     if(this.removesGlobalCounter!=0) {
       for(let i in this.globalItems) {
@@ -359,9 +512,10 @@ export default class TasksCollectionView {
           this.removesGlobalCounter--;
         }
       }
-      document.querySelector('.trashCounter').innerText = this.removesGlobalCounter + this.removesCounter;
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
       this.globalChecked=false;
     }
   }
 }
+
 

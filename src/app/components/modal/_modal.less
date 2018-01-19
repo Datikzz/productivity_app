@@ -6,7 +6,7 @@
   bottom: 0;
   left: 0;
   margin: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
   background-color: rgba(0,0,0,0.4);
 }
 
@@ -84,6 +84,7 @@
         align-items: center;
         &:hover{
           color: @Spray;
+          cursor: pointer;
         }
       }
     }
@@ -157,7 +158,8 @@
       }
       .rating > .tomatoRank:checked ~ label,
       .rating:not(:checked) > .optionTitle:hover,
-      .rating:not(:checked) > .optionTitle:hover ~ .optionTitle { background: url("/fill-tomato.svg") no-repeat; }
+      .rating:not(:checked) > .optionTitle:hover ~ .optionTitle { background: url("/fill-tomato.svg") no-repeat;
+      cursor: pointer; }
     }
   }
 

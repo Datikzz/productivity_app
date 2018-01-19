@@ -2,13 +2,13 @@ export default class TasksCollectionModel {
   constructor(data) {
     this.data = data;
   }
-  
+
   getDailyTasksData() {
     const dailyData = {
       tasks: []
     };
     for(let i in this.data){
-      if(this.data[i]['isActive']===true){
+      if(this.data[i]['isActive']===true && this.data[i]['isDone']===false){
         dailyData['tasks'].push(this.data[i]);
       }
     }
@@ -68,7 +68,7 @@ export default class TasksCollectionModel {
           default:
             return null;
         }
-      } 
+      }
     }
     return context;
   }

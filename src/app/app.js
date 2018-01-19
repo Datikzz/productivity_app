@@ -3,13 +3,12 @@ import 'assets/less/main.less'; // include general styles
 
 import './components/header/header_view';
 import './components/modal/modal';
+import './components/notification/notification';
 
 import './helpers';
 
 import { renderReportTempl } from '../app/pages/report/report';
 import { settings }  from '../app/pages/settings/settings';
-import TasksCollectionView from '../app/pages/tasks/tasks_view';
-import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
 import Timer from '../app/pages/timer/timer';
 import Router from './router';
 import fireBase from './firebase';
@@ -32,3 +31,5 @@ router.add(() => {
 });
 
 router.listen();
+
+

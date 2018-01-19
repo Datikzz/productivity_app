@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/modal/modal.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/modal/modal.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import addModalTempl from './addTask.hbs';
+import editModalTempl from './editTask.hbs';
+import removeModalTempl from './removeTask.hbs';
+import eventbus from '../../eventBus';
+import 'jquery-ui/ui/widgets/datepicker';
+import 'webpack-jquery-ui/css';
+import 'jquery-ui/themes/base/base.css';
+import fireBase from '../../firebase';
+
+import TasksCollectionView from '../../pages/tasks/tasks_view';
+
+/**
+ * Class representing modal view
+ * @namespace  Modal
+ */
+class Modal {
+  /**
+   * constructor of Modal
+   * @constructs Modal
+   * @memberOf Modal
+   */
+  constructor() {
+    eventbus.subscribe('renderAddModal', this.renderAddModal.bind(this));
+    eventbus.subscribe('renderEditModal', this.renderEditModal.bind(this));
+    eventbus.subscribe('renderRemoveModal', this.renderRemoveModal.bind(this));
+  }
+
+  /**
+   * Render 'Add' modal block
+   * @memberOf Modal
+   */
+  renderAddModal(){
+    const modal = document.getElementsByClassName('modal-wrapper')[0];
+
+    modal.style.position = 'fixed';
+    modal.innerHTML = addModalTempl();
+    $('#taskDeadline').datepicker({dateFormat: 'd MM, yy', minDate: 0}).val();
+    const closeBtn = document.getElementsByClassName('icon-close')[0];
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.closeModal();
+    });
+
+    document.querySelector('.icon-check').addEventListener('click', (e) => {
+      e.preventDefault();
+      this.saveTasks(this.submitForm(e));
+      this.closeModal();
+    });
+  }
+
+  /**
+   * Render 'Edit' modal block
+   * @memberOf Modal
+   * @param {object} data - The data of selected task to edit
+   */
+  renderEditModal(data) {
+    const modal = document.getElementsByClassName('modal-wrapper')[0];
+    modal.style.position = 'fixed';
+    modal.innerHTML = editModalTempl(data);
+    const form = document.forms.editModal;
+
+    for (let elem of form) {
+      elem.checked = elem.value === data.taskType || elem.value === data.priorityType || elem.value === data.estimationTotal;
+    }
+
+    $('#taskDeadline').datepicker({dateFormat: 'd MM, yy', minDate: 0}).val();
+    const closeBtn = document.getElementsByClassName('icon-close')[0];
+    closeBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      this.closeModal();});
+
+    document.querySelector('.icon-check').addEventListener('click', (e) => {
+      e.preventDefault();
+      this.editTasks(data.taskId,this.submitForm(e));
+      this.closeModal();
+    });
+
+    const trashBtn = document.getElementsByClassName('remove-btn')[0];
+    trashBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      this.renderRemoveModal(data.taskId);
+    });
+
+  }
+
+  /**
+   * Render 'Edit' modal block
+   * @memberOf Modal
+   * @param {number} taskId - The id of selected task to remove
+   */
+  renderRemoveModal(taskId) {
+    const modal = document.getElementsByClassName('modal-wrapper')[0];
+    modal.style.position = 'fixed';
+    modal.innerHTML = removeModalTempl();
+
+    const closeBtn = document.querySelector('.icon-close');
+    closeBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      this.closeModal();
+    });
+
+    const cancelBtn = document.getElementsByClassName('cancelRemove')[0];
+    cancelBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.closeModal();
+    });
+
+    const deleteBtn = document.getElementsByClassName('remove-btn')[0];
+    deleteBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if(Array.isArray(taskId)){
+        for(let i in taskId){
+          eventbus.emit('deleteTask', taskId[i]);
+        }
+      }
+      else{
+        eventbus.emit('deleteTask', taskId);
+      }
+      TasksCollectionView.removesCounter = 0;
+      TasksCollectionView.removesGlobalCounter = 0;
+      document.getElementsByClassName('trashCounter')[0].style.display = 'none';
+      document.getElementsByClassName('trashCounter')[0].innerText = 0 ;
+      this.closeModal();
+    });
+  }
+
+  /**
+   * Hide modal block
+   * @memberOf Modal
+   */
+  closeModal() {
+    const modal = document.querySelector('.modal-wrapper');
+    modal.style.position = 'initial';
+    modal.innerHTML = '';
+  }
+
+  /**
+   * Get values from form fields
+   * @memberOf Modal
+   * @param {Event} e
+   * @returns {object} The object
+   */
+  submitForm(e){
+    e.preventDefault();
+    const taskType = document.querySelector('input[name="categoryOptions"]:checked').value ;
+    const priorityType = document.querySelector('input[name="priorityOptions"]:checked').value;
+    const deadline = Date.parse(document.getElementById('taskDeadline').value) || Date.now();
+    const taskTitle = document.getElementById('taskTitle').value || 'Add Title';
+    const taskDesc = document.getElementById('taskDesc').value || 'Add Description';
+    const estimation = document.querySelector('input[name="estimation"]:checked').value;
+
+    return {
+      taskType: taskType,
+      priorityType: priorityType,
+      deadline: deadline,
+      taskTitle: taskTitle,
+      taskDesc: taskDesc,
+      estimationTotal: estimation
+    };
+  }
+
+  /**
+   * Edit tasks values
+   * @memberOf Modal
+   * @param {number} taskId - Id of selected task to edit
+   * @param {object} data - Values of selected task to edit
+   */
+  editTasks(taskId, data){
+    eventbus.emit('updateTask', taskId, data);
+    fireBase.getTasks();
+  }
+
+  /**
+   * Create new task
+   * @memberOf Modal
+   * @param {object} data - Values of new task
+   */
+  saveTasks(data){
+    eventbus.emit('createTask', data);
+  }
+}
+
+export const modal = new Modal();
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="EventBus.EventBus.html">EventBus</a></li><li><a href="Firebase.Firebase.html">Firebase</a></li><li><a href="Modal.Modal.html">Modal</a></li><li><a href="renderGraph.Voter.html">Voter</a></li><li><a href="Router.Router.html">Router</a></li><li><a href="Settings.Settings.html">Settings</a></li><li><a href="TaskModel.module.exports.html">module.exports</a></li><li><a href="TaskModel.TaskModel.html">TaskModel</a></li><li><a href="Timer.Timer.html">Timer</a></li><li><a href="VoterIter.html">VoterIter</a></li></ul><h3>Namespaces</h3><ul><li><a href="EventBus.html">EventBus</a></li><li><a href="Firebase.html">Firebase</a></li><li><a href="Modal.html">Modal</a></li><li><a href="renderGraph.html">renderGraph</a></li><li><a href="Router.html">Router</a></li><li><a href="Settings.html">Settings</a></li><li><a href="TaskModel.html">TaskModel</a></li><li><a href="Timer.html">Timer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#highlight">highlight</a></li><li><a href="global.html#renderChart">renderChart</a></li><li><a href="global.html#renderReportTempl">renderReportTempl</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jan 15 2018 23:41:15 GMT+0200 (FLE Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

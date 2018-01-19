@@ -2,12 +2,12 @@
   {{#each tasks}}
       <li class="task-item {{taskType}} {{priorityType}}">
         <div class="trs-ctn">
-          <input type="checkbox" name="commonTask" value="task-{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
-          <label for="task-{{taskId}}" class="icon-trash"></label>
+          <input type="checkbox" name="commonTask" value="{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
+          <label for="task-{{taskId}}" class="icon-trash td-btn"></label>
         </div>
           <div class="date-ctn">
-            <p class="date-num">{{#formatDateNum deadline}}{{/formatDateNum}}</p>
-            <p class="date-day">{{#formatDateMonth deadline}}{{/formatDateMonth}}</p>
+            <p class="date-num">{{#formatDateNum dateFinished}}{{/formatDateNum}}</p>
+            <p class="date-day">{{#formatDateMonth dateFinished}}{{/formatDateMonth}}</p>
           </div>
           <div class="task-info">
               <h3 class="task-title">{{taskTitle}}</h3>
@@ -16,7 +16,7 @@
           <div class="btn-ctn">
               <button class="btn edit-btn icon-edit"></button>
           </div>
-          <span class="priority-ctn icon-tomato"><span>{{estimationTotal}}</span></span>
+          <span class="priority-ctn icon-check"></span>
       </li>
   {{/each}}
 </ul>

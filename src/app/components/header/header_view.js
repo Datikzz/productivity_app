@@ -2,7 +2,6 @@ import './header.less';
 import headerTempl from './header.hbs';
 import eventbus from '../../eventBus';
 
-
 window.addEventListener('scroll',() => {
   const top  = document.getElementById('header'),
     main = document.getElementsByTagName('main')[0],
@@ -39,7 +38,6 @@ trashBtn.addEventListener('click', (e) => {
   const listOfChecked = [];
   e.preventDefault();
   if(+trashCounter.innerText > 0){
-
     for(let i in checkedDaily) {
       if(checkedDaily[i].checked === true) {
         listOfChecked.push(checkedDaily[i].value);
@@ -67,6 +65,10 @@ nav.addEventListener('click',(e) =>{
   }
 });
 
+/**
+ * Toggle class 'active' of selected element
+ * @param {HTMLElement} el - selected DOM element
+ */
 function highlight(el){
   if(selectedBtn){
     selectedBtn.classList.remove('active');

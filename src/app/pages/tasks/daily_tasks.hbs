@@ -1,0 +1,28 @@
+{{#if tasks.length}}
+    <ul class="tasks-list">
+      {{#each tasks}}
+          <li class="task-item {{taskType}} {{priorityType}}" data-attribute="{{taskId}}">
+              <div class="trs-ctn">
+                  <input type="checkbox" name="commonTask" value="{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
+                  <label for="task-{{taskId}}" class="icon-trash td-btn"></label>
+              </div>
+              <div class="date-ctn">
+                  <p class="date-num">{{#formatDateNum deadline}}{{/formatDateNum}}</p>
+                  <p class="date-day">{{#formatDateMonth deadline}}{{/formatDateMonth}}</p>
+              </div>
+              <div class="task-info">
+                  <h3 class="task-title">{{taskTitle}}</h3>
+                  <p class="task-desc">{{taskDesc}}</p>
+              </div>
+              <div class="btn-ctn">
+                  <button class="btn edit-btn icon-edit" data-tooltip="Edit task"></button>
+              </div>
+              <a href="#/timer/" class="priority-ctn icon-tomato" role="button" data-tooltip="Go to Timer"><span>{{estimationTotal}}</span></a>
+          </li>
+      {{/each}}
+    </ul>
+{{else}}
+    <h2 class="message">Excellent,<br>all daily tasks done! :)</h2>
+{{!-- <h2 class="message">Task added,<br>drag it to the top 5 in daily task list</h2>
+<span class="arrow-btn icon-arrow_circle"></span> --}}
+{{/if}}

@@ -15,6 +15,29 @@ body {
   margin: 0 auto;
 }
 
+.tooltip {
+  display: none;
+  position: absolute;
+  background: #cedeea;
+  color: @Madison;
+  font: bold 12px/13.87px @roboto;
+  padding: 8px;
+  border-radius: 3px;
+  z-index: 10;
+  &:before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: -8px;
+    width: 0;
+    height: 0;
+    border: 0 solid transparent;
+    border-right-width: 8px;
+    border-left-width: 8px;
+    border-bottom: 8px solid #cedeea;
+  }
+}
+
 a {
   text-decoration: none;
 }
@@ -50,6 +73,7 @@ main {
       outline: none;
       border: none;
       color: @White;
+      cursor: pointer;
     }
   }
 
@@ -77,8 +101,7 @@ main {
         color: @Nepal;
         padding: 0 9px;
         position: relative;
-        &:hover,
-        &:focus{
+        &:hover{
           color: @Spray;
         }
       }

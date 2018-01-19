@@ -2,18 +2,22 @@ import reportTempl from './report.hbs';
 import eventbus from '../../eventBus';
 import Highcharts from 'highcharts';
 require('highcharts/modules/exporting')(Highcharts);
+/**
+ * render report template
+ */
 export function renderReportTempl(){
   const main = document.getElementsByTagName('main')[0];
   main.innerHTML = reportTempl();
   eventbus.emit('hideTrashIcon');
   renderChart();
 }
-
+/**
+ * render chart
+ */
 function renderChart() {
   Highcharts.chart('reportGraph', {
 
     colors: ['#F75C4C', '#FFA841', '#FDDC43', '#1ABC9C', '#9F9F9F'],
-
 
     chart: {
       type: 'column',

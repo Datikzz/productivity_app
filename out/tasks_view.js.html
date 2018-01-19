@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: tasks_view.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: tasks_view.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import tasksTempl from './tasks.hbs';
+import globalListTempl from './global-tasks.hbs';
+import dailyListTempl from './daily_tasks.hbs';
+import completedListTempl from './done_tasks.hbs';
+import firstEntranceTempl  from './first_entrance.hbs';
+import eventbus from '../../eventBus';
+import fireBase from '../../firebase';
+
+/**
+ * Class representing Tasks Collection  View
+ */
+export default class TasksCollectionView {
+  /**
+   * Create a model.
+   * @param {object} model - model for task page
+   */
+  constructor(model) {
+    this.model = model;
+    this.removesCounter = 0;
+    this.removesGlobalCounter = 0;
+    this.dailyItems = document.getElementsByName('commonTask');
+    this.globalItems = document.getElementsByName('deleteGlobalTask');
+    this.globalOpened = false;
+    this.trashMode = false;
+    this.commonChecked = false;
+    this.globalChecked = false;
+    this.selectedBtn;
+    eventbus.subscribe('renderTasksTempl', this.render.bind(this));
+    eventbus.subscribe('renderTrashMode', this.renderTrashMode.bind(this));
+    eventbus.subscribe('showTrashIcon', this.showTrashIcon.bind(this));
+    eventbus.subscribe('hideTrashIcon', this.hideTrashIcon.bind(this));
+  }
+
+  /**
+   * Render the tasks list page
+   */
+  render() {
+    const globalTasks = this.model.getGlobalTasksData();
+    const main = document.getElementsByTagName('main')[0];
+
+    if(sessionStorage.getItem('newUser')) {
+
+      main.innerHTML = tasksTempl();
+      const tasktabs = document.getElementsByClassName('tasks-tabs')[0];
+      const toDoBtn = document.getElementsByClassName('toDo-btn')[0];
+      const doneBtn = document.getElementsByClassName('done')[0];
+      this.highlight(toDoBtn);
+
+      tasktabs.addEventListener('click',(e) =>{
+        let target = e.target;
+        if(target.classList.contains('filter-item')) {
+          this.highlight(target);
+        }
+      });
+
+      this.renderDailyTasks();
+      if(this.trashMode){
+        this.trashMode=false;
+        this.renderTrashMode();
+      }
+
+      const addBtn = document.getElementsByClassName('addTask-btn')[0];
+      const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
+      const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
+      eventbus.emit('showTrashIcon');
+
+      const taskHeaderBtn = document.getElementsByClassName('icon-list')[0];
+      taskHeaderBtn.addEventListener('click', () => {
+        if(this.trashMode){
+          this.renderTrashMode();
+        }
+      });
+
+      toDoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.renderDailyTasks();
+      });
+
+      addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        eventbus.emit('renderAddModal');
+      });
+
+      doneBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.renderCompletedTasks();
+      });
+
+      if(main){
+        main.addEventListener('click',(e)=> {
+
+          const target = e.target;
+
+          if(target.classList.contains('edit-btn')) {
+            e.preventDefault();
+            const taskId = target.parentElement.parentElement.dataset.attribute;
+            eventbus.emit('renderEditModal', this.model.data[taskId]);
+          }
+
+          if(target.classList.contains('priority-ctn')) {
+            const taskId = target.parentElement.dataset.attribute;
+            localStorage.setItem('taskId', JSON.stringify(this.model.data[taskId]));
+          }
+
+          if(target.classList.contains('td-btn')) {
+            if(target.previousElementSibling.name === 'commonTask') {
+              if (target.previousElementSibling.checked === false) {
+                this.removesCounter++;
+              } else {
+                this.removesCounter--;
+              }
+            }
+            if(target.previousElementSibling.name === 'deleteGlobalTask') {
+              if (target.previousElementSibling.checked === false) {
+                this.removesGlobalCounter++;
+              } else {
+                this.removesGlobalCounter--;
+              }
+            }
+            document.getElementsByClassName('trashCounter')[0].style.display = 'block';
+            document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
+            if((this.removesGlobalCounter + this.removesCounter) === 0){
+              document.getElementsByClassName('trashCounter')[0].style.display = 'none';
+              document.getElementsByClassName('trashCounter')[0].innerText = '';
+            }
+          }
+        });
+      }
+
+      globalListCtn.innerHTML = globalListTempl(globalTasks);
+      globalListBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.renderGlobalList();
+      });
+    }
+
+    else {
+      sessionStorage.setItem('newUser','U');
+      main.innerHTML = firstEntranceTempl();
+      eventbus.emit('hideTrashIcon');
+      document.querySelector('.addTask-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        eventbus.emit('renderAddModal');
+      }
+      );
+      document.querySelector('.skip-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        eventbus.emit('renderTasksTempl');
+        eventbus.emit('saveSettings');
+      });
+    }
+  }
+
+  renderDailyTasks() {
+    const tasksList = document.getElementsByClassName('tasks-ctn')[0];
+    const dailyTasks = this.model.getDailyTasksData();
+    const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
+    globalListBtn.classList.remove('hide');
+    tasksList.innerHTML = dailyListTempl(dailyTasks);
+    if(this.trashMode){
+      this.trashMode=false;
+      this.renderTrashMode();
+    }
+  };
+
+  renderCompletedTasks() {
+    const completedTasks = this.model.getCompletedTasksData();
+    const tasksList = document.getElementsByClassName('tasks-ctn')[0];
+    const globalListCtn = document.getElementsByClassName('globalList-wrapper')[0];
+    const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
+    globalListBtn.classList.add('hide');
+    globalListCtn.classList.add('hide');
+    tasksList.innerHTML = completedListTempl(completedTasks);
+    if(this.trashMode){
+      this.trashMode=false;
+      this.renderTrashMode();
+    }
+  }
+
+  moveToDaily() {
+    const moveBtns = document.getElementsByClassName('globalList-ctn')[0];
+    moveBtns.addEventListener('click',(e)=>{
+      const target = e.target;
+      if(target.classList.contains('icon-arrows-up')) {
+        const taskId = target.parentElement.parentElement.childNodes[1].childNodes[1].value;
+        fireBase.updateTask(taskId, { isActive: true });
+        fireBase.getTasks();
+      }
+    });
+  }
+
+  hideTrashIcon() {
+    const trashIcon = document.getElementsByClassName('icon-trash')[0];
+    trashIcon.parentElement.classList.add('hide');
+  }
+
+  showTrashIcon() {
+    const trashIcon = document.getElementsByClassName('icon-trash')[0];
+    trashIcon.parentElement.classList.remove('hide');
+  }
+
+  renderGlobalList() {
+    const globalListWrapper = document.getElementsByClassName('globalList-wrapper')[0];
+    const globalListBtn = document.querySelector('.globalList-btn span');
+    const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
+
+    const all = document.getElementsByClassName('all')[0];
+    const urgent = document.getElementsByClassName('urgent')[0];
+    const high = document.getElementsByClassName('high')[0];
+    const middle = document.getElementsByClassName('middle')[0];
+    const low = document.getElementsByClassName('low')[0];
+
+    const filterAll = this.model.getGlobalTasksData();
+    const filterUrgent = this.model.getFilteredGlobalTasksData('priority-urgent');
+    const filterHigh = this.model.getFilteredGlobalTasksData('priority-high');
+    const filterMiddle = this.model.getFilteredGlobalTasksData('priority-middle');
+    const filterLow = this.model.getFilteredGlobalTasksData('priority-low');
+    const filterNav = document.getElementsByClassName('filter-tabs')[0];
+
+    if(!this.globalOpened){
+      globalListWrapper.classList.remove('hide');
+      globalListBtn.className = 'icon-global-list-arrow-down';
+
+      this.highlight(all);
+
+      filterNav.addEventListener('click',(e) =>{
+        let target = e.target;
+        if(target.classList.contains('filter-item')) {
+          this.highlight(target);
+        }
+      });
+
+      all.addEventListener('click', (e) => {
+        e.preventDefault();
+        globalListCtn.innerHTML = globalListTempl(filterAll);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
+      });
+
+      urgent.addEventListener('click', (e) => {
+        e.preventDefault();
+        globalListCtn.innerHTML = globalListTempl(filterUrgent);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
+      });
+
+      high.addEventListener('click', (e) => {
+        e.preventDefault();
+        globalListCtn.innerHTML = globalListTempl(filterHigh);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
+      });
+
+      middle.addEventListener('click', (e) => {
+        e.preventDefault();
+        globalListCtn.innerHTML = globalListTempl(filterMiddle);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
+      });
+
+      low.addEventListener('click', (e) => {
+        e.preventDefault();
+        globalListCtn.innerHTML = globalListTempl(filterLow);
+        if(this.trashMode){
+          this.trashMode=false;
+          this.renderTrashMode();
+        }
+      });
+
+      this.globalOpened = true;
+      this.moveToDaily();
+    }
+    else{
+      globalListWrapper.classList.add('hide');
+      globalListBtn.className = 'icon-global-list-arrow-right';
+      this.globalOpened = false;
+    }
+  }
+
+  highlight(el){
+    if(this.selectedBtn){
+      this.selectedBtn.classList.remove('active');
+    }
+    this.selectedBtn = el;
+    this.selectedBtn.classList.add('active');
+  }
+
+  renderTrashMode(){
+    const trashBtn = document.getElementsByClassName('tasks-list');
+    const selectTabs = document.getElementsByClassName('select-tabs');
+    if(!this.trashMode){
+
+      for(let i=0; i &lt; trashBtn.length; i++){
+        trashBtn[i].classList.add('deleteMode');
+      }
+      for(let i=0; i &lt; selectTabs.length; i++){
+        selectTabs[i].classList.remove('hide');
+      }
+
+      this.trashModeEventListeners();
+      this.trashMode = true;
+    } else {
+      for(let i=0; i &lt; trashBtn.length; i++){
+        trashBtn[i].classList.remove('deleteMode');
+      }
+      for(let i=0; i &lt; selectTabs.length; i++){
+        selectTabs[i].classList.add('hide');
+      }
+
+      this.trashMode = false;
+    }
+  }
+
+  trashModeEventListeners() {
+    const selectBtn = document.getElementsByClassName('selectAll')[0];
+    const deselectBtn = document.getElementsByClassName('deselectAll')[0];
+    const selectGlobalBtn = document.getElementsByClassName('selectAllGlobal')[0];
+    const deselectGlobalBtn = document.getElementsByClassName('deselectAllGlobal')[0];
+    selectBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.selectAll();}
+    );
+
+    deselectBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.deselectAll();}
+    );
+
+    selectGlobalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.selectAllGlobal();}
+    );
+
+    deselectGlobalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.deselectAllGlobal();}
+    );
+  }
+
+  selectAll() {
+    for(let i=0; i &lt; this.dailyItems.length; i++){
+      this.dailyItems[i].checked = true;
+    }
+    this.countRemoves();
+  }
+
+  deselectAll() {
+    const counter = document.getElementsByClassName('trashCounter')[0];
+    for(let i=0; i &lt; this.dailyItems.length; i++){
+      this.dailyItems[i].checked = false;
+    }
+    this.recountRemoves();
+    if(counter.innerText==='0') {
+      counter.style.display = 'none';
+    }
+  }
+
+  selectAllGlobal() {
+    for(let i = 0; i &lt; this.globalItems.length; i++){
+      this.globalItems[i].checked = true;
+    }
+    this.countGlobalRemoves();
+  }
+
+  deselectAllGlobal() {
+    const counter = document.getElementsByClassName('trashCounter')[0];
+    //for(let i in arr)//ask this
+    for(let i = 0; i &lt; this.globalItems.length; i++){
+      this.globalItems[i].checked = false;
+    }
+    this.recountGlobalRemoves();
+    if(counter.innerText==='0') {
+      counter.style.display = 'none';
+    }
+  }
+
+  countRemoves() {
+    if(!this.commonChecked){
+      for(let i in this.globalItems) {
+        if(this.globalItems[i].checked === true) {
+          this.removesGlobalCounter++;
+        }
+      }
+      document.getElementsByClassName('trashCounter')[0].style.display = 'block';
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
+      this.commonChecked=true;
+    }
+  }
+
+  recountRemoves() {
+    if(this.removesCounter!=0) {
+      for(let i in this.dailyItems) {
+        if(this.dailyItems[i].checked === false) {
+          this.removesCounter--;
+        }
+      }
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
+      this.commonChecked=false;
+    }
+  }
+
+  countGlobalRemoves() {
+    if(!this.globalChecked){
+      for(let i in this.globalItems) {
+        if(this.globalItems[i].checked === true) {
+          this.removesGlobalCounter++;
+        }
+      }
+      document.getElementsByClassName('trashCounter')[0].style.display = 'block';
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
+      this.globalChecked=true;
+    }
+  }
+
+  recountGlobalRemoves() {
+    if(this.removesGlobalCounter!=0) {
+      for(let i in this.globalItems) {
+        if(this.globalItems[i].checked === false) {
+          this.removesGlobalCounter--;
+        }
+      }
+      document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
+      this.globalChecked=false;
+    }
+  }
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#render">render</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jan 15 2018 20:47:25 GMT+0200 (FLE Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
