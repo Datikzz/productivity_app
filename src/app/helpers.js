@@ -16,6 +16,7 @@ Handlebars.registerHelper('formatDateNum', (date) => {
   } else {
     outputDate = new Date(date).getDate();
   }
+
   return outputDate;
 });
 
@@ -45,4 +46,20 @@ Handlebars.registerHelper('formatFullDate', (date) => {
   const day = new Date(date).getDate();
   const year = new Date(date).getFullYear();
   return  `${day} ${month}, ${year}`;
+});
+
+/**
+ * Register helper that checks if deadline is overdue
+ * @param {date} date - date in milliseconds
+ * @param {object} options - 'if' handlebars value
+ */
+Handlebars.registerHelper('ifOver', (date, options) => {
+  const someday = new Date(date);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  if(someday < today) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
 });

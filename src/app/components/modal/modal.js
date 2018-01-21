@@ -121,7 +121,7 @@ class Modal {
       if(Array.isArray(taskId)){
         for(let i in taskId){
           eventbus.emit('deleteTask', taskId[i]);
-          eventbus.emit('renderNotif', 'info', `${taskId}.length selected tasks deleted`);
+          eventbus.emit('renderNotif', 'info', `${taskId.length} selected tasks deleted`);
         }
       }
       else{

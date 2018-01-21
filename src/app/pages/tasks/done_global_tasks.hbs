@@ -3,7 +3,7 @@
 {{#each this}}
   {{#if this.length}}
   <li>
-    <ul class="global-taskListItem task-{{@key}} tasks-list">
+    <ul class="global-taskListItem task-{{@key}} tasks-list tasks-list-done">
     <h4 class="global-taskListItem-title">{{@key}}</h4>
       {{#each this}}
       <li class="task-item {{this.taskType}} {{this.priorityType}}" data-attribute="{{this.taskId}}">
@@ -11,7 +11,7 @@
           <input type="checkbox" name="deleteGlobalTask" value="{{this.taskId}}" class="delTask-btn" id="task-{{this.taskId}}">
           <label for="task-{{this.taskId}}" class="icon-trash td-btn"></label>
         </div>
-        <div class="date-ctn {{#ifOver deadline}}overdue{{/ifOver}}">
+        <div class="date-ctn">
           <p class="date-num">{{#formatDateNum deadline}}{{/formatDateNum}}</p>
           <p class="date-day">{{#formatDateMonth deadline}}{{/formatDateMonth}}</p>
         </div>
@@ -23,7 +23,7 @@
           <button class="btn icon-arrows-up"></button>
           <button class="btn edit-btn icon-edit" data-tooltip="Edit task"></button>
         </div>
-        <a href="#/timer/" class="priority-ctn icon-tomato" role="button" data-tooltip="Go to Timer"><span>{{this.estimationTotal}}</span></a>
+        <span class="priority-ctn icon-check"></span>
       </li>
       {{/each}}
     </ul>

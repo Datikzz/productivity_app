@@ -7,7 +7,6 @@ import './components/notification/notification';
 
 import './helpers';
 
-import { renderReportTempl } from '../app/pages/report/report';
 import { settings }  from '../app/pages/settings/settings';
 import Timer from '../app/pages/timer/timer';
 import Router from './router';
@@ -22,7 +21,9 @@ router.add(/timer/, () => {
   const timer = new Timer(localStorage.getItem('taskId'));
   timer.render();
 });
-router.add(/report/,renderReportTempl);
+router.add(/report/, () => { 
+  fireBase.getTasksForReport();
+});
 router.add(/tasks-list/, () => {
   fireBase.getTasks();
 });

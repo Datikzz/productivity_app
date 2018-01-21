@@ -12,10 +12,10 @@ import jQuery from 'jquery';
       $('.tooltip').show();
     });
     this.mousemove(function () {
-    $('.tooltip').css({'top': event.pageY + 35, 'left': event.pageX - 15});
-  });
+      $('.tooltip').css({'top': event.pageY + 35, 'left': event.pageX - 15});
+    });
     this.mouseleave(function () {
-    $('.tooltip').hide();
-  });
+      $('.tooltip').hide();
+    });
   };
 })(jQuery);

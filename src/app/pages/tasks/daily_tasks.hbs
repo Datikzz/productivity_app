@@ -6,7 +6,7 @@
                   <input type="checkbox" name="commonTask" value="{{taskId}}" class="delTask-btn" id="task-{{taskId}}">
                   <label for="task-{{taskId}}" class="icon-trash td-btn"></label>
               </div>
-              <div class="date-ctn">
+              <div class="date-ctn {{#ifOver deadline}}overdue{{/ifOver}}">
                   <p class="date-num">{{#formatDateNum deadline}}{{/formatDateNum}}</p>
                   <p class="date-day">{{#formatDateMonth deadline}}{{/formatDateMonth}}</p>
               </div>

@@ -3,7 +3,7 @@ import eventbus from './eventBus';
 import TasksCollectionModel from '../app/pages/tasks/tasks-collection/tasks-collection-model';
 import TaskModel from '../app/pages/tasks/tasks_model';
 import TasksCollectionView from '../app/pages/tasks/tasks_view';
-
+import Reports from '../app/pages/report/report';
 /**
  * Class representing Firebase service
  * @namespace  Firebase
@@ -33,7 +33,7 @@ class Firebase {
   }
   /**
    * Retrieve data from database
-   * @memberOf Settings
+   * @memberOf Firebase
    */
   getDataFromFirebase() {
     return this.firebaseRef.once('value').then((snap) => {
@@ -51,10 +51,10 @@ class Firebase {
 
   /**
    * Create new field on database
-   * @memberOf Settings
+   * @memberOf Firebase
    * @param {object} data - values of new field
    */
-  createTask(data){
+  createTask(data) {
     const task = new TaskModel(data);
     firebase.database().ref('tasks/' + task.taskId).set(task);
     this.getTasks();
@@ -62,28 +62,28 @@ class Firebase {
 
   /**
    * Delete selected field on database
-   * @memberOf Settings
+   * @memberOf Firebase
    * @param {number} taskId - id of selected field
    */
-  deleteTask(taskId){
+  deleteTask(taskId) {
     firebase.database().ref('tasks/' + taskId).remove();
     this.getTasks();
   }
 
   /**
    * Update selected task with new values on database
-   * @memberOf Settings
+   * @memberOf Firebase
    * @param {number} taskId - id of selected field
    * @param {object} data - values of selected field
    */
-  updateTask(taskId,data){
+  updateTask(taskId,data) {
     firebase.database().ref('tasks/' + taskId).update(data);
     this.getTasks();
   }
 
   /**
    * Update status of task on database
-   * @memberOf Settings
+   * @memberOf Firebase
    * @param {number} taskId - id of selected field
    * @param {object} data - values of selected field
    */
@@ -93,13 +93,24 @@ class Firebase {
 
   /**
    * Retrieve data from database and render them
-   * @memberOf Settings
+   * @memberOf Firebase
    */
-  getTasks(){
+  getTasks() {
     this.getDataFromFirebase().then( data => {
       const taskListCollectionModel = new TasksCollectionModel(data);
       const tasksCollectionView = new TasksCollectionView(taskListCollectionModel);
       tasksCollectionView.render();
+    });
+  }
+
+  /**
+   * Retrieve data from database for reports
+   * @memberOf Firebase
+   */
+  getTasksForReport() {
+    this.getDataFromFirebase().then( data => {
+      const reports = new Reports(data);
+      reports.render();
     });
   }
 }
