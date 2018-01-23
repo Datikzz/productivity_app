@@ -24,5 +24,6 @@ export default class TaskModel {
     this.isDone = data.isDone || false;
     this.estimationTotal = data.estimationTotal;
     this.estimationUsed = 0;
+    this.estimationFailed = 0;
   }
 }

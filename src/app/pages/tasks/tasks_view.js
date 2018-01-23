@@ -31,8 +31,8 @@ export default class TasksCollectionView {
     this.selectedBtn;
     eventbus.subscribe('renderTasksTempl', this.render.bind(this));
     eventbus.subscribe('renderTrashMode', this.renderTrashMode.bind(this));
-    eventbus.subscribe('showTrashIcon', this.showTrashIcon.bind(this));
-    eventbus.subscribe('hideTrashIcon', this.hideTrashIcon.bind(this));
+    eventbus.subscribe('showTaskIcons', this.showTaskIcons.bind(this));
+    eventbus.subscribe('hideTaskIcons', this.hideTaskIcons.bind(this));
   }
 
   /**
@@ -70,7 +70,7 @@ export default class TasksCollectionView {
       const addBtn = document.getElementsByClassName('addTask-btn')[0];
       const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
       const globalListBtn = document.getElementsByClassName('globalList-btn')[0];
-      eventbus.emit('showTrashIcon');
+      eventbus.emit('showTaskIcons');
 
       const taskHeaderBtn = document.getElementsByClassName('icon-list')[0];
       taskHeaderBtn.addEventListener('click', () => {
@@ -141,7 +141,7 @@ export default class TasksCollectionView {
     else {
       sessionStorage.setItem('newUser','U');
       main.innerHTML = firstEntranceTempl();
-      eventbus.emit('hideTrashIcon');
+      eventbus.emit('hideTaskIcons');
       document.querySelector('.addTask-btn').addEventListener('click', (e) => {
         e.preventDefault();
         eventbus.emit('renderAddModal');
@@ -183,7 +183,7 @@ export default class TasksCollectionView {
     const tasksList = document.getElementsByClassName('tasks-ctn')[0];
     const globalListCtn = document.getElementsByClassName('globalList-ctn')[0];
     tasksList.innerHTML = completedListTempl(completedTasks);
-    
+
     globalListCtn.innerHTML = completedGlobalListTempl(completedGlobalTasks);
     if(this.trashMode){
       this.trashMode=false;
@@ -217,18 +217,22 @@ export default class TasksCollectionView {
    * Hide trash icon from header
    * @memberOf TaskView
    */
-  hideTrashIcon() {
+  hideTaskIcons() {
     const trashIcon = document.getElementsByClassName('icon-trash')[0];
     trashIcon.parentElement.classList.add('hide');
+    const addIcon = document.getElementsByClassName('icon-add')[0];
+    addIcon.parentElement.classList.add('hide');
   }
 
   /**
    * Show trash icon from header
    * @memberOf TaskView
    */
-  showTrashIcon() {
+  showTaskIcons() {
     const trashIcon = document.getElementsByClassName('icon-trash')[0];
     trashIcon.parentElement.classList.remove('hide');
+    const addIcon = document.getElementsByClassName('icon-add')[0];
+    addIcon.parentElement.classList.remove('hide');
   }
 
   /**

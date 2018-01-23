@@ -35,7 +35,7 @@ class Settings {
       //document.getElementById('iteration-value').innerText = settings.iteration;
     }
     renderGraph();
-    eventbus.emit('hideTrashIcon');
+    eventbus.emit('hideTaskIcons');
 
     const categoriesBtn = document.querySelectorAll('.tabs-item')[1];
     categoriesBtn.addEventListener('click', (e) => {
@@ -59,7 +59,7 @@ class Settings {
   renderCategoriesTempl() {
     const main = document.getElementsByTagName('main')[0];
     main.innerHTML = categoriesTempl();
-    eventbus.emit('hideTrashIcon');
+    eventbus.emit('hideTaskIcons');
     const pomodorosBtn = document.querySelectorAll('.tabs-item')[0];
     pomodorosBtn.addEventListener('click',(e) => {
       e.preventDefault();

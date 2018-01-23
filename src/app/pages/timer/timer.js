@@ -30,7 +30,7 @@ export default class Timer{
     const header = document.getElementById('header');
     main.innerHTML = timerTempl(this.model);
     $('.icon-arrow-left').tooltip();
-    eventbus.emit('hideTrashIcon');
+    eventbus.emit('hideTaskIcons');
     const startBtn = document.getElementsByClassName('start-btn')[0];
     const estimation = this.model.estimationTotal;
 
@@ -300,14 +300,14 @@ export default class Timer{
       document.querySelector('.timer-group .face .num').innerText = '';
       document.querySelector('.timer-group .face .time-text').innerText = '';
       //change status to done
-      eventbus.emit('updateStatus', this.model.taskId, { isDone: true, estimationTotal: tomatosQuantity, estimationUsed: filled, dateFinished: Date.now()});
+      eventbus.emit('updateStatus', this.model.taskId, { isDone: true, estimationTotal: tomatosQuantity, estimationUsed: filled, estimationFailed: failed, dateFinished: Date.now()});
     }
     else {
       document.querySelector('.timer-group .face .text').innerText = 'You Failed Task';
       document.querySelector('.timer-group .face .num').innerText = '';
       document.querySelector('.timer-group .face .time-text').innerText = '';
       //change status to failed
-      eventbus.emit('updateStatus', this.model.taskId, { isFailed: true, isDone: true, estimationTotal: tomatosQuantity, estimationUsed: filled, dateFinished: Date.now()});
+      eventbus.emit('updateStatus', this.model.taskId, { isFailed: true, isDone: true, estimationTotal: tomatosQuantity, estimationUsed: filled, estimationFailed: failed, dateFinished: Date.now()});
     }
     document.querySelectorAll('.timer-redir-btn .btn')[2].classList.add('hide');
     document.querySelectorAll('.timer-redir-btn .btn')[3].classList.add('hide');
