@@ -364,7 +364,6 @@ export default class TasksCollectionView {
       for(let i=0; i < selectTabs.length; i++){
         selectTabs[i].classList.add('hide');
       }
-
       this.trashMode = false;
     }
   }

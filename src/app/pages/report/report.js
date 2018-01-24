@@ -18,22 +18,34 @@ export default class Reports {
     const main = document.getElementsByTagName('main')[0];
     main.innerHTML = reportTempl();
     eventbus.emit('hideTaskIcons');
-    this.tasksEventListeners();
-
-
-
+    const tasksBtn = document.getElementsByClassName('tasks-btn')[0];
     const pomodorosBtn = document.getElementsByClassName('pomodoros-btn')[0];
+    $('.icon-arrow-left').tooltip();
+    this.tasksEventListeners();
+    tasksBtn.classList.add('active');
+
     pomodorosBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.pomodorosEventListeners();
+      pomodorosBtn.classList.add('active');
+      tasksBtn.classList.remove('active');
     });
 
-    const tasksBtn = document.getElementsByClassName('tasks-btn')[0];
     tasksBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.tasksEventListeners();
+      tasksBtn.classList.add('active');
+      pomodorosBtn.classList.remove('active');
     });
 
+  }
+
+  highlight(el){
+    if(this.selectedBtn){
+      this.selectedBtn.classList.remove('active');
+    }
+    this.selectedBtn = el;
+    this.selectedBtn.classList.add('active');
   }
 
   pomodorosEventListeners() {
@@ -41,44 +53,52 @@ export default class Reports {
     dayTaskBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.renderUsedPomodorosToday();
+      this.highlight(dayTaskBtn);
     });
 
     const weekTaskBtn = document.getElementsByClassName('week-btn')[0];
     weekTaskBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.renderUsedWeeklyPomodoros();
+      this.highlight(weekTaskBtn);
     });
 
     const monthTaskBtn = document.getElementsByClassName('month-btn')[0];
     monthTaskBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.renderUsedMonthlyPomodoros();
+      this.highlight(monthTaskBtn);
     });
-
     this.renderUsedPomodorosToday();
+    this.highlight(dayTaskBtn);
   }
 
   tasksEventListeners() {
+
     const dayTaskBtn = document.getElementsByClassName('day-btn')[0];
     dayTaskBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.renderCompletedTodayTasks();
+      this.highlight(dayTaskBtn);
     });
 
     const weekTaskBtn = document.getElementsByClassName('week-btn')[0];
     weekTaskBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.renderCompletedWeeklyTasks();
+      this.highlight(weekTaskBtn);
     });
 
     const monthTaskBtn = document.getElementsByClassName('month-btn')[0];
     monthTaskBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.renderCompletedMonthlyTasks();
+      this.highlight(monthTaskBtn);
     });
 
 
     this.renderCompletedTodayTasks();
+    this.highlight(dayTaskBtn);
   }
 
   renderUsedPomodorosToday() {
@@ -277,6 +297,8 @@ export default class Reports {
             case 'priority-low':
               dataForCharts[3] += this.data[i].estimationUsed;
               break;
+            default:
+              break;
           }
         }
       }
@@ -304,6 +326,8 @@ export default class Reports {
           case 'priority-low':
             dataForCharts[3]++;
             break;
+          default:
+            break;
           }
         }
       }
@@ -328,14 +352,21 @@ export default class Reports {
         if (data[i].isFailed) {
           dataForCharts.failed[this.day]++;
         } else {
-          if (data[i].priorityType === 'priority-urgent') {
-            dataForCharts.urgent[this.day]++;
-          } else if (data[i].priorityType === 'priority-high') {
-            dataForCharts.high[this.day]++;
-          } else if (data[i].priorityType === 'priority-middle') {
-            dataForCharts.middle[this.day]++;
-          } else if (data[i].priorityType === 'priority-low') {
-            dataForCharts.low[this.day]++;
+          switch(data[i].priorityType) {
+            case 'priority-urgent':
+              dataForCharts.urgent[this.day]++;
+              break;
+            case 'priority-high':
+              dataForCharts.high[this.day]++;
+              break;
+            case 'priority-middle':
+              dataForCharts.middle[this.day]++;
+              break;
+            case 'priority-low':
+              dataForCharts.low[this.day]++;
+              break;
+            default:
+              break;
         }
       }
     }
@@ -357,14 +388,21 @@ export default class Reports {
       this.day = this.date.getDay() - 1;
 
         dataForCharts.failed[this.day] += data[i].estimationFailed;
-        if (data[i].priorityType === 'priority-urgent') {
-          dataForCharts.urgent[this.day] += data[i].estimationUsed;
-        } else if (data[i].priorityType === 'priority-high') {
-          dataForCharts.high[this.day] += data[i].estimationUsed;
-        } else if (data[i].priorityType === 'priority-middle') {
-          dataForCharts.middle[this.day] += data[i].estimationUsed;
-        } else if (data[i].priorityType === 'priority-low') {
-          dataForCharts.low[this.day] += data[i].estimationUsed;
+        switch (data[i].priorityType) {
+          case 'priority-urgent':
+            dataForCharts.urgent[this.day] += data[i].estimationUsed;
+            break;
+          case 'priority-high':
+            dataForCharts.high[this.day] += data[i].estimationUsed;
+            break;
+          case 'priority-middle':
+            dataForCharts.middle[this.day] += data[i].estimationUsed;
+            break;
+          case 'priority-low':
+            dataForCharts.low[this.day] += data[i].estimationUsed;
+            break;
+          default:
+            break;
         }
       }
     return dataForCharts;
@@ -424,14 +462,21 @@ export default class Reports {
       if (data[i].isFailed) {
         dataForCharts.failed[this.day]++;
       } else {
-        if (data[i].priorityType === 'priority-urgent') {
-          dataForCharts.urgent[this.day]++;
-        } else if (data[i].priorityType === 'priority-high') {
-          dataForCharts.high[this.day]++;
-        } else if (data[i].priorityType === 'priority-middle') {
-          dataForCharts.middle[this.day]++;
-        } else if (data[i].priorityType === 'priority-low') {
-          dataForCharts.low[this.day]++;
+        switch(data[i].priorityType) {
+          case 'priority-urgent':
+            dataForCharts.urgent[this.day]++;
+            break;
+          case 'priority-high':
+            dataForCharts.high[this.day]++;
+            break;
+          case 'priority-middle':
+            dataForCharts.middle[this.day]++;
+            break;
+          case 'priority-low':
+            dataForCharts.low[this.day]++;
+            break;
+          default:
+            break;
         }
       }
     }
@@ -451,19 +496,26 @@ export default class Reports {
 
     for(let i in data) {
       this.date = new Date(data[i].dateFinished);
-      this.day = this.date.getDay() - 1;
-
+      this.day = this.date.getDate() - 1;
       dataForCharts.failed[this.day] += data[i].estimationFailed;
-      if (data[i].priorityType === 'priority-urgent') {
-        dataForCharts.urgent[this.day] += data[i].estimationUsed;
-      } else if (data[i].priorityType === 'priority-high') {
-        dataForCharts.high[this.day] += data[i].estimationUsed;
-      } else if (data[i].priorityType === 'priority-middle') {
-        dataForCharts.middle[this.day] += data[i].estimationUsed;
-      } else if (data[i].priorityType === 'priority-low') {
-        dataForCharts.low[this.day] += data[i].estimationUsed;
+      switch(data[i].priorityType) {
+        case 'priority-urgent':
+          dataForCharts.urgent[this.day] += data[i].estimationUsed;
+          break;
+        case 'priority-high':
+          dataForCharts.high[this.day] += data[i].estimationUsed;
+          break;
+        case 'priority-middle':
+          dataForCharts.middle[this.day] += data[i].estimationUsed;
+          break;
+        case 'priority-low':
+          dataForCharts.low[this.day] += data[i].estimationUsed;
+          break;
+        default:
+          break;
       }
     }
+
     return dataForCharts;
   }
 
