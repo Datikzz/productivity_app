@@ -46,7 +46,7 @@ class Modal {
       e.preventDefault();
       this.saveTasks(this.submitForm(e));
       this.closeModal();
-      eventbus.emit('renderNotif', 'info', 'Task added');
+      eventbus.emit('renderNotif', 'info', 'New task added');
     });
   }
 
@@ -80,7 +80,7 @@ class Modal {
       e.preventDefault();
       this.editTasks(data.taskId,this.submitForm(e));
       this.closeModal();
-      eventbus.emit('renderNotif', 'info', 'Task edited');
+      eventbus.emit('renderNotif', 'success', 'Task was successfully edited');
     });
 
     const trashBtn = document.getElementsByClassName('remove-btn')[0];
@@ -121,12 +121,12 @@ class Modal {
       if(Array.isArray(taskId)){
         for(let i in taskId){
           eventbus.emit('deleteTask', taskId[i]);
-          eventbus.emit('renderNotif', 'info', `${taskId.length} selected tasks deleted`);
+          eventbus.emit('renderNotif', 'info', `${taskId.length} selected tasks were deleted`);
         }
       }
       else{
         eventbus.emit('deleteTask', taskId);
-        eventbus.emit('renderNotif', 'info', 'Selected task deleted');
+        eventbus.emit('renderNotif', 'info', 'Selected task was deleted');
       }
       TasksCollectionView.removesCounter = 0;
       TasksCollectionView.removesGlobalCounter = 0;
