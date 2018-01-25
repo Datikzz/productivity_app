@@ -128,6 +128,10 @@ export default class TasksCollectionView {
             document.getElementsByClassName('trashCounter')[0].innerText = this.removesGlobalCounter + this.removesCounter;
             this.renderCounter();
           }
+
+          if(target.classList.contains('global-timer')) {
+            eventbus.emit('renderNotif', 'error', 'To start timer, move task to daily list');
+          }
         });
       }
 
