@@ -8,7 +8,7 @@ class Notification {
   }
 
   render(type, message){
-    clearInterval(this.timer);
+    clearTimeout(this.timer);
     const notifWrapper = document.getElementsByClassName('notif-wrapper')[0];
     const wrapper = document.getElementsByClassName('wrapper')[0].offsetLeft;
     notifWrapper.style.right = `${wrapper}px`;
@@ -24,11 +24,11 @@ class Notification {
       this.closeNotif();
     })
 
-    this.timer = setInterval(() => {this.closeNotif()}, 1000*5);
+    this.timer = setTimeout(() => {this.closeNotif();}, 1000*5);
   }
 
   closeNotif() {
-    clearInterval(this.timer);
+    clearTimeout(this.timer);
     const wrapper = document.getElementsByClassName('notif-wrapper')[0];
     wrapper.style.position = 'none';
     wrapper.innerHTML = '';

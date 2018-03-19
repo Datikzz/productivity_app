@@ -128,7 +128,7 @@ export default class Reports {
       }],
       tooltip: {
         formatter: function () {
-        return '<b>' + this.series.name.toUpperCase() + '</b><br/>Pomodoros: ' + this.y;
+          return '<b>' + this.series.name.toUpperCase() + '</b><br/>Pomodoros: ' + this.y;
         }
       }
     };
@@ -283,25 +283,25 @@ export default class Reports {
     for(let i in this.data) {
       this.dateFinished = new Date(this.data[i].dateFinished).toDateString();
       if(this.today === this.dateFinished && this.data[i].isDone) {
-          dataForCharts[4] += this.data[i].estimationFailed;
-          switch(this.data[i].priorityType) {
-            case 'priority-urgent':
-              dataForCharts[0] += this.data[i].estimationUsed;
-              break;
-            case 'priority-high':
-              dataForCharts[1] += this.data[i].estimationUsed;
-              break;
-            case 'priority-middle':
-              dataForCharts[2] += this.data[i].estimationUsed;
-              break;
-            case 'priority-low':
-              dataForCharts[3] += this.data[i].estimationUsed;
-              break;
-            default:
-              break;
-          }
+        dataForCharts[4] += this.data[i].estimationFailed;
+        switch(this.data[i].priorityType) {
+        case 'priority-urgent':
+          dataForCharts[0] += this.data[i].estimationUsed;
+          break;
+        case 'priority-high':
+          dataForCharts[1] += this.data[i].estimationUsed;
+          break;
+        case 'priority-middle':
+          dataForCharts[2] += this.data[i].estimationUsed;
+          break;
+        case 'priority-low':
+          dataForCharts[3] += this.data[i].estimationUsed;
+          break;          
+        default:          
+          break;
         }
       }
+    }
     return dataForCharts;
   }
 
@@ -346,27 +346,27 @@ export default class Reports {
     };
 
     for(let i in data) {
-        this.date = new Date(data[i].dateFinished);
-        this.day = this.date.getDay() - 1;
+      this.date = new Date(data[i].dateFinished);
+      this.day = this.date.getDay() - 1;
 
-        if (data[i].isFailed) {
-          dataForCharts.failed[this.day]++;
-        } else {
-          switch(data[i].priorityType) {
-            case 'priority-urgent':
-              dataForCharts.urgent[this.day]++;
-              break;
-            case 'priority-high':
-              dataForCharts.high[this.day]++;
-              break;
-            case 'priority-middle':
-              dataForCharts.middle[this.day]++;
-              break;
-            case 'priority-low':
-              dataForCharts.low[this.day]++;
-              break;
-            default:
-              break;
+      if (data[i].isFailed) {
+        dataForCharts.failed[this.day]++;
+      } else {
+        switch(data[i].priorityType) {
+        case 'priority-urgent':
+          dataForCharts.urgent[this.day]++;
+          break;
+        case 'priority-high':
+          dataForCharts.high[this.day]++;
+          break;
+        case 'priority-middle':
+          dataForCharts.middle[this.day]++;
+          break;
+        case 'priority-low':
+          dataForCharts.low[this.day]++;
+          break;
+        default:
+          break;
         }
       }
     }
@@ -387,24 +387,24 @@ export default class Reports {
       this.date = new Date(data[i].dateFinished);
       this.day = this.date.getDay() - 1;
 
-        dataForCharts.failed[this.day] += data[i].estimationFailed;
-        switch (data[i].priorityType) {
-          case 'priority-urgent':
-            dataForCharts.urgent[this.day] += data[i].estimationUsed;
-            break;
-          case 'priority-high':
-            dataForCharts.high[this.day] += data[i].estimationUsed;
-            break;
-          case 'priority-middle':
-            dataForCharts.middle[this.day] += data[i].estimationUsed;
-            break;
-          case 'priority-low':
-            dataForCharts.low[this.day] += data[i].estimationUsed;
-            break;
-          default:
-            break;
-        }
+      dataForCharts.failed[this.day] += data[i].estimationFailed;
+      switch (data[i].priorityType) {
+      case 'priority-urgent':
+        dataForCharts.urgent[this.day] += data[i].estimationUsed;
+        break;
+      case 'priority-high':
+        dataForCharts.high[this.day] += data[i].estimationUsed;
+        break;
+      case 'priority-middle':
+        dataForCharts.middle[this.day] += data[i].estimationUsed;
+        break;
+      case 'pri        ority-low':
+        dataForCharts.low[this.day] += data[i].estimationUsed;
+        break;
+      default:
+        break;
       }
+    }
     return dataForCharts;
   }
 
@@ -418,15 +418,15 @@ export default class Reports {
     let sundayOfWeek;
 
     for (let i in this.data) {
-        mondayOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()
-          + ((day === 0 ? -6 : 1) - day));
-        sundayOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() +
-          ((day === 0 ? 0 : 7) - day));
-        taskDate = new Date(this.data[i].dateFinished);
+      mondayOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()
+        + ((day === 0 ? -6 : 1) - day));
+      sundayOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() +
+        ((day === 0 ? 0 : 7) - day));
+      taskDate = new Date(this.data[i].dateFinished);
 
-        if (taskDate <= sundayOfWeek && taskDate >= mondayOfWeek) {
-          tasks.push(this.data[i]);
-        }
+      if (taskDate <= sundayOfWeek && taskDate >= mondayOfWeek) {
+        tasks.push(this.data[i]);
+      }
     }
     return tasks;
   }
@@ -436,10 +436,10 @@ export default class Reports {
     const today = new Date();
     for (let i in this.data) {
       let month = new Date(this.data[i].dateFinished);
-        if (month.getMonth() === today.getMonth()
-          && month.getFullYear() === today.getFullYear()) {
-          tasks.push(this.data[i]);
-        }
+      if (month.getMonth() === today.getMonth()
+        && month.getFullYear() === today.getFullYear()) {
+        tasks.push(this.data[i]);
+      }
     }
     return tasks;
   }
@@ -463,20 +463,20 @@ export default class Reports {
         dataForCharts.failed[this.day]++;
       } else {
         switch(data[i].priorityType) {
-          case 'priority-urgent':
-            dataForCharts.urgent[this.day]++;
-            break;
-          case 'priority-high':
-            dataForCharts.high[this.day]++;
-            break;
-          case 'priority-middle':
-            dataForCharts.middle[this.day]++;
-            break;
-          case 'priority-low':
-            dataForCharts.low[this.day]++;
-            break;
-          default:
-            break;
+        case 'priority-urgent':
+          dataForCharts.urgent[this.day]++;
+          break;
+        case 'priority-high':
+          dataForCharts.high[this.day]++;
+          break;
+        case 'priority-middle':
+          dataForCharts.middle[this.day]++;
+          break;
+        case 'priority-low':
+          dataForCharts.low[this.day]++;
+          break;
+        default:
+          break;
         }
       }
     }
@@ -499,20 +499,20 @@ export default class Reports {
       this.day = this.date.getDate() - 1;
       dataForCharts.failed[this.day] += data[i].estimationFailed;
       switch(data[i].priorityType) {
-        case 'priority-urgent':
-          dataForCharts.urgent[this.day] += data[i].estimationUsed;
-          break;
-        case 'priority-high':
-          dataForCharts.high[this.day] += data[i].estimationUsed;
-          break;
-        case 'priority-middle':
-          dataForCharts.middle[this.day] += data[i].estimationUsed;
-          break;
-        case 'priority-low':
-          dataForCharts.low[this.day] += data[i].estimationUsed;
-          break;
-        default:
-          break;
+      case 'priority-urgent':
+        dataForCharts.urgent[this.day] += data[i].estimationUsed;
+        break;
+      case 'priority-high':
+        dataForCharts.high[this.day] += data[i].estimationUsed;
+        break;
+      case 'priority-middle':
+        dataForCharts.middle[this.day] += data[i].estimationUsed;
+        break;
+      case 'priority-low':
+        dataForCharts.low[this.day] += data[i].estimationUsed;
+        break;
+      default:
+        break;
       }
     }
 
@@ -560,7 +560,7 @@ export default class Reports {
       legend: {
         itemStyle: {
           color: '#fff',
-          textTransform: "capitalize"
+          textTransform: 'capitalize'
         }
       },
 

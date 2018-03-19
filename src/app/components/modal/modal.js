@@ -1,11 +1,11 @@
 import addModalTempl from './addTask.hbs';
 import editModalTempl from './editTask.hbs';
 import removeModalTempl from './removeTask.hbs';
-import eventbus from '../../eventBus';
 import 'jquery-ui/ui/widgets/datepicker';
 import 'webpack-jquery-ui/css';
 import 'jquery-ui/themes/base/base.css';
 import fireBase from '../../firebase';
+import eventbus from '../../eventBus';
 import TasksCollectionView from '../../pages/tasks/tasks_view';
 
 /**
